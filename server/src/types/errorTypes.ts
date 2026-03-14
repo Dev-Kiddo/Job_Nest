@@ -3,4 +3,5 @@ export interface CustomError {
   statusCode?: number;
   path?: string;
   name?: string;
+  stack: string;
 }

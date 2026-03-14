@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import bcrypt from "bcryptjs";
+import type { IUser } from "../types/userTypes.js";
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<IUser>(
   {
     name: {
       type: String,
@@ -55,6 +57,13 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
+
+UserSchema.pre("save", async function () {
+  if (this.isModified("password")) {
+    const hashPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashPassword;
+  }
+});
 
 const UserModel = mongoose.model("User", UserSchema);
 
