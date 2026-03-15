@@ -15,6 +15,6 @@ export async function errorHandler(err: CustomError, req: Request, res: Response
   return res.status(err.statusCode).json({
     success: false,
     message: err.message,
-    Error: process.env.NODE_ENV !== "development" && err.stack,
+    Error: err.stack,
   });
 }

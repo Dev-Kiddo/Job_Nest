@@ -12,7 +12,7 @@ const registerHandler = asyncHandler(async function (req: Request, res: Response
   //   console.log("result", result);
 
   if (!result.success) {
-    return next(new AppError("Fail: All the fields required", 403));
+    return next(new AppError("All the input fields required", 403));
 
     // return res.status(403).json({
     //   success: false,
@@ -27,24 +27,22 @@ const registerHandler = asyncHandler(async function (req: Request, res: Response
   const existingUser = await UserModel.findOne({ email: normalizedEmail });
 
   if (existingUser) {
-    return next(new AppError("Fail: Email already registered, Please login", 400));
+    return next(new AppError("Email already registered, Please login", 400));
   }
 
-  const hashPassword = await bcrypt.hash(password, 10);
+  // const hashPassword = await bcrypt.hash(password, 10);
 
   const user = new UserModel({
     name,
     email,
-    password: hashPassword,
+    password,
   });
 
-  console.log("USER", user);
+  // console.log("USER", user);
 
-  const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_ACCESS_KEY!, { expiresIn: "15m" });
+  const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_KEY!, { expiresIn: "15m" });
 
-  // console.log("ACC", accessToken);
-
-  const refreshToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_REFRESH_KEY!, { expiresIn: "2d" });
+  const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY!, { expiresIn: "2d" });
 
   res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
@@ -54,8 +52,15 @@ const registerHandler = asyncHandler(async function (req: Request, res: Response
 
   res.status(200).json({
     success: true,
-    message: "Success: User registerd successfully",
-    user,
+    message: "User registerd successfully",
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      skills: user.skills,
+      isActive: user.isActive,
+    },
   });
 });
 
