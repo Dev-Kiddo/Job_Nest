@@ -6,3 +6,8 @@ export const registerHandlerValidation = z.object({
   password: z.string().min(4),
 });
 // password: z.string().min(4).optional(),
+
+export const loginHandlerValidation = z.object({
+  email: z.email(),
+  password: z.string(),
+});

@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema<IUser>(
       minLength: 4,
       select: false,
     },
+    googleId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: ["user", "admin", "moderator"],
@@ -64,6 +67,17 @@ UserSchema.pre("save", async function () {
     this.password = hashPassword;
   }
 });
+
+UserSchema.methods.comparePassword = async function (userPassword: string) {
+  if (!this.password) {
+    return false;
+  }
+
+  const comparePassword = await bcrypt.compare(userPassword, this.password);
+  // console.log(comparePassword);
+
+  return comparePassword;
+};
 
 const UserModel = mongoose.model("User", UserSchema);
 
