@@ -9,15 +9,20 @@ import cors from "cors";
 
 const app = express();
 
-const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:6173"],
-  credendials: true,
-};
+// const corsOptions = {
+//   origin: ["http://localhost:5173"],
+//   credendials: true,
+// };
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 // ROUTES
 app.use("/api/auth", authRouter);

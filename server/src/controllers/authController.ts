@@ -5,18 +5,15 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/tokenUtils.js";
-import type { IAccessTokenPayload } from "../types/tokenTypes.js";
+import type { AccessTokenPayload } from "../types/tokenTypes.js";
+import type { RefreshTokenPayload } from "../types/tokenTypes.js";
+import SeekerModel from "../models/seekerModel.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);
 
   if (!result.success) {
     return next(new AppError("All the input fields required", 403));
-
-    // return res.status(403).json({
-    //   success: false,
-    //   message: "Fail: All the fields required",
-    // });
   }
 
   const { name, email, password } = result.data;
@@ -29,23 +26,23 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
     return next(new AppError("Email already registered, Please login", 400));
   }
 
-  // const hashPassword = await bcrypt.hash(password, 10);
-
   const user = new UserModel({
     name,
     email,
     password,
+    role: "seeker",
+    authProvider: "local",
   });
 
-  // const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_KEY!, { expiresIn: "15m" });
+  const seeker = new SeekerModel({
+    user: user._id,
+  });
 
-  const accessTokenPayload = { id: user._id, email: user.email, role: user.role };
+  const accessTokenPayload: AccessTokenPayload = { id: user.id, email: user.email, role: user.role };
 
   const accessToken = generateAccessToken(accessTokenPayload);
 
-  const refreshTokenPayload = { id: user._id };
-
-  // const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY!, { expiresIn: "2d" });
+  const refreshTokenPayload: RefreshTokenPayload = { id: user.id };
 
   const refreshToken = generateRefreshToken(refreshTokenPayload);
 
@@ -54,6 +51,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
   await user.save();
+  await seeker.save();
 
   res.status(200).json({
     success: true,
@@ -63,7 +61,6 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
       name: user.name,
       email: user.email,
       role: user.role,
-      skills: user.skills,
       isActive: user.isActive,
     },
   });
@@ -110,7 +107,6 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
       name: isUser.name,
       email: isUser.email,
       role: isUser.role,
-      skills: isUser.skills,
       isActive: isUser.isActive,
     },
   });
@@ -129,21 +125,17 @@ export const logoutHandler = asyncHandler(async function (req: Request, res: Res
 export const refreshAccessTokenHandler = asyncHandler(async function (req: Request, res: Response, next) {
   const token = req.cookies.refreshToken;
 
-  // console.log("REFRESHTOKEN", token);
-
   if (!token) {
     return next(new AppError("No authorization token was found", 401));
   }
 
   const verifyToken = verifyRefreshToken(token) as jwt.JwtPayload;
-  // console.log(verifyToken);
 
   if (!verifyToken) {
     return next(new AppError("Invalid or expired token!", 401));
   }
 
   const user = await UserModel.findById({ _id: verifyToken.id });
-  // console.log("user", user);
 
   if (!user) {
     return next(new AppError("User not found", 404));

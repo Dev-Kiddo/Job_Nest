@@ -21,9 +21,9 @@ function NavBar() {
             <li>
               <NavLink
                 className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-500 hover:bg-white [&.active]:bg-white [&.active]:text-orange-600"
-                to="/pricing"
+                to="/jobs"
               >
-                Pricing Plans
+                Jobs
               </NavLink>
             </li>
             {/* <li>
@@ -37,19 +37,19 @@ function NavBar() {
             <li>
               <NavLink
                 className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-500 hover:hover:bg-white active:bg-white focus:white [&.active]:bg-white [&.active]:text-orange-600"
-                to="/supports"
+                to="/companies"
               >
-                Customer Supports
+                Companies
               </NavLink>
             </li>
           </ul>
 
           <div className="hidden lg:flex items-center gap-3">
-            <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
-              Recruiter
-            </NavLink>
             <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/candidate-login">
-              Candidate
+              Find Jobs
+            </NavLink>
+            <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
+              Post Jobs
             </NavLink>
           </div>
 

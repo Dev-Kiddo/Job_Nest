@@ -21,42 +21,70 @@ const UserSchema = new mongoose.Schema<IUser>(
       minLength: 4,
       select: false,
     },
+    role: {
+      type: String,
+      enum: {
+        values: ["seeker", "recruiter", "admin"],
+        message: "Role must be seeker, employer, or admin",
+      },
+      default: "seeker",
+    },
+    avatar: {
+      type: String,
+      default: null,
+    },
+    phone: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    location: {
+      city: { type: String, trim: true },
+      state: { type: String, trim: true },
+      country: { type: String, trim: true, default: "India" },
+    },
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
     googleId: {
       type: String,
       sparse: true,
-    },
-    role: {
-      type: String,
-      enum: ["user", "admin", "moderator"],
-      default: "user",
-    },
-    profile: {
-      avatar: String,
-      bio: {
-        type: String,
-        maxLength: 500,
-      },
-      phone: String,
-    },
-    skills: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
-      },
-    ],
-    isActive: {
-      type: Boolean,
-      default: true,
+      unique: true,
+      default: null,
     },
     isEmailVerified: {
       type: Boolean,
       default: false,
+    },
+    emailVerificationToken: {
+      type: String,
+      default: null,
+    },
+    emailVerificationExpires: {
+      type: Date,
+      default: null,
+    },
+    passwordResetToken: {
+      type: String,
+      default: null,
+    },
+    passwordResetExpires: {
+      type: Date,
+      default: null,
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    updatedAt: {
+      type: Date,
+      default: null,
     },
     deletedAt: {
       type: Date,

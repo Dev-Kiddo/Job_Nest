@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import LoginRecruiter from "./pages/LoginRecruiter";
 import RegisterRecruiter from "./pages/RegisterRecruiter";
-// import { ToastContainer } from "react-toastify";
 
 export default function App() {
   return (
@@ -17,7 +16,6 @@ export default function App() {
           <Route path="/candidate-login" element={<LoginCandidate />} />
           <Route path="/recruiter-login" element={<LoginRecruiter />} />
           <Route path="/recruiter-register" element={<RegisterRecruiter />} />
-          {/* <ToastContainer /> */}
         </Route>
       </Routes>
     </BrowserRouter>

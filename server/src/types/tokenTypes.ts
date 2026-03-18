@@ -1,11 +1,6 @@
 import { Types } from "mongoose";
+import type { IUser } from "./userTypes.js";
 
-export interface IAccessTokenPayload {
-  id: string;
-  email?: string;
-  role: "user" | "admin" | "moderator";
-}
+export type AccessTokenPayload = Pick<IUser, "id" | "email" | "role">;
 
-export interface IRefreshTokenPayload {
-  id: string;
-}
+export type RefreshTokenPayload = Pick<IUser, "id">;

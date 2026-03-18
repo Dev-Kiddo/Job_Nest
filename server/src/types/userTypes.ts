@@ -1,19 +1,28 @@
+import type { Types } from "mongoose";
+
 export interface IUser {
-  _id?: string;
+  id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
-  googleId: string;
-  role: "user" | "admin" | "moderator";
-  profile: {
-    avatar: string | null;
-    bio: string;
-    phone: string;
+  role: "seeker" | "employer" | "admin";
+  avatar: string;
+  phone: string;
+  location: {
+    city: string;
+    state: string;
+    country: string;
   };
-  skills: string[];
-  posts: string[];
-  isActive: boolean;
+  authProvider: "local" | "google";
+  googleId: string;
   isEmailVerified: boolean;
+  emailVerificationToken: string;
+  emailVerificationExpires: Date;
+  passwordResetToken: string;
+  passwordResetExpires: Date;
+  lastLogin: Date;
+  isActive: boolean;
+  updatedAt: Date;
   deletedAt: Date;
   comparePassword: (password: string) => boolean;
 }

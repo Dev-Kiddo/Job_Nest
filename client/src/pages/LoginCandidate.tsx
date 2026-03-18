@@ -1,10 +1,58 @@
 import { Lock, LogIn, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import Loader from "../components/Loader";
-import { useEffect } from "react";
+import { loginUser, removeError, removeMessage } from "../features/userSlice";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
+
+interface IPayload {
+  email: string;
+  password: string;
+}
 
 const LoginCandidate = function () {
-  useEffect(() => {}, []);
+  const [payload, setPayload] = useState<IPayload>({
+    email: "",
+    password: "",
+  });
+
+  const { currentUser, loading, message, error } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+
+    setPayload((payload) => ({ ...payload, [id]: value }));
+  }
+
+  function onSubmitHandler(e) {
+    e.preventDefault();
+
+    if (!payload.email || !payload.password) {
+      return;
+    }
+
+    if (!loading) {
+      dispatch(loginUser(payload));
+    }
+  }
+
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+      dispatch(removeMessage());
+    }
+  }, [message, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(removeError());
+    }
+  }, [error, dispatch]);
+
   return (
     <div className="w-full max-w-md mx-auto border border-gray-200 rounded-lg p-6 bg-white">
       <div className="text-center mb-6">
@@ -12,14 +60,14 @@ const LoginCandidate = function () {
         <p className="text-sm text-gray-600">Welcome back! Please login to continue</p>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4 mb-2" onSubmit={onSubmitHandler}>
         <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
           <Mail className="mr-2" />
-          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" />
+          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" value={payload.email} onChange={onChangeHandler} />
         </div>
         <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
           <Lock className="mr-2" />
-          <input id="password" placeholder="Password" className="w-full outline-none text-sm" type="password" />
+          <input id="password" placeholder="Password" className="w-full outline-none text-sm" type="password" value={payload.password} onChange={onChangeHandler} />
         </div>
 
         {/* <div className="flex items-center justify-between">
@@ -31,20 +79,26 @@ const LoginCandidate = function () {
         </div> */}
 
         <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center cursor-pointer ">
-          Login
+          {loading === "loading" ? (
+            <>
+              Logging in
+              <Loader margin="ml-2" />
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
-
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center cursor-pointer">
-          <LogIn color="white" className="mr-2" />
-          Sign up with Google
-        </button>
-        <div className="text-center text-sm text-gray-600 mt-2">
-          Don't have an account?{" "}
-          <Link className="text-blue-600 hover:text-blue-800 font-medium hover:underline" to="/candidate-register">
-            Sign Up
-          </Link>
-        </div>
       </form>
+      <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center cursor-pointer">
+        <LogIn color="white" className="mr-2" />
+        Sign up with Google
+      </button>
+      <div className="text-center text-sm text-gray-600 mt-2">
+        Don't have an account?{" "}
+        <Link className="text-blue-600 hover:text-blue-800 font-medium hover:underline" to="/candidate-register">
+          Sign Up
+        </Link>
+      </div>
     </div>
   );
 };
