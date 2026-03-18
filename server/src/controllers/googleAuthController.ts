@@ -5,7 +5,8 @@ import type { Request, Response, NextFunction } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import UserModel from "../models/userModel.js";
-import { generateAccessToken } from "../utils/tokenUtils.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
+import { profile } from "node:console";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
@@ -26,21 +27,21 @@ export const googleAuthHandler = function (req: Request, res: Response, next: Ne
   });
 };
 
-export const googleCallbackHandler = async function (req: Request, res: Response, next: NextFunction) {
+export const googleCallbackHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const { code } = req.query;
 
-  console.log("CODE", code);
+  // console.log("CODE", code);
 
-  if (!code) {
-    return next(new AppError("Code is not avail", 400));
+  if (!code || typeof code !== "string") {
+    return next(new AppError("Authorization code not available", 400));
   }
 
   const { tokens } = await googleClient.getToken(code as string);
 
-  console.log("token:", tokens);
+  // console.log("token:", tokens);
 
-  if (!tokens) {
-    return next(new AppError("Code is not avail", 400));
+  if (!tokens || !tokens.id_token) {
+    return next(new AppError("Failed to get tokens from Google", 400));
   }
 
   const ticket = await googleClient.verifyIdToken({ idToken: tokens.id_token as string, audience: process.env.GOOGLE_CLIENT_ID! });
@@ -48,12 +49,28 @@ export const googleCallbackHandler = async function (req: Request, res: Response
   // console.log(ticket);
 
   const payload = ticket.getPayload();
+  // console.log("payload:", payload);
 
-  console.log("payload:", payload);
+  if (!payload || !payload.email) {
+    return next(new AppError("Failed to get user info from Google", 400));
+  }
+
   const existingUser = await UserModel.findOne({ email: payload?.email });
 
   if (existingUser) {
+    if (!existingUser.googleId) {
+      existingUser.googleId = payload.sub;
+      existingUser.profile.avatar = payload.picture ? payload.picture : null;
+      existingUser.isEmailVerified = true;
+
+      // return res.status(302).json({
+      //   success: false,
+      //   message: "Linked Google account to existing user",
+      // });
+    }
+
     const accessTokenPayload = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
+
     const accessToken = generateAccessToken(accessTokenPayload);
 
     const refreshTokenPayload = { id: existingUser._id };
@@ -74,6 +91,7 @@ export const googleCallbackHandler = async function (req: Request, res: Response
         skills: existingUser.skills,
         isActive: existingUser.isActive,
         googleId: existingUser.googleId,
+        profile: existingUser.profile,
       },
     });
   }
@@ -82,13 +100,17 @@ export const googleCallbackHandler = async function (req: Request, res: Response
     name: payload?.name,
     email: payload?.email,
     googleId: payload?.sub,
+    profile: {
+      avatar: payload.picture,
+    },
+    isEmailVerified: true,
   });
 
   const accessTokenPayload = { id: user._id, email: user.email, role: user.role };
   const accessToken = generateAccessToken(accessTokenPayload);
 
   const refreshTokenPayload = { id: user._id };
-  const refreshToken = generateAccessToken(refreshTokenPayload);
+  const refreshToken = generateRefreshToken(refreshTokenPayload);
 
   res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
@@ -107,6 +129,7 @@ export const googleCallbackHandler = async function (req: Request, res: Response
       skills: user.skills,
       isActive: user.isActive,
       googleId: user.googleId,
+      profile: user.profile,
     },
   });
-};
+});

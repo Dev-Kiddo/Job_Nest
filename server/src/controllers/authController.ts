@@ -5,6 +5,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/tokenUtils.js";
+import type { IAccessTokenPayload } from "../types/tokenTypes.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);
@@ -85,8 +86,6 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     return next(new AppError("User not found, Please register first", 404));
   }
 
-  // Type assertion to ensure TypeScript recognizes comparePassword
-  // const isMatch = await (isUser as any).comparePassword(password);
   const isMatch = await isUser.comparePassword(password);
 
   if (!isMatch) {

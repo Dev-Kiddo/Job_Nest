@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema<IUser>(
     },
     googleId: {
       type: String,
+      sparse: true,
     },
     role: {
       type: String,
@@ -52,6 +53,10 @@ const UserSchema = new mongoose.Schema<IUser>(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
     },
     deletedAt: {
       type: Date,
