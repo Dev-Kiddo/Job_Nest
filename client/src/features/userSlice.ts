@@ -7,6 +7,31 @@ interface IInitialState {
   message: string | null;
 }
 
+export const registerUser = createAsyncThunk("user/registerUser", async (payload, { rejectWithValue }) => {
+  if (!payload) {
+    return rejectWithValue("Payload not found!");
+  }
+
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+      method: "POST",
+      credentials: "include",
+      body: payload,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Register user failed");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
+
 export const loginUser = createAsyncThunk("user/loginUser", async (payload, { rejectWithValue }) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
@@ -54,6 +79,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // LOGIN
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
@@ -65,6 +91,21 @@ const userSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Register
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.currentUser = action.payload.user;
+        state.message = action.payload.message;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

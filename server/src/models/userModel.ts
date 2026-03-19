@@ -30,8 +30,14 @@ const UserSchema = new mongoose.Schema<IUser>(
       default: "seeker",
     },
     avatar: {
-      type: String,
-      default: null,
+      public_id: {
+        type: String,
+        default: null,
+      },
+      url: {
+        type: String,
+        default: null,
+      },
     },
     phone: {
       type: String,
