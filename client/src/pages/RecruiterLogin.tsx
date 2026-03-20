@@ -1,7 +1,7 @@
 import { Lock, LogIn, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function LoginRecruiter() {
+function RecruiterLogin() {
   return (
     <div className="w-full max-w-md mx-auto border border-gray-200 rounded-lg p-6 bg-white">
       <div className="text-center mb-6">
@@ -38,4 +38,4 @@ function LoginRecruiter() {
   );
 }
 
-export default LoginRecruiter;
+export default RecruiterLogin;

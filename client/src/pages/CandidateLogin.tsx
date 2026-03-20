@@ -11,7 +11,7 @@ interface IPayload {
   password: string;
 }
 
-const LoginCandidate = function () {
+const CandidateLogin = function () {
   const [payload, setPayload] = useState<IPayload>({
     email: "",
     password: "",
@@ -103,4 +103,4 @@ const LoginCandidate = function () {
   );
 };
 
-export default LoginCandidate;
+export default CandidateLogin;

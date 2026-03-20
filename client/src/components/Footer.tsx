@@ -2,7 +2,7 @@ import { Facebook, Instagram, Twitter } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="border-t border-gray-200 mt-20 py-5">
+    <footer className="border-t border-gray-300 mt-20 py-5">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col sm:flex-row items-center gap-2">
           <a href="/" data-discover="true">

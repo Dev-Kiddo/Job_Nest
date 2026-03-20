@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { loginHandler, logoutHandler, refreshAccessTokenHandler, registerHandler, resizeImageHandler, uploadHandler } from "../controllers/authController.js";
+import { loginHandler, logoutHandler, refreshAccessTokenHandler, registerHandler } from "../controllers/authController.js";
 import { googleAuthHandler, googleCallbackHandler } from "../controllers/googleAuthController.js";
 
 const router = Router();
 
-router.route("/register").post(uploadHandler, resizeImageHandler, registerHandler);
+// router.route("/register").post(uploadHandler, resizeImageHandler, registerHandler);
+router.route("/register").post(registerHandler);
 router.route("/login").post(loginHandler);
 router.route("/refresh-token").get(refreshAccessTokenHandler);
 

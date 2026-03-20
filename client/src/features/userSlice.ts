@@ -15,8 +15,11 @@ export const registerUser = createAsyncThunk("user/registerUser", async (payload
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
-      body: payload,
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();

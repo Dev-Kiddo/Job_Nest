@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function NavBar() {
   return (
-    <header className="border-b border-gray-200 mb-10">
+    <header className="border-b border-gray-300 mb-10">
       <nav>
         <div className="h-16 flex items-center justify-between">
           <Link className="flex items-center" to="/">
@@ -45,11 +45,11 @@ function NavBar() {
           </ul>
 
           <div className="hidden lg:flex items-center gap-3">
-            <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/candidate-login">
-              Find Jobs
+            <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/register">
+              Sign up
             </NavLink>
             <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
-              Post Jobs
+              Post a jobs
             </NavLink>
           </div>
 

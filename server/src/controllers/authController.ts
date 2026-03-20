@@ -8,99 +8,48 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from ".
 import type { AccessTokenPayload } from "../types/tokenTypes.js";
 import type { RefreshTokenPayload } from "../types/tokenTypes.js";
 import SeekerModel from "../models/seekerModel.js";
-
-import multer from "multer";
-import sharp from "sharp";
-
-import { v2 as cloudinary } from "cloudinary";
-import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
-
-// const multerStorage = multer.diskStorage({
-//   destination: (req: Request, file, cb) => {
-//     cb(null, "public/img/users");
-//   },
-//   filename: (req, file, cb) => {
-//     const extension = file.mimetype.split("/")[1];
-//     cb(null, `img-nest-${Math.round(Math.random() * 99999)}-${Date.now()}.${extension}`);
-//   },
-// });
-
-const multerStorage = multer.memoryStorage();
-
-const multerFilter = (req: Request, file, cb) => {
-  if (file.mimetype.startsWith("image")) {
-    cb(null, true);
-  } else {
-    cb(new AppError("Not an image, Please upload only image", 400), false);
-  }
-};
-
-// const upload = multer({ dest: "public/img/users" });
-const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-
-export const uploadHandler = upload.single("avatar");
-
-export const resizeImageHandler = async function (req: Request, res: Response, next: NextFunction) {
-  console.log("REQFILE", req.file);
-
-  if (!req.file) {
-    return next();
-  }
-
-  const resizedBuffer = await sharp(req.file.buffer).resize(350, 350, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
-
-  req.file.buffer = resizedBuffer;
-
-  next();
-};
+import RecruiterModel from "../models/recruiterModel.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  // console.log("REQ FILES", req.file);
-  // console.log("REQ FILES2", req.file?.buffer);
-  // console.log("REQ BODY", req.body);
-
   const result = registerHandlerValidation.safeParse(req.body);
 
   if (!result.success) {
     return next(new AppError("All the input fields required", 403));
   }
 
-  const { name, email, password } = result.data;
+  const { name, email, password, confirmPassword, role } = result.data;
 
   const normalizedEmail = email.toLowerCase().trim();
 
   const existingUser = await UserModel.findOne({ email: normalizedEmail });
 
-  console.log("EXISTING USER", existingUser);
-
   if (existingUser) {
-    return next(new AppError("Email already registered, Please login", 400));
+    return next(new AppError("Email already registered, Please login", 406));
   }
 
-  let cloudinaryResult;
-
-  if (req.file) {
-    cloudinaryResult = await uploadToCloudinary(req.file.buffer);
-    console.log("RESULT", cloudinaryResult);
+  if (password !== confirmPassword) {
+    return next(new AppError("Password doesn't match", 406));
   }
 
   const user = new UserModel({
     name,
     email,
     password,
-    role: "seeker",
+    role,
     authProvider: "local",
-    avatar: {
-      public_id: cloudinaryResult ? cloudinaryResult.public_id : null,
-      url: cloudinaryResult ? cloudinaryResult.url : null,
-    },
   });
 
-  console.log("USER", user);
+  if (user.role === "seeker") {
+    await SeekerModel.create({
+      user: user._id,
+    });
+  }
 
-  const seeker = new SeekerModel({
-    user: user._id,
-  });
+  if (user.role === "recruiter") {
+    await RecruiterModel.create({
+      employer: user._id,
+    });
+  }
 
   const accessTokenPayload: AccessTokenPayload = { id: user.id, email: user.email, role: user.role };
 
@@ -114,8 +63,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
-  // await user.save();
-  // await seeker.save();
+  await user.save();
 
   res.status(200).json({
     success: true,

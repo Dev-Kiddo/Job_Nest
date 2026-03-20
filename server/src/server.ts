@@ -3,11 +3,11 @@ import { connectDb } from "./config/dbConfig.js";
 import { v2 as cloudinary } from "cloudinary";
 const PORT = process.env.PORT || 3000;
 
-const cloduinary = cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_CLOUD_KEY!,
-  api_secret: process.env.CLOUDINARY_CLOUD_SECRET!,
-});
+// const cloduinary = cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+//   api_key: process.env.CLOUDINARY_CLOUD_KEY!,
+//   api_secret: process.env.CLOUDINARY_CLOUD_SECRET!,
+// });
 
 (async function () {
   try {
