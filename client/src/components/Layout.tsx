@@ -7,7 +7,7 @@ function Layout() {
     <>
       <main className="w-[90%] m-auto overflow-hidden">
         <NavBar />
-        <section className="w-[90%] m-auto overflow-hidden">
+        <section className="w-[80%] m-auto overflow-hidden">
           <Outlet />
         </section>
         <Footer />

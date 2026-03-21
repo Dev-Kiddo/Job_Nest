@@ -7,6 +7,7 @@ import RecruiterLogin from "./pages/RecruiterLogin";
 import RecruiterRegister from "./pages/RecruiterRegister";
 import Register from "./pages/Register";
 import CandidateDashboard from "./pages/CandidateDashboard";
+import Dashboard from "./components/Dashboard";
 
 export default function App() {
   return (
@@ -23,7 +24,7 @@ export default function App() {
 
           <Route path="/candidate-login" element={<CandidateLogin />} />
           <Route path="/recruiter-login" element={<RecruiterLogin />} />
-          <Route path="/candidate-dashboard" element={<CandidateDashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
-import type { IAccessTokenPayload, IRefreshTokenPayload } from "../types/tokenTypes.js";
+import type { AccessTokenPayload, RefreshTokenPayload } from "../types/tokenTypes.js";
 import crypto from "crypto";
 
-export const generateAccessToken = function (user: IAccessTokenPayload) {
+export const generateAccessToken = function (user: AccessTokenPayload) {
   return jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_KEY!, { expiresIn: "15m", issuer: "jobnest", audience: "jobnest-users" });
 };
 
-export const generateRefreshToken = function (user: IRefreshTokenPayload) {
+export const generateRefreshToken = function (user: RefreshTokenPayload) {
   return jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY!, { expiresIn: "2d", issuer: "jobnest", audience: "jobnest-users" });
 };
 

@@ -25,6 +25,7 @@ const CandidateRegister = function () {
   const { showPassword, setShowPassword } = useOutletContext();
 
   const dispatch = useDispatch();
+
   const { currentUser, loading, message, error } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {

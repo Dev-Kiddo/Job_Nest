@@ -7,22 +7,22 @@ export interface IUser {
   password: string;
   role: "seeker" | "recruiter" | "admin";
   avatar: {
-    public_id: string;
-    url: string;
+    public_id: string | null;
+    url: string | null;
   };
-  phone: string;
+  phone: string | null;
   location: {
     city: string;
     state: string;
     country: string;
   };
   authProvider: "local" | "google";
-  googleId: string;
+  googleId: string | null;
   isEmailVerified: boolean;
-  emailVerificationToken: string;
-  emailVerificationExpires: Date;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
+  emailVerificationToken: string | null;
+  emailVerificationExpires: Date | null;
+  passwordResetToken: string | null;
+  passwordResetExpires: Date | null;
   lastLogin: Date;
   isActive: boolean;
   updatedAt: Date;

@@ -45,11 +45,6 @@ const RecruiterSchema = new mongoose.Schema(
       enum: ["public", "private", "startup", "nonprofit", "government"],
       default: "private",
     },
-    headquarters: {
-      city: String,
-      state: String,
-      country: { type: String, default: "India" },
-    },
     locations: [
       {
         city: String,
@@ -59,10 +54,6 @@ const RecruiterSchema = new mongoose.Schema(
           default: "india",
         },
         address: String,
-        isHeadquarters: {
-          type: Boolean,
-          default: false,
-        },
       },
     ],
     contactEmail: {
