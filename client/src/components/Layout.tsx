@@ -5,9 +5,9 @@ import Footer from "./Footer";
 function Layout() {
   return (
     <>
-      <main className="w-[90%] m-auto overflow-hidden">
+      <main className="w-[80%] m-auto overflow-hidden">
         <NavBar />
-        <section className="w-[80%] m-auto overflow-hidden">
+        <section className=" m-auto overflow-hidden">
           <Outlet />
         </section>
         <Footer />

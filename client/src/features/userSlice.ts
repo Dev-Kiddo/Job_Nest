@@ -1,11 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-interface IInitialState {
-  currentUser: any | null;
-  loading: boolean;
-  error: string | null;
-  message: string | null;
-}
+import type { UserInitialState } from "../types/userTypes";
 
 export const registerUser = createAsyncThunk("user/registerUser", async (payload, { rejectWithValue }) => {
   if (!payload) {
@@ -63,11 +57,47 @@ export const loginUser = createAsyncThunk("user/loginUser", async (payload, { re
   }
 });
 
-const initialState: IInitialState = {
+export const verifyEmail = createAsyncThunk("user/verifyEmail", async (payload, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/verify-email?token=${payload}`, { method: "GET" });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Verify email failed");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
+
+// export const oauthRegister = createAsyncThunk("user/oauthRegister", async (_payload, { rejectWithValue }) => {
+//   try {
+//     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`);
+
+//     const data = await res.json();
+
+//     if (!res.ok) {
+//       return rejectWithValue(data.message || "Google register failed");
+//     }
+
+//     return data;
+//   } catch (error) {
+//     const err = error as Error;
+//     return rejectWithValue(err.message || "Something went wrong");
+//   }
+// });
+
+const initialState: UserInitialState = {
   currentUser: null,
+  oauthUrl: null,
   loading: false,
   error: null,
   message: null,
+  success: false,
 };
 
 const userSlice = createSlice({
@@ -86,32 +116,70 @@ const userSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
+        state.success = false;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.currentUser = action.payload.user;
         state.message = action.payload.message;
+        state.success = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.error = action.payload as string;
       })
       // Register
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
+        state.success = false;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.currentUser = action.payload.user;
+        state.success = true;
         state.message = action.payload.message;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
+        state.error = action.payload as string;
+      })
+      // Verify Email
+      .addCase(verifyEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
+        state.message = action.payload.message;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
         state.error = action.payload as string;
       });
+    // .addCase(oauthRegister.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    //   state.success = false;
+    // })
+    // .addCase(oauthRegister.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.oauthUrl = action.payload.authUrl;
+    // })
+    // .addCase(oauthRegister.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.success = false;
+    //   state.error = action.payload as string;
+    // });
   },
 });
 

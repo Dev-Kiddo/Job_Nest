@@ -2,17 +2,16 @@ import nodemailer from "nodemailer";
 
 export const sendEmail = async function (toUser: string, emailSubject: string, emailContent: string) {
   try {
-    if (!process.env.MAIL_TRAP_HOST || !process.env.MAIL_TRAP_PORT || !process.env.MAIL_TRAP_USERNAME || !process.env.MAIL_TRAP_PASSWORD || !process.env.EMAIL_FROM_USER) {
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_PASSWORD) {
       console.log("ENV variables missing!");
       return;
     }
 
     const transport = nodemailer.createTransport({
-      host: process.env.MAIL_TRAP_HOST,
-      port: process.env.MAIL_TRAP_PORT,
+      service: "gmail",
       auth: {
-        user: process.env.MAIL_TRAP_USERNAME,
-        pass: process.env.MAIL_TRAP_PASSWORD,
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
 

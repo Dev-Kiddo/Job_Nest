@@ -22,7 +22,7 @@ function Register() {
 
             <div className="flex items-center justify-between mt-4">
               <NavLink
-                className="flex-grow text-sm px-10 py-2 text-gray-500 underline  rounded-lg [&.active]:bg-blue-950 [&.active]:no-underline [&.active]:text-white"
+                className="flex-grow text-sm px-10 py-2 text-gray-500 underline  rounded-lg [&.active]:bg-blue-600 [&.active]:no-underline [&.active]:text-white"
                 to="candidate-register"
               >
                 <span className="flex gap-2 items-center justify-center text-xs">
@@ -32,7 +32,7 @@ function Register() {
               </NavLink>
 
               <NavLink
-                className="flex-grow text-sm px-10 py-2 text-gray-500 underline  rounded-lg [&.active]:bg-blue-950 [&.active]:no-underline [&.active]:text-white"
+                className="flex-grow text-sm px-10 py-2 text-gray-500 underline  rounded-lg [&.active]:bg-blue-600 [&.active]:no-underline [&.active]:text-white"
                 to="recruiter-register"
               >
                 <span className="flex gap-2 items-center justify-center text-xs">

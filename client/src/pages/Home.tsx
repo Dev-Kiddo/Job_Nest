@@ -30,7 +30,7 @@ const Home = () => {
 
         <div className="flex justify-center gap-x-5 mt-8">
           <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
-            <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
+            <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
               <BriefcaseBusiness className="lucide-big transition group-hover:bg-blue-700" />
             </div>
             <div>
@@ -40,7 +40,7 @@ const Home = () => {
           </div>
 
           <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
-            <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
+            <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
               <Building2 className="lucide-big transition group-hover:bg-blue-700" />
             </div>
             <div>
@@ -50,7 +50,7 @@ const Home = () => {
           </div>
 
           <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
-            <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
+            <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
               <Users className="lucide-big transition group-hover:bg-blue-700" />
             </div>
             <div>
@@ -60,7 +60,7 @@ const Home = () => {
           </div>
 
           <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
-            <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
+            <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
               <ClockPlus className="lucide-big transition group-hover:bg-blue-700" />
             </div>
             <div>

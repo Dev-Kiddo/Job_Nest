@@ -6,12 +6,12 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import UserModel from "../models/userModel.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
-import { profile } from "node:console";
+import SeekerModel from "../models/seekerModel.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
 export const googleAuthHandler = function (req: Request, res: Response, next: NextFunction) {
-  console.log("hello", process.env.GOOGLE_REDIRECT_URI);
+  // console.log("hello", process.env.GOOGLE_REDIRECT_URI);
 
   const authUrl = googleClient.generateAuthUrl({
     access_type: "offline",
@@ -60,13 +60,8 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
   if (existingUser) {
     if (!existingUser.googleId) {
       existingUser.googleId = payload.sub;
-      existingUser.profile.avatar = payload.picture ? payload.picture : null;
+      existingUser.avatar.url = payload.picture ? payload.picture : null;
       existingUser.isEmailVerified = true;
-
-      // return res.status(302).json({
-      //   success: false,
-      //   message: "Linked Google account to existing user",
-      // });
     }
 
     const accessTokenPayload = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
@@ -88,10 +83,11 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
         name: existingUser.name,
         email: existingUser.email,
         role: existingUser.role,
-        skills: existingUser.skills,
         isActive: existingUser.isActive,
         googleId: existingUser.googleId,
-        profile: existingUser.profile,
+        avatar: {
+          url: existingUser.avatar.url,
+        },
       },
     });
   }
@@ -100,10 +96,16 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
     name: payload?.name,
     email: payload?.email,
     googleId: payload?.sub,
-    profile: {
-      avatar: payload.picture,
+    avatar: {
+      url: payload.picture,
     },
+    role: "seeker",
     isEmailVerified: true,
+    authProvider: "google",
+  });
+
+  const seeker = await SeekerModel.create({
+    user: user._id,
   });
 
   const accessTokenPayload = { id: user._id, email: user.email, role: user.role };
@@ -117,6 +119,9 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
   res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
   await user.save();
+  await seeker.save();
+
+  res.redirect("http://localhost:5173/dashboard");
 
   return res.status(200).json({
     success: true,
@@ -126,10 +131,11 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
       name: user.name,
       email: user.email,
       role: user.role,
-      skills: user.skills,
       isActive: user.isActive,
       googleId: user.googleId,
-      profile: user.profile,
+      avatar: {
+        url: user.avatar.url,
+      },
     },
   });
 });

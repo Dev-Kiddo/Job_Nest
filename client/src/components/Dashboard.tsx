@@ -1,12 +1,13 @@
 import { BellRing, Bookmark, BriefcaseBusiness, Dock, LogOut, Settings } from "lucide-react";
-import CandidateDashboard from "../pages/CandidateDashboard";
-import IconBoxsTest from "./IconBox";
+
+import { Outlet } from "react-router-dom";
 
 function Dashboard() {
   return (
     <div className="w-full flex">
-      <div className=" flex w-1/6">
-        <div className="w-full h-screen flex flex-col justify-center">
+      {/* SIDEBAR */}
+      <div className=" flex w-1/6 border-r border-gray-300">
+        <div className="w-full h-full flex flex-col justify-center">
           <p className="text-xs py-4 mx-5">Candidate Dashboard</p>
 
           <nav className="text-sm font-medium">
@@ -34,15 +35,16 @@ function Dashboard() {
             </ul>
           </nav>
 
-          <div className="mt-auto text-sm font-medium flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
+          <div className="mt-auto text-sm font-medium flex py-4 text-gray-500 bg-red-100 border-l-4 border-red-300 bg-opacity-50 hover:border-l-4 hover:border-red-500 hover:bg-red-100 hover:text-red-500 transition cursor-pointer">
             <LogOut className="mx-5" />
             Log-out
           </div>
         </div>
       </div>
 
+      {/* MAIN LAYOUT */}
       <div className="flex-grow">
-        <CandidateDashboard />
+        <Outlet />
       </div>
     </div>
   );

@@ -34,9 +34,11 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   const token = generateRandomToken();
 
+  console.log("TOKEN", token);
+
   const hashTokenDB = hashToken(token);
 
-  const verifyUrl = `${process.env.APP_URL}/api/auth/verify-email?token=${token}`;
+  const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
 
   const emailContent = `<!DOCTYPE html>
 <html>
@@ -158,17 +160,16 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
+  user.emailVerificationToken = hashTokenDB;
+  user.emailVerificationExpires = new Date(Date.now() + 15 * 60 * 1000);
   await user.save();
 
   res.status(200).json({
     success: true,
-    message: "Registration successfull, Email verification sent, Please check your inbox",
+    message: "Registration success. Please verify your email before login.",
     user: {
       id: user._id,
-      name: user.name,
       email: user.email,
-      role: user.role,
-      isActive: user.isActive,
     },
   });
 });
@@ -188,6 +189,10 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
 
   if (!isUser) {
     return next(new AppError("User not found, Please register first", 404));
+  }
+
+  if (!isUser.isEmailVerified) {
+    return next(new AppError("Please verify your email before logging in.", 404));
   }
 
   const isMatch = await isUser.comparePassword(password);
@@ -235,16 +240,19 @@ export const verifyEmailHandler = asyncHandler(async function (req: Request, res
   if (!token) {
     return next(new AppError("No authorization token was found", 401));
   }
+  // console.log("tokenHandler", token);
 
   const verifyToken = hashToken(token as string);
 
+  // console.log("verifyHandlerToken:", verifyToken);
+
   const user = await UserModel.findOne({ emailVerificationToken: verifyToken });
+
+  // console.log("VERIFYHandlerUSER", user);
 
   if (!user) {
     return next(new AppError("User not found", 404));
   }
-
-  console.log("USER", user);
 
   if (new Date(Date.now()) > user.emailVerificationExpires!) {
     return next(new AppError("Invalid or expired token!", 401));
@@ -290,5 +298,27 @@ export const refreshAccessTokenHandler = asyncHandler(async function (req: Reque
   res.status(200).json({
     success: true,
     message: "Access token generated successfully",
+  });
+});
+
+export const getMeHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const userDetail = req.user;
+
+  console.log(userDetail);
+
+  if (!userDetail) {
+    return next(new AppError("Invalid or expired token!", 401));
+  }
+
+  const user = await UserModel.findOne({ _id: userDetail.id });
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "successfully",
+    user,
   });
 });

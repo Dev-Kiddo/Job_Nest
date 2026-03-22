@@ -1,7 +1,7 @@
 import { Eye, EyeOff, Lock, Mail, MoveRight, User, UserKey } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser, removeError, removeMessage } from "../features/userSlice";
 
@@ -25,8 +25,9 @@ const CandidateRegister = function () {
   const { showPassword, setShowPassword } = useOutletContext();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { currentUser, loading, message, error } = useSelector((state) => state.user);
+  const { currentUser, loading, message, error, oauthUrl } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -46,12 +47,28 @@ const CandidateRegister = function () {
     }
   };
 
+  const onOauthHandler = async function (e) {
+    e.preventDefault();
+
+    if (!loading) {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`);
+
+      const data = await res.json();
+
+      console.log("DATA", data);
+
+      const authURL = data.authUrl;
+
+      window.location.href = authURL;
+    }
+  };
+
   useEffect(() => {
     if (message) {
+      navigate("/check-email", { state: { allowAccess: true } });
       toast.success(message);
-      dispatch(removeMessage());
     }
-  }, [message, dispatch]);
+  }, [message, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -129,6 +146,7 @@ const CandidateRegister = function () {
         <button
           type="submit"
           className="w-full bg-neutral text-gray-500 border border-gray-300 py-4 px-4 rounded hover:bg-gray-300 hover:text-gray-600 transition flex justify-center items-center cursor-pointer"
+          onClick={(e) => onOauthHandler(e)}
         >
           Sign up with Google
         </button>
