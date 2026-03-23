@@ -4,6 +4,9 @@ import { Navigate, Outlet, useSearchParams } from "react-router-dom";
 function TokenGuard() {
   const [query, setQuery] = useSearchParams();
   const token = query.get("token");
+  const allowAccess = query.get("allowAccess");
+
+  console.log("TOKEN", token);
 
   if (!token) {
     return <Navigate to="/" />;

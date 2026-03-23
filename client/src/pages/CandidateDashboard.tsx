@@ -1,7 +1,8 @@
 import { BriefcaseBusiness, Bookmark, BellRing, MoveRight, MapPin, BadgeIndianRupee } from "lucide-react";
 import IconBoxsTest from "../components/IconBox";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { getCurrentUser } from "../features/userSlice";
 
 const tableHead = ["Job", "Date Applied", "Status", "Action"];
 const tableData = [
@@ -44,17 +45,7 @@ const tableData = [
 ];
 
 function CandidateDashboard() {
-  const { currentUser } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/me`);
-
-      const data = await res.json();
-
-      console.log("ME", data);
-    })();
-  }, []);
+  const { currentUser, loading } = useSelector((state) => state.user);
 
   return (
     <div className="p-8 mt-2">

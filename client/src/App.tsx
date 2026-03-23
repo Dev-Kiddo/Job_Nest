@@ -41,12 +41,14 @@ export default function App() {
           <Route element={<TokenGuard />}>
             <Route path="/verify-email" element={<VerifyEmail />} />
           </Route>
-    
+
           {/* Protected Routes */}
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<CandidateDashboard />} />
-            <Route path="candidate-dashboard" element={<CandidateDashboard />} />
-            <Route path="recruiter-dashboard" element={<RecruiterDashboard />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<CandidateDashboard />} />
+              <Route path="candidate-dashboard" element={<CandidateDashboard />} />
+              <Route path="recruiter-dashboard" element={<RecruiterDashboard />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

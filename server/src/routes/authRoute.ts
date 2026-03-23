@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMeHandler, loginHandler, logoutHandler, refreshAccessTokenHandler, registerHandler, verifyEmailHandler } from "../controllers/authController.js";
+import { getCurrentUser, loginHandler, logoutHandler, refreshAccessTokenHandler, registerHandler, verifyEmailHandler } from "../controllers/authController.js";
 import { googleAuthHandler, googleCallbackHandler } from "../controllers/googleAuthController.js";
 import { protectAuth } from "../middlewares/protectAuth.js";
 
@@ -11,7 +11,7 @@ router.route("/login").post(loginHandler);
 router.route("/refresh-token").get(refreshAccessTokenHandler);
 router.route("/verify-email").get(verifyEmailHandler);
 
-router.route("/me").get(protectAuth, getMeHandler);
+router.route("/me").get(protectAuth, getCurrentUser);
 
 router.route("/google").get(googleAuthHandler);
 router.route("/google/callback").get(googleCallbackHandler);

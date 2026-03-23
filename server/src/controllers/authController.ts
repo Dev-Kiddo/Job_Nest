@@ -301,7 +301,7 @@ export const refreshAccessTokenHandler = asyncHandler(async function (req: Reque
   });
 });
 
-export const getMeHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+export const getCurrentUser = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const userDetail = req.user;
 
   console.log(userDetail);

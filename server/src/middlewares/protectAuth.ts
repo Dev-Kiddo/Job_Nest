@@ -5,6 +5,8 @@ import { verifyAccessToken } from "../utils/tokenUtils.js";
 export const protectAuth = asyncHandler(async function (req, res, next) {
   const token = req.cookies.accessToken;
 
+  console.log("AUTH TOKEN", token);
+
   if (!token) {
     return next(new AppError("No authorization token was found", 401));
   }

@@ -1,6 +1,6 @@
 export interface UserInitialState {
   currentUser: any | null;
-  oauthUrl: string | null;
+  authChecking: boolean;
   loading: boolean;
   error: string | null;
   message: string | null;

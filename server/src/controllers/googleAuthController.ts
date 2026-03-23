@@ -75,6 +75,8 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
 
     res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
+    res.redirect(`http://localhost:5173/dashboard`);
+
     return res.status(200).json({
       success: true,
       message: "Login successfully",

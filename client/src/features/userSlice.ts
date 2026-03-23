@@ -74,26 +74,29 @@ export const verifyEmail = createAsyncThunk("user/verifyEmail", async (payload, 
   }
 });
 
-// export const oauthRegister = createAsyncThunk("user/oauthRegister", async (_payload, { rejectWithValue }) => {
-//   try {
-//     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`);
+export const getCurrentUser = createAsyncThunk("user/oauthRegister", async (_payload, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+      method: "GET",
+      credentials: "include",
+    });
 
-//     const data = await res.json();
+    const data = await res.json();
 
-//     if (!res.ok) {
-//       return rejectWithValue(data.message || "Google register failed");
-//     }
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Fetch current user failed");
+    }
 
-//     return data;
-//   } catch (error) {
-//     const err = error as Error;
-//     return rejectWithValue(err.message || "Something went wrong");
-//   }
-// });
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
 
 const initialState: UserInitialState = {
   currentUser: null,
-  oauthUrl: null,
+  authChecking: true,
   loading: false,
   error: null,
   message: null,
@@ -109,6 +112,9 @@ const userSlice = createSlice({
     },
     removeMessage(state) {
       state.message = null;
+    },
+    clearUser: (state) => {
+      state.currentUser = null;
     },
   },
   extraReducers: (builder) => {
@@ -164,24 +170,29 @@ const userSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.error = action.payload as string;
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authChecking = false;
+
+        state.error = null;
+        state.currentUser = action.payload.user;
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.authChecking = false;
+
+        state.currentUser = null;
+        state.success = false;
+        state.error = action.payload as string;
       });
-    // .addCase(oauthRegister.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    //   state.success = false;
-    // })
-    // .addCase(oauthRegister.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.oauthUrl = action.payload.authUrl;
-    // })
-    // .addCase(oauthRegister.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.success = false;
-    //   state.error = action.payload as string;
-    // });
   },
 });
 
-export const { removeError, removeMessage } = userSlice.actions;
+export const { removeError, removeMessage, clearUser } = userSlice.actions;
 export default userSlice.reducer;
