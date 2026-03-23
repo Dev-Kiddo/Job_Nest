@@ -94,6 +94,28 @@ export const getCurrentUser = createAsyncThunk("user/oauthRegister", async (_pay
   }
 });
 
+export const logoutUser = createAsyncThunk("user/logoutUser", async (_payload, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Logout user failed");
+    }
+
+    // console.log("LOGOUT DATA", data);
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
+
 const initialState: UserInitialState = {
   currentUser: null,
   authChecking: true,
@@ -188,6 +210,28 @@ const userSlice = createSlice({
         state.authChecking = false;
 
         state.currentUser = null;
+        state.success = false;
+        state.error = action.payload as string;
+      })
+      // logout
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        console.log("ACTION PAYLOAD", action);
+
+        state.loading = false;
+        state.authChecking = false;
+        state.error = null;
+        state.currentUser = null;
+        state.message = action.payload.message;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.authChecking = false;
         state.success = false;
         state.error = action.payload as string;
       });

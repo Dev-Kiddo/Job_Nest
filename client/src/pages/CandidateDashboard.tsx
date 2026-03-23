@@ -60,7 +60,11 @@ function CandidateDashboard() {
 
       <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
         <div className="flex items-center gap-5">
-          <img className="w-16 h-16 rounded-full" src="/src/assets/img/profile2.jpg" />
+          <img
+            className="rounded-full"
+            // src={currentUser?.avatar.url || "https://lh3.googleusercontent.com/a/ACg8ocLym0EgCNR462bJKtifQI73252BCTrJfVLgMO1iOa6GXlmTAsc=s96-c"}
+            src={currentUser.avatar.url}
+          />
 
           <div>
             <h4 className="text-md text-gray-200 mb-2">Your profile setup is not completed.</h4>

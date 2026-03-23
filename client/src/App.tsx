@@ -14,6 +14,7 @@ import FlowGuard from "./components/FlowGuard";
 import TokenGuard from "./components/TokenGuard";
 import CandidateDashboard from "./pages/CandidateDashboard";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import Login from "./pages/Login";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/register" element={<Register />}>
             <Route index element={<Navigate to="candidate-register" replace />} />
@@ -28,8 +30,8 @@ export default function App() {
             <Route path="recruiter-register" element={<RecruiterRegister />} />
           </Route>
 
-          <Route path="/candidate-login" element={<CandidateLogin />} />
-          <Route path="/recruiter-login" element={<RecruiterLogin />} />
+          <Route path="/login" element={<Login />} />
+
           <Route path="/flow-guard" element={<FlowGuard />} />
 
           {/* Flow guard */}

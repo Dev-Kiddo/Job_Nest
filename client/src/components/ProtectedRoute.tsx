@@ -4,33 +4,15 @@ import { Navigate, Outlet } from "react-router-dom";
 import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 
-// function ProtectedRoute({ children }) {
-//   const { currentUser, authChecking } = useSelector((state) => state.user);
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     dispatch(getCurrentUser());
-//   }, [dispatch]);
-
-//   if (authChecking) {
-//     return <Loader color="text-blue-600" />;
-//   }
-
-//   if (!currentUser) {
-//     return <Navigate to="/" replace />;
-//   }
-//   return children;
-// }
-
-// export default ProtectedRoute;
-
 function ProtectedRoute() {
   const { currentUser, authChecking } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("Im inside protected route");
     if (authChecking) {
+      console.log("Im inside protected route effect");
       dispatch(getCurrentUser());
     }
   }, [authChecking, dispatch]);

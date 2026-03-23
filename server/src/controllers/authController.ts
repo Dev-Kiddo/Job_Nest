@@ -230,7 +230,7 @@ export const logoutHandler = asyncHandler(async function (req: Request, res: Res
 
   return res.status(200).json({
     success: true,
-    message: "Logout successfull",
+    message: "Logout successfully",
   });
 });
 

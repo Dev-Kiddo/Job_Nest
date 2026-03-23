@@ -1,8 +1,43 @@
 import { BellRing, Bookmark, BriefcaseBusiness, Dock, LogOut, Settings } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { logoutUser, removeError, removeMessage } from "../features/userSlice";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, message, error } = useSelector((state) => state.user);
+
+  console.log(loading, message, error);
+
+  const onLogoutHandler = function () {
+    if (!loading) {
+      dispatch(logoutUser());
+      navigate("/");
+    }
+  };
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (message) {
+  //       toast.success(message);
+  //       dispatch(removeMessage());
+  //     }
+  //   };
+  // }, [message, dispatch]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (error) {
+  //       toast.error(error);
+  //       dispatch(removeError());
+  //     }
+  //   };
+  // }, [error, dispatch]);
+
   return (
     <div className="w-full flex">
       {/* SIDEBAR */}
@@ -35,7 +70,10 @@ function Dashboard() {
             </ul>
           </nav>
 
-          <div className="mt-auto text-sm font-medium flex py-4 text-gray-500 bg-red-100 border-l-4 border-red-300 bg-opacity-50 hover:border-l-4 hover:border-red-500 hover:bg-red-100 hover:text-red-500 transition cursor-pointer">
+          <div
+            className="mt-auto text-sm font-medium flex py-4 text-gray-500 bg-red-100 border-l-4 border-red-300 bg-opacity-50 hover:border-l-4 hover:border-red-500 hover:bg-red-100 hover:text-red-500 transition cursor-pointer"
+            onClick={onLogoutHandler}
+          >
             <LogOut className="mx-5" />
             Log-out
           </div>

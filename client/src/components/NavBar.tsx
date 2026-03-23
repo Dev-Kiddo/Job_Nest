@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 
 function NavBar() {
+  const { currentUser } = useSelector((state) => state.user);
+  console.log("currentUser", currentUser);
+
   return (
     <header className="border-b border-gray-300 mb-10">
       <nav>
@@ -45,15 +49,21 @@ function NavBar() {
           </ul>
 
           <div className="hidden lg:flex items-center gap-3">
-            <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/register">
-              Sign up
-            </NavLink>
-            {/* <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
+            {currentUser?.avatar ? (
+              <img className="w-12 h-12 border-2 border-blue-500 rounded-full" src={currentUser.avatar.url} />
+            ) : (
+              <>
+                <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/register">
+                  Sign up
+                </NavLink>
+                {/* <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
               Post a jobs
             </NavLink> */}
-            <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/dashboard">
-              Dashboard
-            </NavLink>
+                <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/dashboard">
+                  Dashboard
+                </NavLink>
+              </>
+            )}
           </div>
 
           <button aria-label="Toggle menu" aria-expanded="false" className="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
