@@ -12,7 +12,7 @@ function Register() {
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Create account</h1>
           <p className="text-sm text-gray-600">
             Already have a account?{" "}
-            <Link className="text-blue-500 underline font-medium" to="/login">
+            <Link className="text-blue-600  underline font-medium" to="/login">
               Login
             </Link>
           </p>

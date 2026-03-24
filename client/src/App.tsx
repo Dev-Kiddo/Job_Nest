@@ -15,6 +15,8 @@ import TokenGuard from "./components/TokenGuard";
 import CandidateDashboard from "./pages/CandidateDashboard";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   return (
@@ -31,6 +33,8 @@ export default function App() {
           </Route>
 
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-Password" element={<ResetPassword />} />
 
           <Route path="/flow-guard" element={<FlowGuard />} />
 

@@ -41,7 +41,7 @@ function Login() {
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Login</h1>
           <p className="text-sm text-gray-600">
             Dont have an account?
-            <Link className="text-blue-500 underline font-medium" to="/register/candidate-register">
+            <Link className="text-blue-600 underline font-medium" to="/register/candidate-register">
               Create Account
             </Link>
           </p>
@@ -76,10 +76,17 @@ function Login() {
               </div>
             </div>
 
-            <label className="flex items-center gap-1 cursor-pointer text-sm text-gray-600">
-              <input id="terms-checkbox" className="h-4 w-4 text-blue-600 rounded border-gray-300" type="checkbox" />
-              Remember me
-            </label>
+            <div className="flex justify-between items-center">
+              <label className="flex items-center gap-1 cursor-pointer text-sm text-gray-600">
+                <input id="terms-checkbox" className="h-4 w-4 text-blue-600 rounded border-gray-300" type="checkbox" />
+                Remember me
+              </label>
+
+              <Link className="text-sm font-medium text-blue-600 underline" to="/forgot-password">
+                Forgot Password
+              </Link>
+            </div>
+
             <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
               Sign in <MoveRight color="#fff" />
             </button>

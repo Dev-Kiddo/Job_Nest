@@ -13,3 +13,7 @@ export const loginHandlerValidation = z.object({
   email: z.email(),
   password: z.string(),
 });
+
+export const forgotPasswordValidation = z.object({
+  email: z.email(),
+});

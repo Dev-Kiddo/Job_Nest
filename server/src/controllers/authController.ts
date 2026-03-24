@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import UserModel from "../models/userModel.js";
-import { loginHandlerValidation, registerHandlerValidation } from "../validators/authValidations.js";
+import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation } from "../validators/authValidations.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
@@ -320,5 +320,135 @@ export const getCurrentUser = asyncHandler(async function (req: Request, res: Re
     success: true,
     message: "successfully",
     user,
+  });
+});
+
+export const forgotPasswordHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const result = forgotPasswordValidation.safeParse(req.body);
+
+  if (!result.success) {
+    return next(new AppError("Email is required to process", 400));
+  }
+
+  const { email } = result.data;
+
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const user = await UserModel.findOne({ email: normalizedEmail });
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  const token = generateRandomToken();
+
+  const hashTokenDB = hashToken(token);
+
+  const forgotPasswordUrl = `http://localhost:5173/reset-password?${token}`;
+
+  const emailContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f2f2f2; font-family: Arial, sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f2f2; padding: 30px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; padding:30px; text-align:center;">
+          
+          <tr>
+            <td style="padding-bottom:20px;">
+              <h2 style="margin:0; color:#2563EB; font-weight:bold;">
+                JobNest<span style="font-size:14px; vertical-align:super;">™</span>
+              </h2>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:15px;">
+              <h1 style="margin:0; font-size:22px; color:#333333;">
+                Forgot your password?
+              </h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:25px;">
+              <p style="margin:0; font-size:14px; color:#777777; line-height:1.6;">
+              Hi there, <br/>
+
+              No worries — it happens! 😊 <br />
+              Click the link below to reset your password:
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:25px;">
+              <a href="${forgotPasswordUrl}" 
+                style="display:inline-block; padding:14px 25px; background-color:#2563EB; color:#ffffff; text-decoration:none; font-size:16px; border-radius:4px;">
+                Reset Password
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:20px;">
+              <p style="margin:0; font-size:12px; color:#999999;">
+                Or paste this link into your browser:
+              </p>
+              <p style="margin:5px 0 0 0; font-size:12px;">
+                <a href="${forgotPasswordUrl}" style="color:#3498db; text-decoration:none;">
+                  ${forgotPasswordUrl}
+                </a>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:20px;">
+              <p style="margin:0; font-size:12px; color:#999999;">
+                This link is valid for a limited time.
+              </p>
+              <p style="margin:5px 0 0 0; font-size:12px;">
+                If you didn’t request this, you can safely ignore this email.
+              </p>
+            </td>
+          </tr>
+
+
+          <tr>
+            <td style="padding-top:20px; border-top:1px solid #eeeeee;">
+              <p style="margin:0; font-size:12px; color:#aaaaaa;">
+                © 2026 JobNest. All rights reserved.
+              </p>
+              <p style="margin:5px 0 0 0; font-size:12px; color:#aaaaaa;">
+                Salem - India
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+
+  sendEmail(user.email, "Forgot Password", emailContent);
+
+  user.passwordResetToken = hashTokenDB;
+  user.passwordResetExpires = new Date(Date.now() + 15 * 60 * 1000);
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Reset Password Link Sent Your Email",
   });
 });
