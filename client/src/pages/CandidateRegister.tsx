@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import { registerUser, removeError, removeMessage } from "../features/userSlice";
+import { registerUser, clearMessage } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 interface ICandidatePayload {
   name: string;
@@ -27,18 +28,18 @@ const CandidateRegister = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currentUser, loading, message, error, oauthUrl } = useSelector((state) => state.user);
+  const { currentUser, loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
     setPayload((payload) => ({ ...payload, [id]: value }));
   };
 
-  const onSubmitHandler = async function (e: React.FormEvent<HTMLFormElement>) {
+  const onSubmit = async function (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!payload.name || !payload.email || !payload.password || !payload.confirmPassword) {
-      toast.error("All the fields required");
+      toast.error("All the fields required", { toastId: `validate-${new Date(Date.now())}` });
       return;
     }
 
@@ -46,6 +47,8 @@ const CandidateRegister = function () {
       dispatch(registerUser(payload));
     }
   };
+
+  useToastMessage("auth");
 
   const onOauthHandler = async function (e) {
     e.preventDefault();
@@ -64,22 +67,14 @@ const CandidateRegister = function () {
   };
 
   useEffect(() => {
-    if (message) {
+    if (message && messageType === "success" && !isMessageShown) {
       navigate("/check-email", { state: { allowAccess: true } });
-      toast.success(message);
     }
-  }, [message, dispatch, navigate]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(removeError());
-    }
-  }, [error, dispatch]);
+  }, [message, messageType, isMessageShown, dispatch, navigate]);
 
   return (
     <div className="w-full mx-auto rounded-lg">
-      <form className="space-y-4" onSubmit={onSubmitHandler}>
+      <form className="space-y-4" onSubmit={onSubmit}>
         <div className="space-y-3">
           <div className="border border-gray-300 rounded flex items-center p-2.5">
             <User className="mr-2" />

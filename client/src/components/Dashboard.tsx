@@ -1,42 +1,19 @@
 import { BellRing, Bookmark, BriefcaseBusiness, Dock, LogOut, Settings } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Outlet, useNavigate } from "react-router-dom";
-import { logoutUser, removeError, removeMessage } from "../features/userSlice";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { Outlet } from "react-router-dom";
+import { logoutUser } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 function Dashboard() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, message, error } = useSelector((state) => state.user);
-
-  console.log(loading, message, error);
+  const { loading } = useSelector((state) => state.user);
 
   const onLogoutHandler = function () {
     if (!loading) {
       dispatch(logoutUser());
-      navigate("/");
     }
   };
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (message) {
-  //       toast.success(message);
-  //       dispatch(removeMessage());
-  //     }
-  //   };
-  // }, [message, dispatch]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (error) {
-  //       toast.error(error);
-  //       dispatch(removeError());
-  //     }
-  //   };
-  // }, [error, dispatch]);
 
   return (
     <div className="w-full flex">

@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import { registerUser, removeError, removeMessage } from "../features/userSlice";
+import { registerUser, clearMessage, markMessageAsShown } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 interface IPayload {
   name: string;
@@ -25,7 +26,7 @@ const RecruiterRegister = function () {
   const { showPassword, setShowPassword } = useOutletContext();
 
   const dispatch = useDispatch();
-  const { user, loading, message, error } = useSelector((state) => state.user);
+  const { user, loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -45,19 +46,7 @@ const RecruiterRegister = function () {
     }
   };
 
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-      dispatch(removeMessage());
-    }
-  }, [message, dispatch]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(removeError());
-    }
-  }, [error, dispatch]);
+  useToastMessage("auth");
 
   return (
     <div className="w-full mx-auto rounded-lg">

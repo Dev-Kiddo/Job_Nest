@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 
 function NavBar() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log("currentUser", currentUser);
 
   return (
     <header className="border-b border-gray-300 mb-10">
@@ -59,8 +58,8 @@ function NavBar() {
                 {/* <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
               Post a jobs
             </NavLink> */}
-                <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/dashboard">
-                  Dashboard
+                <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/">
+                  Post a jobs
                 </NavLink>
               </>
             )}

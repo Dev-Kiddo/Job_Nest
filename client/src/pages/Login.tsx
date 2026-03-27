@@ -2,11 +2,11 @@ import { Eye, EyeOff, Lock, Mail, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, removeMessage } from "../features/userSlice";
-import { toast } from "react-toastify";
+import { loginUser } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 function Login() {
-  const { message } = useSelector((state) => state.user);
+  const { loading, message, messageType } = useSelector((state) => state.user);
   const [payload, setPayload] = useState({
     email: "",
     password: "",
@@ -21,18 +21,21 @@ function Login() {
     setPayload((payload) => ({ ...payload, [id]: value }));
   };
 
-  const onSubmitHandler = async function (e) {
+  const onSubmitHandler = function (e) {
     e.preventDefault();
-    dispatch(loginUser(payload));
+
+    if (!loading) {
+      dispatch(loginUser(payload));
+    }
   };
 
+  useToastMessage("auth");
+
   useEffect(() => {
-    if (message) {
-      toast.success(message);
+    if (message && messageType === "success") {
       navigate("/dashboard");
-      dispatch(removeMessage());
     }
-  }, [message, dispatch]);
+  }, [message, messageType, navigate]);
 
   return (
     <>
@@ -87,7 +90,7 @@ function Login() {
               </Link>
             </div>
 
-            <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+            <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
               Sign in <MoveRight color="#fff" />
             </button>
           </form>

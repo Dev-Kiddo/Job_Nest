@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
+import useToastMessage from "../hooks/useToastMessage";
 
 function ProtectedRoute() {
   const { currentUser, authChecking } = useSelector((state) => state.user);
@@ -10,22 +11,22 @@ function ProtectedRoute() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Im inside protected route");
     if (authChecking) {
-      console.log("Im inside protected route effect");
       dispatch(getCurrentUser());
     }
   }, [authChecking, dispatch]);
 
+  useToastMessage("auth");
+
   if (authChecking) {
-    return <Loader colour="text-blue-500" />;
+    return <Loader colour="text-blue-500" margin="mx-auto" size="12" />;
   }
 
   if (!currentUser) {
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet />;
+  return <Outlet context={currentUser?.role} />;
 }
 
 export default ProtectedRoute;

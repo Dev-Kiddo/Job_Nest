@@ -1,8 +1,7 @@
 import { BriefcaseBusiness, Bookmark, BellRing, MoveRight, MapPin, BadgeIndianRupee } from "lucide-react";
 import IconBoxsTest from "../components/IconBox";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getCurrentUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 const tableHead = ["Job", "Date Applied", "Status", "Action"];
 const tableData = [
@@ -46,6 +45,9 @@ const tableData = [
 
 function CandidateDashboard() {
   const { currentUser, loading } = useSelector((state) => state.user);
+  const role = useOutletContext();
+
+  console.log("ROLE", role);
 
   return (
     <div className="p-8 mt-2">

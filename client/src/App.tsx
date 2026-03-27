@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import CandidateLogin from "./pages/CandidateLogin";
 import CandidateRegister from "./pages/CandidateRegister";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
-import RecruiterLogin from "./pages/RecruiterLogin";
 import RecruiterRegister from "./pages/RecruiterRegister";
 import Register from "./pages/Register";
 import Dashboard from "./components/Dashboard";
@@ -23,6 +21,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* Public Routes */}
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
 
@@ -32,7 +31,6 @@ export default function App() {
             <Route path="recruiter-register" element={<RecruiterRegister />} />
           </Route>
 
-          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-Password" element={<ResetPassword />} />
 

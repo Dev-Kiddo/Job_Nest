@@ -1,25 +1,9 @@
 import { BriefcaseBusiness, Building2, ClockPlus, MapPin, Search, Users } from "lucide-react";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { removeMessage } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { message, error } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-      dispatch(removeMessage());
-    }
-  }, [message, dispatch]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(removeError());
-    }
-  }, [error, dispatch]);
+  useToastMessage("auth");
 
   return (
     <>

@@ -17,3 +17,8 @@ export const loginHandlerValidation = z.object({
 export const forgotPasswordValidation = z.object({
   email: z.email(),
 });
+
+export const resetPasswordValidation = z.object({
+  password: z.string(),
+  confirmPassword: z.string(),
+});

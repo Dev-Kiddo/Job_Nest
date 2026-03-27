@@ -1,15 +1,20 @@
 import { Mail, MoveRight } from "lucide-react";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import CheckEmail from "../components/CheckEmail";
+import { forgotPassword } from "../features/userSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 function ForgotPassword() {
   const [payload, setPayload] = useState({
     email: "",
-    password: "",
   });
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { message, messageType } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -18,8 +23,17 @@ function ForgotPassword() {
 
   const onSubmitHandler = async function (e) {
     e.preventDefault();
-    dispatch(payload);
+    dispatch(forgotPassword(payload));
   };
+
+  useToastMessage("auth");
+
+  useEffect(() => {
+    if (message && messageType === "success") {
+      navigate("/check-email", { state: { allowAccess: true } });
+    }
+  }, [message, messageType, navigate]);
+
   return (
     <>
       <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6">
@@ -55,14 +69,12 @@ function ForgotPassword() {
               </div>
             </div>
 
-            <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+            <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
               Reset Password <MoveRight color="#fff" />
             </button>
           </form>
         </div>
       </div>
-
-      <CheckEmail />
     </>
   );
 }

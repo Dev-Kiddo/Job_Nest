@@ -1,15 +1,22 @@
 import { Eye, EyeOff, Lock, MoveRight, UserKey } from "lucide-react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import useToastMessage from "../hooks/useToastMessage";
+import { resetPassword } from "../features/userSlice";
+import { useSearchParams } from "react-router-dom";
 
 function ResetPassword() {
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const [query] = useSearchParams();
+
+  const token = query.get("token");
+
   const [payload, setPayload] = useState({
     password: "",
     confirmPassword: "",
+    token: token || null,
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -18,8 +25,14 @@ function ResetPassword() {
 
   const onSubmitHandler = async function (e) {
     e.preventDefault();
-    dispatch(payload);
+    if (!payload.password || !payload.confirmPassword) {
+      console.log("All the fields required");
+    }
+
+    dispatch(resetPassword(payload));
   };
+
+  useToastMessage("auth");
   return (
     <>
       <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6">

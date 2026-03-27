@@ -2,9 +2,11 @@ export interface UserInitialState {
   currentUser: any | null;
   authChecking: boolean;
   loading: boolean;
-  error: string | null;
+
+  // Message
   message: string | null;
-  success: boolean;
+  messageType: "success" | "error" | "info" | null;
+  isMessageShown: boolean;
 }
 
 export interface RootState extends UserInitialState {

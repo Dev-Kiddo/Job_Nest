@@ -2,7 +2,7 @@ import { Lock, LogIn, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { loginUser, removeError, removeMessage } from "../features/userSlice";
+import { loginUser, clearMessage } from "../features/userSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
@@ -42,14 +42,13 @@ const CandidateLogin = function () {
   useEffect(() => {
     if (message) {
       toast.success(message);
-      dispatch(removeMessage());
+      dispatch(clearMessage());
     }
   }, [message, dispatch]);
 
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(removeError());
     }
   }, [error, dispatch]);
 

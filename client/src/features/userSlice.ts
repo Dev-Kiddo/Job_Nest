@@ -2,10 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { UserInitialState } from "../types/userTypes";
 
 export const registerUser = createAsyncThunk("user/registerUser", async (payload, { rejectWithValue }) => {
-  if (!payload) {
-    return rejectWithValue("Payload not found!");
-  }
-
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
       method: "POST",
@@ -39,10 +35,6 @@ export const loginUser = createAsyncThunk("user/loginUser", async (payload, { re
       credentials: "include",
       body: JSON.stringify(payload),
     });
-
-    // if (!res) {
-    //   throw new Error("An error occured");
-    // }
 
     const data = await res.json();
 
@@ -116,27 +108,78 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async (_payload, {
   }
 });
 
+export const forgotPassword = createAsyncThunk("user/forgotPassword", async (payload, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = res.json();
+
+    if (!res.ok) {
+      return rejectWithValue("Forgot Password Failed");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
+
+export const resetPassword = createAsyncThunk("user/resetPassword", async (payload, { rejectWithValue }) => {
+  console.log("PAY", payload);
+
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password?token=${payload.token}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password: payload.password, confirmPassword: payload.confirmPassword }),
+    });
+
+    const data = res.json();
+
+    if (!res.ok) {
+      return rejectWithValue("Reset Password Failed");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return rejectWithValue(err.message || "Something went wrong");
+  }
+});
+
 const initialState: UserInitialState = {
   currentUser: null,
   authChecking: true,
   loading: false,
-  error: null,
+  // Message State
   message: null,
-  success: false,
+  messageType: null,
+  isMessageShown: false,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    removeError(state) {
-      state.error = null;
-    },
-    removeMessage(state) {
-      state.message = null;
-    },
     clearUser: (state) => {
       state.currentUser = null;
+    },
+    clearMessage: (state) => {
+      state.message = null;
+      state.messageType = null;
+      state.isMessageShown = false;
+    },
+    markMessageAsShown: (state) => {
+      state.isMessageShown = true;
     },
   },
   extraReducers: (builder) => {
@@ -144,99 +187,173 @@ const userSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.success = false;
-        state.error = null;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentUser = action.payload.user;
+        // state.currentUser = action.payload.user;
+
         state.message = action.payload.message;
-        state.success = true;
+        state.messageType = "success";
+        state.isMessageShown = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
       })
       // Register
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
-        state.success = false;
-        state.error = null;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = null;
+
         state.currentUser = action.payload.user;
-        state.success = true;
+
         state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
       })
       // Verify Email
       .addCase(verifyEmail.pending, (state) => {
         state.loading = true;
-        state.error = null;
-        state.success = false;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
       })
       .addCase(verifyEmail.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = null;
-        state.success = true;
+
         state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
       })
+      // Get Current User
       .addCase(getCurrentUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
-        state.success = false;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.loading = false;
         state.authChecking = false;
 
-        state.error = null;
         state.currentUser = action.payload.user;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.loading = false;
         state.authChecking = false;
-
         state.currentUser = null;
-        state.success = false;
-        state.error = action.payload as string;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
       })
       // logout
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
-        state.error = null;
-        state.success = false;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
       })
 
       .addCase(logoutUser.fulfilled, (state, action) => {
-        console.log("ACTION PAYLOAD", action);
-
         state.loading = false;
-        state.authChecking = false;
-        state.error = null;
+
         state.currentUser = null;
+
         state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
-        state.authChecking = false;
-        state.success = false;
-        state.error = action.payload as string;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      // Forgot Password
+      .addCase(forgotPassword.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.currentUser = null;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentUser = null;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload as string;
+        state.messageType = "error";
+        state.isMessageShown = false;
       });
   },
 });
 
-export const { removeError, removeMessage, clearUser } = userSlice.actions;
+export const { clearMessage, clearUser, markMessageAsShown } = userSlice.actions;
+
 export default userSlice.reducer;

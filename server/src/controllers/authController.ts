@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import UserModel from "../models/userModel.js";
-import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation } from "../validators/authValidations.js";
+import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation, resetPasswordValidation } from "../validators/authValidations.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
@@ -214,13 +214,6 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
   return res.status(200).json({
     success: true,
     message: "Login successful",
-    user: {
-      id: isUser._id,
-      name: isUser.name,
-      email: isUser.email,
-      role: isUser.role,
-      isActive: isUser.isActive,
-    },
   });
 });
 
@@ -240,15 +233,12 @@ export const verifyEmailHandler = asyncHandler(async function (req: Request, res
   if (!token) {
     return next(new AppError("No authorization token was found", 401));
   }
-  // console.log("tokenHandler", token);
 
   const verifyToken = hashToken(token as string);
 
   // console.log("verifyHandlerToken:", verifyToken);
 
   const user = await UserModel.findOne({ emailVerificationToken: verifyToken });
-
-  // console.log("VERIFYHandlerUSER", user);
 
   if (!user) {
     return next(new AppError("User not found", 404));
@@ -304,13 +294,13 @@ export const refreshAccessTokenHandler = asyncHandler(async function (req: Reque
 export const getCurrentUser = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const userDetail = req.user;
 
-  console.log(userDetail);
+  // console.log(userDetail);
 
   if (!userDetail) {
     return next(new AppError("Invalid or expired token!", 401));
   }
 
-  const user = await UserModel.findOne({ _id: userDetail.id });
+  const user = await UserModel.findOne({ _id: userDetail.id }).select("name email role avatar phone location authProvider googleId isEmailVerified lastLogin");
 
   if (!user) {
     return next(new AppError("User not found", 404));
@@ -318,7 +308,7 @@ export const getCurrentUser = asyncHandler(async function (req: Request, res: Re
 
   res.status(200).json({
     success: true,
-    message: "successfully",
+    message: "Login Successfully",
     user,
   });
 });
@@ -344,101 +334,101 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
 
   const hashTokenDB = hashToken(token);
 
-  const forgotPasswordUrl = `http://localhost:5173/reset-password?${token}`;
+  const forgotPasswordUrl = `http://localhost:5173/reset-password?token=${token}`;
 
   const emailContent = `<!DOCTYPE html>
-<html>
-<head>
+  <html>
+  <head>
   <meta charset="UTF-8">
   <title>Email Verification</title>
-</head>
-<body style="margin:0; padding:0; background-color:#f2f2f2; font-family: Arial, sans-serif;">
-
+  </head>
+  <body style="margin:0; padding:0; background-color:#f2f2f2; font-family: Arial, sans-serif;">
+  
   <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f2f2; padding: 30px 0;">
-    <tr>
-      <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; padding:30px; text-align:center;">
+  <tr>
+  <td align="center">
+  <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; padding:30px; text-align:center;">
           
-          <tr>
-            <td style="padding-bottom:20px;">
-              <h2 style="margin:0; color:#2563EB; font-weight:bold;">
-                JobNest<span style="font-size:14px; vertical-align:super;">™</span>
-              </h2>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding-bottom:15px;">
-              <h1 style="margin:0; font-size:22px; color:#333333;">
-                Forgot your password?
-              </h1>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding-bottom:25px;">
-              <p style="margin:0; font-size:14px; color:#777777; line-height:1.6;">
-              Hi there, <br/>
-
-              No worries — it happens! 😊 <br />
-              Click the link below to reset your password:
-              </p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding-bottom:25px;">
-              <a href="${forgotPasswordUrl}" 
-                style="display:inline-block; padding:14px 25px; background-color:#2563EB; color:#ffffff; text-decoration:none; font-size:16px; border-radius:4px;">
-                Reset Password
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding-bottom:20px;">
-              <p style="margin:0; font-size:12px; color:#999999;">
-                Or paste this link into your browser:
+  <tr>
+  <td style="padding-bottom:20px;">
+  <h2 style="margin:0; color:#2563EB; font-weight:bold;">
+  JobNest<span style="font-size:14px; vertical-align:super;">™</span>
+  </h2>
+  </td>
+  </tr>
+  
+  <tr>
+  <td style="padding-bottom:15px;">
+  <h1 style="margin:0; font-size:22px; color:#333333;">
+  Forgot your password?
+  </h1>
+  </td>
+  </tr>
+  
+  <tr>
+  <td style="padding-bottom:25px;">
+  <p style="margin:0; font-size:14px; color:#777777; line-height:1.6;">
+  Hi there, <br/>
+  
+  No worries — it happens! 😊 <br />
+  Click the link below to reset your password:
+  </p>
+  </td>
+  </tr>
+  
+  <tr>
+  <td style="padding-bottom:25px;">
+  <a href="${forgotPasswordUrl}" 
+  style="display:inline-block; padding:14px 25px; background-color:#2563EB; color:#ffffff; text-decoration:none; font-size:16px; border-radius:4px;">
+  Reset Password
+  </a>
+  </td>
+  </tr>
+  
+  <tr>
+  <td style="padding-bottom:20px;">
+  <p style="margin:0; font-size:12px; color:#999999;">
+  Or paste this link into your browser:
+  </p>
+  <p style="margin:5px 0 0 0; font-size:12px;">
+  <a href="${forgotPasswordUrl}" style="color:#3498db; text-decoration:none;">
+  ${forgotPasswordUrl}
+  </a>
+  </p>
+  </td>
+  </tr>
+  
+  <tr>
+  <td style="padding-bottom:20px;">
+  <p style="margin:0; font-size:12px; color:#999999;">
+  This link is valid for a limited time.
               </p>
               <p style="margin:5px 0 0 0; font-size:12px;">
-                <a href="${forgotPasswordUrl}" style="color:#3498db; text-decoration:none;">
-                  ${forgotPasswordUrl}
-                </a>
+              If you didn’t request this, you can safely ignore this email.
               </p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding-bottom:20px;">
-              <p style="margin:0; font-size:12px; color:#999999;">
-                This link is valid for a limited time.
-              </p>
-              <p style="margin:5px 0 0 0; font-size:12px;">
-                If you didn’t request this, you can safely ignore this email.
-              </p>
-            </td>
-          </tr>
-
-
-          <tr>
-            <td style="padding-top:20px; border-top:1px solid #eeeeee;">
+              </td>
+              </tr>
+              
+              
+              <tr>
+              <td style="padding-top:20px; border-top:1px solid #eeeeee;">
               <p style="margin:0; font-size:12px; color:#aaaaaa;">
-                © 2026 JobNest. All rights reserved.
+              © 2026 JobNest. All rights reserved.
               </p>
               <p style="margin:5px 0 0 0; font-size:12px; color:#aaaaaa;">
-                Salem - India
+              Salem - India
               </p>
-            </td>
-          </tr>
-
-        </table>
-
-      </td>
-    </tr>
-  </table>
-
-</body>
-</html>`;
+              </td>
+              </tr>
+              
+              </table>
+              
+              </td>
+              </tr>
+              </table>
+              
+              </body>
+              </html>`;
 
   sendEmail(user.email, "Forgot Password", emailContent);
 
@@ -450,5 +440,56 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
   res.status(200).json({
     success: true,
     message: "Reset Password Link Sent Your Email",
+  });
+});
+
+export const resetPasswordhandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { token } = req.query;
+
+  console.log("TOK", token);
+
+  if (!token) {
+    return next(new AppError("No authorization token was found!", 404));
+  }
+
+  const result = resetPasswordValidation.safeParse(req.body);
+
+  if (!result.success) {
+    return next(new AppError("All input fields are required", 400));
+  }
+
+  const { password, confirmPassword } = result.data;
+
+  if (password !== confirmPassword) {
+    return next(new AppError("Passwords do not match!", 400));
+  }
+
+  const verifyToken = hashToken(token);
+
+  const user = await UserModel.findOne({ passwordResetToken: verifyToken });
+
+  // console.log("RESET USER", user);
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  if (new Date(Date.now()) > user.passwordResetExpires!) {
+    return next(new AppError("Invalid or expired token!", 404));
+  }
+
+  if (user.passwordResetToken !== verifyToken) {
+    return next(new AppError("Invalid or expired token!", 404));
+  }
+
+  user.password = confirmPassword;
+  user.passwordResetToken = null;
+  user.passwordResetExpires = null;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Password reset successfull",
   });
 });
