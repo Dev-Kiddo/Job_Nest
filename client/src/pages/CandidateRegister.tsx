@@ -131,7 +131,7 @@ const CandidateRegister = function () {
           </a>
         </label>
         <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-          Create Account <MoveRight color="#fff" />
+          Register as Candidate <MoveRight color="#fff" />
         </button>
 
         <div className="inline-flex items-center justify-center w-full">

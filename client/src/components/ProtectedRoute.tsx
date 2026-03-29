@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
 
 function ProtectedRoute() {
   const { currentUser, authChecking } = useSelector((state) => state.user);
+  const location = useLocation();
+
+  console.log("location", location);
 
   const dispatch = useDispatch();
 
@@ -26,7 +29,23 @@ function ProtectedRoute() {
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet context={currentUser?.role} />;
+  if (location.pathname === "/dashboard") {
+    if (currentUser?.role === "seeker") {
+      return <Navigate to="/dashboard/candidate" replace />;
+    }
+  }
+
+  if (location.pathname === "/dashboard") {
+    if (currentUser?.role === "recruiter") {
+      return <Navigate to="/dashboard/recruiter" replace />;
+    }
+  }
+
+  // if (currentUser.role === "recruiter") {
+  //   return <Navigate to="/dashboad/recruiter" />;
+  // }
+
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

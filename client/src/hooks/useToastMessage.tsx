@@ -36,6 +36,10 @@ function useToastMessage(sliceName: string) {
 
       dispatch(markMessageAsShown());
     }
+
+    if (!message) {
+      toastShownRef.current = false;
+    }
   }, [dispatch, isMessageShown, message, messageType, sliceName]);
 
   return;

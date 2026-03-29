@@ -50,8 +50,8 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<CandidateDashboard />} />
-              <Route path="candidate-dashboard" element={<CandidateDashboard />} />
-              <Route path="recruiter-dashboard" element={<RecruiterDashboard />} />
+              <Route path="candidate" element={<CandidateDashboard />} />
+              <Route path="recruiter" element={<RecruiterDashboard />} />
             </Route>
           </Route>
         </Route>

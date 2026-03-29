@@ -26,7 +26,7 @@ const RecruiterRegister = function () {
   const { showPassword, setShowPassword } = useOutletContext();
 
   const dispatch = useDispatch();
-  const { user, loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
+  const { loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -109,7 +109,7 @@ const RecruiterRegister = function () {
           </a>
         </label>
         <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-          Create Account <MoveRight color="#fff" />
+          Register as Employer <MoveRight color="#fff" />
         </button>
 
         {/* <div className="inline-flex items-center justify-center w-full">
