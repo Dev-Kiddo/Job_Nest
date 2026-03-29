@@ -37,7 +37,7 @@ function Register() {
               >
                 <span className="flex gap-2 items-center justify-center text-xs">
                   <Building2 color="#ea580c" />
-                  Employer
+                  Recruiter
                 </span>
               </NavLink>
             </div>

@@ -23,18 +23,19 @@ function useToastMessage(sliceName: string) {
       switch (messageType) {
         case "success":
           toast.success(message, toastOptions);
+          dispatch(markMessageAsShown());
           break;
         case "error":
           toast.error(message, toastOptions);
+          dispatch(markMessageAsShown());
           break;
         case "info":
           toast.info(message, toastOptions);
+          dispatch(markMessageAsShown());
           break;
         default:
           toast(message);
       }
-
-      dispatch(markMessageAsShown());
     }
 
     if (!message) {

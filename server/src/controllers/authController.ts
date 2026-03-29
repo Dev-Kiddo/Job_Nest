@@ -162,6 +162,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   user.emailVerificationToken = hashTokenDB;
   user.emailVerificationExpires = new Date(Date.now() + 15 * 60 * 1000);
+
   await user.save();
 
   res.status(200).json({
@@ -241,7 +242,7 @@ export const verifyEmailHandler = asyncHandler(async function (req: Request, res
   const user = await UserModel.findOne({ emailVerificationToken: verifyToken });
 
   if (!user) {
-    return next(new AppError("User not found", 404));
+    return next(new AppError("Oops, User not found!", 404));
   }
 
   if (new Date(Date.now()) > user.emailVerificationExpires!) {
@@ -440,6 +441,10 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
   res.status(200).json({
     success: true,
     message: "Reset Password Link Sent Your Email",
+    user: {
+      id: user._id,
+      email: user.email,
+    },
   });
 });
 

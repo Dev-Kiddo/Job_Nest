@@ -1,13 +1,33 @@
-import { BellRing, Bookmark, BriefcaseBusiness, Dock, LogOut, Settings } from "lucide-react";
+import { BellRing, Bookmark, BriefcaseBusiness, Building2, CirclePlus, CircleUser, Dock, LogOut, NotebookPen, Settings } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Outlet } from "react-router-dom";
 import { logoutUser } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
+import SidebarOptions from "./SidebarOptions";
+
+const candidateSidebar = [
+  { title: "overview", icon: Dock, url: "/" },
+  { title: "applied jobs", icon: BriefcaseBusiness, url: "/" },
+  { title: "favorite jobs", icon: Bookmark, url: "/" },
+  { title: "job alert", icon: BellRing, url: "/" },
+  { title: "settings", icon: Settings, url: "/" },
+];
+
+const RecruiterSidebar = [
+  { title: "overview", icon: Dock, url: "/" },
+  { title: "employer's profile", icon: CircleUser, url: "/" },
+  { title: "post a job", icon: CirclePlus, url: "/" },
+  { title: "my jobs", icon: BriefcaseBusiness, url: "/" },
+  { title: "saved candidates", icon: Bookmark, url: "/" },
+  { title: "plans & billing", icon: NotebookPen, url: "/" },
+  { title: "all companies", icon: Building2, url: "/" },
+  { title: "settings", icon: Settings, url: "/" },
+];
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
 
   const onLogoutHandler = function () {
     if (!loading) {
@@ -20,30 +40,13 @@ function Dashboard() {
       {/* SIDEBAR */}
       <div className=" flex w-1/6 border-r border-gray-300">
         <div className="w-full h-full flex flex-col justify-center">
-          <p className="text-xs py-4 mx-5">Candidate Dashboard</p>
+          <p className="text-xs py-4 mx-5">{currentUser?.role === "seeker" ? "Candidate" : "Recruiter"} Dashboard</p>
 
           <nav className="text-sm font-medium">
             <ul className="">
-              <li className="flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
-                <Dock className="mx-5" />
-                Overview
-              </li>
-              <li className="flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
-                <BriefcaseBusiness className="mx-5" />
-                Applied Jobs
-              </li>
-              <li className="flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
-                <Bookmark className="mx-5" />
-                Favorite Jobs
-              </li>
-              <li className="flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
-                <BellRing className="mx-5" />
-                Jobs Alert
-              </li>
-              <li className="flex py-4 text-gray-500 hover:border-l-4 hover:border-blue-500 hover:bg-blue-100 transition cursor-pointer">
-                <Settings className="mx-5" />
-                Settings
-              </li>
+              {currentUser.role === "seeker" && candidateSidebar.map((opt) => <SidebarOptions Icon={opt.icon} title={opt.title} url={opt.url} key={opt.title} />)}
+
+              {currentUser.role === "recruiter" && RecruiterSidebar.map((opt) => <SidebarOptions Icon={opt.icon} title={opt.title} url={opt.url} key={opt.title} />)}
             </ul>
           </nav>
 

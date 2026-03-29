@@ -5,6 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser, clearMessage } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
+import Loader from "../components/Loader";
 
 interface ICandidatePayload {
   name: string;
@@ -15,6 +16,9 @@ interface ICandidatePayload {
 }
 
 const CandidateRegister = function () {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [payload, setPayload] = useState<ICandidatePayload>({
     name: "",
     email: "",
@@ -24,9 +28,6 @@ const CandidateRegister = function () {
   });
 
   const { showPassword, setShowPassword } = useOutletContext();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { currentUser, loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
@@ -48,8 +49,6 @@ const CandidateRegister = function () {
     }
   };
 
-  useToastMessage("auth");
-
   const onOauthHandler = async function (e) {
     e.preventDefault();
 
@@ -65,6 +64,8 @@ const CandidateRegister = function () {
       window.location.href = authURL;
     }
   };
+
+  useToastMessage("auth");
 
   useEffect(() => {
     if (message && messageType === "success" && !isMessageShown) {
@@ -130,8 +131,8 @@ const CandidateRegister = function () {
             Terms and Conditions
           </a>
         </label>
-        <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-          Register as Candidate <MoveRight color="#fff" />
+        <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+          Register as Candidate {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
         </button>
 
         <div className="inline-flex items-center justify-center w-full">
@@ -140,7 +141,7 @@ const CandidateRegister = function () {
 
         <button
           type="submit"
-          className="w-full bg-neutral text-gray-500 border border-gray-300 py-4 px-4 rounded hover:bg-gray-300 hover:text-gray-600 transition flex justify-center items-center cursor-pointer"
+          className="w-full bg-neutral text-gray-500 border border-gray-300 py-3 px-4 rounded hover:bg-gray-300 hover:text-gray-600 transition flex justify-center items-center cursor-pointer"
           onClick={(e) => onOauthHandler(e)}
         >
           Sign up with Google

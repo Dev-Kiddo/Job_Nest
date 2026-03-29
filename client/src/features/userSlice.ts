@@ -198,11 +198,13 @@ const userSlice = createSlice({
 
         state.message = action.payload.message;
         state.messageType = "success";
+        state.authChecking = true;
         state.isMessageShown = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
 
+        state.authChecking = false;
         state.message = action.payload as string;
         state.messageType = "error";
         state.isMessageShown = false;
@@ -315,7 +317,7 @@ const userSlice = createSlice({
       })
       .addCase(forgotPassword.fulfilled, (state, action) => {
         state.loading = false;
-        // state.currentUser = null;
+        state.currentUser = action.payload.user;
 
         state.message = action.payload.message;
         state.messageType = "success";

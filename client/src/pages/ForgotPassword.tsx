@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CheckEmail from "../components/CheckEmail";
 import { forgotPassword } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
+import Loader from "../components/Loader";
 
 function ForgotPassword() {
   const [payload, setPayload] = useState({
@@ -14,7 +15,7 @@ function ForgotPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { message, messageType } = useSelector((state) => state.user);
+  const { loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -26,13 +27,13 @@ function ForgotPassword() {
     dispatch(forgotPassword(payload));
   };
 
-  useToastMessage("auth");
-
   useEffect(() => {
-    if (message && messageType === "success") {
+    if (message && messageType === "success" && !isMessageShown) {
       navigate("/check-email", { state: { allowAccess: true } });
     }
-  }, [message, messageType, navigate]);
+  }, [message, messageType, navigate, isMessageShown]);
+
+  useToastMessage("auth");
 
   return (
     <>
@@ -70,7 +71,7 @@ function ForgotPassword() {
             </div>
 
             <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-              Reset Password <MoveRight color="#fff" />
+              Submit {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           </form>
         </div>

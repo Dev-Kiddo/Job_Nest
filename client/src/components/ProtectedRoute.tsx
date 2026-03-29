@@ -9,7 +9,7 @@ function ProtectedRoute() {
   const { currentUser, authChecking } = useSelector((state) => state.user);
   const location = useLocation();
 
-  console.log("location", location);
+  // console.log("location", location);
 
   const dispatch = useDispatch();
 
@@ -40,10 +40,6 @@ function ProtectedRoute() {
       return <Navigate to="/dashboard/recruiter" replace />;
     }
   }
-
-  // if (currentUser.role === "recruiter") {
-  //   return <Navigate to="/dashboad/recruiter" />;
-  // }
 
   return <Outlet />;
 }

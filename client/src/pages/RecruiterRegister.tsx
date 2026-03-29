@@ -1,10 +1,11 @@
 import { Eye, EyeOff, Lock, Mail, MoveRight, User, UserKey } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser, clearMessage, markMessageAsShown } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
+import Loader from "../components/Loader";
 
 interface IPayload {
   name: string;
@@ -26,6 +27,7 @@ const RecruiterRegister = function () {
   const { showPassword, setShowPassword } = useOutletContext();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, message, messageType, isMessageShown } = useSelector((state) => state.user);
 
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -45,6 +47,12 @@ const RecruiterRegister = function () {
       dispatch(registerUser(payload));
     }
   };
+
+  useEffect(() => {
+    if (message && messageType === "success" && !isMessageShown) {
+      navigate("/check-email", { state: { allowAccess: true } });
+    }
+  }, [message, messageType, isMessageShown, navigate]);
 
   useToastMessage("auth");
 
@@ -108,8 +116,8 @@ const RecruiterRegister = function () {
             Terms and Conditions
           </a>
         </label>
-        <button type="submit" className="w-full bg-blue-600 text-white py-4 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-          Register as Employer <MoveRight color="#fff" />
+        <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+          Register as Recruiter {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
         </button>
 
         {/* <div className="inline-flex items-center justify-center w-full">
@@ -118,7 +126,7 @@ const RecruiterRegister = function () {
 
         <button
           type="submit"
-          className="w-full bg-neutral text-gray-500 border border-gray-300 py-4 px-4 rounded hover:bg-gray-300 hover:text-gray-600 transition flex justify-center items-center cursor-pointer"
+          className="w-full bg-neutral text-gray-500 border border-gray-300 py-3 px-4 rounded hover:bg-gray-300 hover:text-gray-600 transition flex justify-center items-center cursor-pointer"
         >
           Sign up with Google
         </button> */}

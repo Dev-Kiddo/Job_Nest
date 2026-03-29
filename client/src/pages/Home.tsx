@@ -1,5 +1,5 @@
 import { BriefcaseBusiness, Building2, ClockPlus, MapPin, Search, Users } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+
 import useToastMessage from "../hooks/useToastMessage";
 
 const Home = () => {

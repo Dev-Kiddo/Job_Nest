@@ -1,9 +1,9 @@
 import { Eye, EyeOff, Lock, MoveRight, UserKey } from "lucide-react";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useToastMessage from "../hooks/useToastMessage";
 import { resetPassword } from "../features/userSlice";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +18,9 @@ function ResetPassword() {
     token: token || null,
   });
 
+  const { message, messageType, isMessageShown } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
   const onChangeHandler = function (e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
     setPayload((payload) => ({ ...payload, [id]: value }));
@@ -31,6 +34,14 @@ function ResetPassword() {
 
     dispatch(resetPassword(payload));
   };
+
+  useEffect(() => {
+    if (message && messageType === "success" && !isMessageShown) {
+      navigate("/login");
+    }
+  }, [message, messageType, navigate, isMessageShown]);
+
+  useToastMessage("auth");
 
   useToastMessage("auth");
   return (
