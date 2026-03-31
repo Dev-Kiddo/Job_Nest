@@ -1,13 +1,35 @@
 import mongoose from "mongoose";
-import type { ISeeker } from "../types/seekerTypes.js";
+import type { ICandidate } from "../types/candidateTypes.js";
 
-const seekerSchema = new mongoose.Schema<ISeeker>({
+const candidateSchema = new mongoose.Schema<ICandidate>({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  phone: {
+    type: String,
+    trim: true,
+  },
+  location: {
+    city: { type: String, trim: true },
+    state: { type: String, trim: true },
+    country: { type: String, trim: true, default: "India" },
+  },
+  dateOfBirth: Date,
+  gender: {
+    type: String,
+    enum: ["M", "F"],
+  },
+  avatar: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
+  },
   headline: String,
-  bio: String,
+  biography: String,
   skills: [
     {
       name: String,
@@ -58,6 +80,6 @@ const seekerSchema = new mongoose.Schema<ISeeker>({
   updatedAt: Date,
 });
 
-const SeekerModel = mongoose.model("Seeker", seekerSchema);
+const CandidateModel = mongoose.model("Candidate", candidateSchema);
 
-export default SeekerModel;
+export default CandidateModel;

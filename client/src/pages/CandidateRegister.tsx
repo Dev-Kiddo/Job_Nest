@@ -12,7 +12,7 @@ interface ICandidatePayload {
   email: string;
   password: string;
   confirmPassword: string;
-  role: "seeker";
+  role: "candidate";
 }
 
 const CandidateRegister = function () {
@@ -24,7 +24,7 @@ const CandidateRegister = function () {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "seeker",
+    role: "candidate",
   });
 
   const { showPassword, setShowPassword } = useOutletContext();

@@ -5,7 +5,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  role: "seeker" | "recruiter" | "admin";
+  role: "candidate" | "recruiter" | "admin";
   avatar: {
     public_id: string | null;
     url: string | null;

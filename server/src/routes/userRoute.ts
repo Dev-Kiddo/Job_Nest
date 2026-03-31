@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { fetchUsersHandler } from "../controllers/userController.js";
+import { fetchSingleUserHandler, fetchUsersHandler, updateUserHandler } from "../controllers/userController.js";
 import { protectAuth } from "../middlewares/protectAuth.js";
 import { roleAuth } from "../middlewares/roleAuth.js";
 
 const router = Router();
 
-router.route("/users").get(roleAuth("admin"), fetchUsersHandler);
+router.route("/users").get(protectAuth, roleAuth("admin"), fetchUsersHandler);
+router.route("/users/:id").get(protectAuth, fetchSingleUserHandler).patch(protectAuth, updateUserHandler);
 
 export default router;

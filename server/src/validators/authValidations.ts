@@ -5,7 +5,7 @@ export const registerHandlerValidation = z.object({
   email: z.email(),
   password: z.string().min(4),
   confirmPassword: z.string().min(4),
-  role: z.enum(["seeker", "recruiter", "admin"]),
+  role: z.enum(["candidate", "recruiter", "admin"]),
 });
 // password: z.string().min(4).optional(),
 

@@ -3,6 +3,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 
 export const roleAuth = function (...roles: string[]) {
+  // console.log("Iam executed before everthing hehee");
+
   return function (req: Request, res: Response, next: NextFunction) {
     if (!roles.includes(req.user.role)) {
       return next(new AppError("You do not have permission to access this feature.", 403));

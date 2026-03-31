@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import { generateAccessToken, generateRandomToken, generateRefreshToken, hashToken, verifyRefreshToken } from "../utils/tokenUtils.js";
 import type { AccessTokenPayload } from "../types/tokenTypes.js";
 import type { RefreshTokenPayload } from "../types/tokenTypes.js";
-import SeekerModel from "../models/seekerModel.js";
+import CandidateModel from "../models/candidateModel.js";
 import RecruiterModel from "../models/recruiterModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
@@ -25,7 +25,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   const existingUser = await UserModel.findOne({ email: normalizedEmail });
 
   if (existingUser) {
-    return next(new AppError("Email already registered, Please login", 400));
+    return next(new AppError("Email already registered, Please login", 409));
   }
 
   if (password !== confirmPassword) {
@@ -130,15 +130,15 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
     emailVerificationExpires: new Date(Date.now() + 15 * 60 * 1000),
   });
 
-  if (user.role === "seeker") {
-    await SeekerModel.create({
+  if (user.role === "candidate") {
+    await CandidateModel.create({
       user: user._id,
     });
   }
 
   if (user.role === "recruiter") {
     await RecruiterModel.create({
-      employer: user._id,
+      user: user._id,
     });
   }
 

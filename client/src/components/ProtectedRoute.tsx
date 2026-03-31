@@ -30,7 +30,7 @@ function ProtectedRoute() {
   }
 
   if (location.pathname === "/dashboard") {
-    if (currentUser?.role === "seeker") {
+    if (currentUser?.role === "candidate") {
       return <Navigate to="/dashboard/candidate" replace />;
     }
   }

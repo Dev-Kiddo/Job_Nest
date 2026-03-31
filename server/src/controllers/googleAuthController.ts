@@ -6,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import UserModel from "../models/userModel.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
-import SeekerModel from "../models/seekerModel.js";
+import CandidateModel from "../models/candidateModel.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
@@ -101,12 +101,12 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
     avatar: {
       url: payload.picture,
     },
-    role: "seeker",
+    role: "candidate",
     isEmailVerified: true,
     authProvider: "google",
   });
 
-  const seeker = await SeekerModel.create({
+  const candidate = await CandidateModel.create({
     user: user._id,
   });
 
@@ -121,7 +121,7 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
   res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
   await user.save();
-  await seeker.save();
+  await candidate.save();
 
   res.redirect("http://localhost:5173/dashboard");
 

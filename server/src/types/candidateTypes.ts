@@ -1,9 +1,21 @@
 import type { Types } from "mongoose";
 
-export interface ISeeker {
+export interface ICandidate {
   user: Types.ObjectId;
+  phone: string;
+  location: {
+    city: string;
+    state: string;
+    country: string;
+  };
+  dateOfBirth: Date;
+  gender: "M" | "F";
+  avatar: {
+    public_id: string;
+    url: string;
+  };
   headline: string;
-  bio: string;
+  biography: string;
   skills: {
     name: string;
     level: "beginner" | "intermediate" | "expert";

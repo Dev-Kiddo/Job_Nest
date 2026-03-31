@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const RecruiterSchema = new mongoose.Schema(
   {
-    employer: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

@@ -40,11 +40,11 @@ function Dashboard() {
       {/* SIDEBAR */}
       <div className=" flex w-1/6 border-r border-gray-300">
         <div className="w-full h-full flex flex-col justify-center">
-          <p className="text-xs py-4 mx-5">{currentUser?.role === "seeker" ? "Candidate" : "Recruiter"} Dashboard</p>
+          <p className="text-xs py-4 mx-5">{currentUser?.role === "candidate" ? "Candidate" : "Recruiter"} Dashboard</p>
 
           <nav className="text-sm font-medium">
             <ul className="">
-              {currentUser.role === "seeker" && candidateSidebar.map((opt) => <SidebarOptions Icon={opt.icon} title={opt.title} url={opt.url} key={opt.title} />)}
+              {currentUser.role === "candidate" && candidateSidebar.map((opt) => <SidebarOptions Icon={opt.icon} title={opt.title} url={opt.url} key={opt.title} />)}
 
               {currentUser.role === "recruiter" && RecruiterSidebar.map((opt) => <SidebarOptions Icon={opt.icon} title={opt.title} url={opt.url} key={opt.title} />)}
             </ul>

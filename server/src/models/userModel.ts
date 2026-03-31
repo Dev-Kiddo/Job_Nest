@@ -24,10 +24,10 @@ const UserSchema = new mongoose.Schema<IUser>(
     role: {
       type: String,
       enum: {
-        values: ["seeker", "recruiter", "admin"],
-        message: "Role must be seeker, employer, or admin",
+        values: ["candidate", "recruiter", "admin"],
+        message: "Role must be candidate, employer, or admin",
       },
-      default: "seeker",
+      default: "candidate",
     },
     avatar: {
       public_id: {
@@ -38,16 +38,6 @@ const UserSchema = new mongoose.Schema<IUser>(
         type: String,
         default: null,
       },
-    },
-    phone: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    location: {
-      city: { type: String, trim: true },
-      state: { type: String, trim: true },
-      country: { type: String, trim: true, default: "India" },
     },
     authProvider: {
       type: String,
