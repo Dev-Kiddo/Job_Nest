@@ -2,26 +2,11 @@ import type { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import CandidateModel from "../models/candidateModel.js";
 import AppError from "../utils/AppError.js";
-import multer from "multer";
 import UserModel from "../models/userModel.js";
-
-const storage = multer.memoryStorage();
-
-export const multerController = function (fileName: string) {
-  const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
-      cb(null, true);
-    } else {
-      cb(new AppError("invalid file type, only PNG, JPG, and JPEG are allowed!", 404), false);
-    }
-  };
-  const upload = multer({ storage, fileFilter });
-
-  return upload.single(fileName);
-};
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 export const getMyProfileController = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const { id, email } = req.user;
+  const { id } = req.user;
 
   const user = await CandidateModel.findOne({ user: id }).populate("user");
 
@@ -39,11 +24,9 @@ export const getMyProfileController = asyncHandler(async function (req: Request,
 export const updateCandidateBasicInfo = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const { id } = req.user;
 
-  const reqAvatar = req.file;
-  console.log("AVATAR", reqAvatar);
-  console.log("body", req.body.phone);
+  console.log(req.file);
 
-  const { phone, location, dateOfBirth, gender, avatar, headline, biography } = req.body;
+  const { phone, location, dateOfBirth, gender, headline, biography } = req.body;
 
   const candidate = await CandidateModel.findOne({ user: id });
 
@@ -57,11 +40,23 @@ export const updateCandidateBasicInfo = asyncHandler(async function (req: Reques
   if (location !== undefined) candidate.location = location;
   if (dateOfBirth !== undefined) candidate.dateOfBirth = dateOfBirth;
   if (gender !== undefined) candidate.gender = gender;
-  if (avatar !== undefined) candidate.avatar = avatar;
   if (headline !== undefined) candidate.headline = headline;
   if (biography !== undefined) candidate.biography = biography;
 
-  //   await candidate.save();
+  if (req.file !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.file.buffer, "avatar");
+    console.log("cloudinaryResult", cloudinaryResult);
+    if (!cloudinaryResult) {
+      return next(new AppError("Cloudinary avatar upload err", 400));
+    }
+
+    candidate.avatar = {
+      public_id: cloudinaryResult.public_id,
+      url: cloudinaryResult.url,
+    };
+  }
+
+  await candidate.save();
 
   res.status(200).json({
     success: true,
@@ -80,7 +75,7 @@ export const updateCandidateProfessinalinfo = asyncHandler(async function (req: 
     return next(new AppError("Candidate profile not found!", 404));
   }
 
-  console.log("candidate:", candidate);
+  // console.log("candidate:", candidate);
 
   if (skills !== undefined) candidate.skills = skills;
   if (experience !== undefined) candidate.experience = experience;

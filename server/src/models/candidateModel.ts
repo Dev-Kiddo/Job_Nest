@@ -21,12 +21,8 @@ const candidateSchema = new mongoose.Schema<ICandidate>({
     enum: ["M", "F"],
   },
   avatar: {
-    public_id: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
+    public_id: String,
+    url: String,
   },
   headline: String,
   biography: String,
