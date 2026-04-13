@@ -14,7 +14,6 @@ import { protectAuth } from "../middlewares/protectAuth.js";
 
 const router = Router();
 
-// router.route("/register").post(uploadHandler, resizeImageHandler, registerHandler);
 router.route("/register").post(registerHandler);
 router.route("/login").post(loginHandler);
 router.route("/refresh-token").get(refreshAccessTokenHandler);

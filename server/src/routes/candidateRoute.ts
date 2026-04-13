@@ -8,7 +8,7 @@ const router = Router();
 
 router.route("/candidate/profile").get(protectAuth, getMyProfileController);
 
-router.route("/candidate/profile/basic-info").put(multerImageHandler("avatar"), imageResizeHandler, protectAuth, updateCandidateBasicInfo);
+router.route("/candidate/profile/basic-info").put(protectAuth, multerImageHandler("avatar"), imageResizeHandler, updateCandidateBasicInfo);
 
 router.route("/candidate/profile/professional-info").put(protectAuth, updateCandidateProfessinalinfo);
 

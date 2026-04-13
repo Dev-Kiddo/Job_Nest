@@ -15,6 +15,8 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import CandidateSettings from "./pages/CandidateSettings";
+import CandidateBasicInfo from "./components/CandidateBasicInfo";
 
 export default function App() {
   return (
@@ -24,6 +26,7 @@ export default function App() {
           {/* Public Routes */}
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/settings" element={<CandidateSettings />} />
 
           <Route path="/register" element={<Register />}>
             <Route index element={<Navigate to="candidate-register" replace />} />
@@ -52,6 +55,9 @@ export default function App() {
               <Route index element={<CandidateDashboard />} />
               <Route path="candidate" element={<CandidateDashboard />} />
               <Route path="recruiter" element={<RecruiterDashboard />} />
+              <Route path="candidate/settings" element={<CandidateSettings />}>
+                <Route index element={<CandidateBasicInfo />} />
+              </Route>
             </Route>
           </Route>
         </Route>

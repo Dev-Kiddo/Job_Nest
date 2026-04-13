@@ -11,7 +11,7 @@ import CandidateModel from "../models/candidateModel.js";
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
 export const googleAuthHandler = function (req: Request, res: Response, next: NextFunction) {
-  // console.log("hello", process.env.GOOGLE_REDIRECT_URI);
+  // console.log("URI", process.env.GOOGLE_REDIRECT_URI);
 
   const authUrl = googleClient.generateAuthUrl({
     access_type: "offline",

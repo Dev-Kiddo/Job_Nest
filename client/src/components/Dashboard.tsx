@@ -11,7 +11,7 @@ const candidateSidebar = [
   { title: "applied jobs", icon: BriefcaseBusiness, url: "/" },
   { title: "favorite jobs", icon: Bookmark, url: "/" },
   { title: "job alert", icon: BellRing, url: "/" },
-  { title: "settings", icon: Settings, url: "/" },
+  { title: "settings", icon: Settings, url: "candidate/settings" },
 ];
 
 const RecruiterSidebar = [
@@ -22,7 +22,7 @@ const RecruiterSidebar = [
   { title: "saved candidates", icon: Bookmark, url: "/" },
   { title: "plans & billing", icon: NotebookPen, url: "/" },
   { title: "all companies", icon: Building2, url: "/" },
-  { title: "settings", icon: Settings, url: "/" },
+  { title: "settings", icon: Settings, url: "" },
 ];
 
 function Dashboard() {

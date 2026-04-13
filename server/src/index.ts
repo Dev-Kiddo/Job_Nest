@@ -10,11 +10,6 @@ import cors from "cors";
 
 const app = express();
 
-// const corsOptions = {
-//   origin: ["http://localhost:5173"],
-//   credendials: true,
-// };
-
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
