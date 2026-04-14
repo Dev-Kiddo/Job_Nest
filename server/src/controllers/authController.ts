@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import UserModel from "../models/userModel.js";
-import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation, resetPasswordValidation } from "../validators/authValidations.js";
+import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation, resetPasswordValidation, updatePasswordValidation } from "../validators/authValidations.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
@@ -10,6 +10,9 @@ import type { RefreshTokenPayload } from "../types/tokenTypes.js";
 import CandidateModel from "../models/candidateModel.js";
 import RecruiterModel from "../models/recruiterModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { UAParser } from "ua-parser-js";
+import SessionModel from "../models/sessionModel.js";
+import { generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);
@@ -33,9 +36,6 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   }
 
   const token = generateRandomToken();
-
-  console.log("TOKEN", token);
-
   const hashTokenDB = hashToken(token);
 
   const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
@@ -176,6 +176,8 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 });
 
 export const loginHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  console.log(req.headers["user-agent"]);
+
   const result = loginHandlerValidation.safeParse(req.body);
 
   if (!result.success) {
@@ -196,13 +198,40 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     return next(new AppError("Please verify your email before logging in.", 404));
   }
 
+  if (!isUser.isActive) {
+    return next(new AppError("Your account is disabled", 404));
+  }
+
   const isMatch = await isUser.comparePassword(password);
 
   if (!isMatch) {
     return next(new AppError("Invalid Credentials", 400));
   }
 
-  const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role };
+  // Generate session
+  const sessionToken = generateSessionToken();
+
+  const ipAddress = getClientIP(req);
+
+  const userAgent = req.headers["user-agent"];
+
+  // Get location From IP
+  const location = getLocationFromIp(ipAddress);
+
+  // deviceInfo
+  const deviceInfo = getDeviceInfo(userAgent);
+
+  await SessionModel.create({
+    userId: isUser._id,
+    sessionId: sessionToken,
+    deviceInfo,
+    ipAddress,
+    location,
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  });
+
+  const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
+
   const accessToken = generateAccessToken(accessTokenPayload);
 
   const refreshTokenPayload = { id: isUser._id };
@@ -219,6 +248,10 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
 });
 
 export const logoutHandler = asyncHandler(async function (req: Request, res: Response, next) {
+  console.log(req.connection.remoteAddress);
+  console.log(req.socket.remoteAddress);
+  console.log(req.ip);
+
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
 
@@ -229,6 +262,8 @@ export const logoutHandler = asyncHandler(async function (req: Request, res: Res
 });
 
 export const verifyEmailHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  console.log("hhee");
+
   const { token } = req.query;
 
   if (!token) {
@@ -236,8 +271,6 @@ export const verifyEmailHandler = asyncHandler(async function (req: Request, res
   }
 
   const verifyToken = hashToken(token as string);
-
-  // console.log("verifyHandlerToken:", verifyToken);
 
   const user = await UserModel.findOne({ emailVerificationToken: verifyToken });
 
@@ -349,7 +382,7 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
   <tr>
   <td align="center">
   <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; padding:30px; text-align:center;">
-          
+  
   <tr>
   <td style="padding-bottom:20px;">
   <h2 style="margin:0; color:#2563EB; font-weight:bold;">
@@ -403,33 +436,33 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
   <td style="padding-bottom:20px;">
   <p style="margin:0; font-size:12px; color:#999999;">
   This link is valid for a limited time.
-              </p>
-              <p style="margin:5px 0 0 0; font-size:12px;">
-              If you didn’t request this, you can safely ignore this email.
-              </p>
-              </td>
-              </tr>
-              
-              
-              <tr>
-              <td style="padding-top:20px; border-top:1px solid #eeeeee;">
-              <p style="margin:0; font-size:12px; color:#aaaaaa;">
-              © 2026 JobNest. All rights reserved.
-              </p>
-              <p style="margin:5px 0 0 0; font-size:12px; color:#aaaaaa;">
-              Salem - India
-              </p>
-              </td>
-              </tr>
-              
-              </table>
-              
-              </td>
-              </tr>
-              </table>
-              
-              </body>
-              </html>`;
+  </p>
+  <p style="margin:5px 0 0 0; font-size:12px;">
+  If you didn’t request this, you can safely ignore this email.
+  </p>
+  </td>
+  </tr>
+  
+  
+  <tr>
+  <td style="padding-top:20px; border-top:1px solid #eeeeee;">
+  <p style="margin:0; font-size:12px; color:#aaaaaa;">
+  © 2026 JobNest. All rights reserved.
+  </p>
+  <p style="margin:5px 0 0 0; font-size:12px; color:#aaaaaa;">
+  Salem - India
+  </p>
+  </td>
+  </tr>
+  
+  </table>
+  
+  </td>
+  </tr>
+  </table>
+  
+  </body>
+  </html>`;
 
   sendEmail(user.email, "Forgot Password", emailContent);
 
@@ -496,5 +529,160 @@ export const resetPasswordhandler = asyncHandler(async function (req: Request, r
   res.status(200).json({
     success: true,
     message: "Password reset successfull",
+  });
+});
+
+export const updatePasswordHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const result = updatePasswordValidation.safeParse(req.body);
+
+  if (!result.success) {
+    return next(new AppError("Old or New Password required to process", 400));
+  }
+
+  const { oldPassword, newPassword, confirmPassword } = result.data;
+
+  const normalizePassword = confirmPassword.trim();
+
+  const user = await UserModel.findById({ _id: req.user.id }).select("+password");
+
+  const isPasswordMatch = await user?.comparePassword(oldPassword);
+
+  if (!isPasswordMatch) {
+    return next(new AppError("Old Password doesn't match", 400));
+  }
+
+  if (newPassword !== confirmPassword) {
+    return next(new AppError("Password doesn't match", 400));
+  }
+
+  if (!user) {
+    return next(new AppError("User not found!", 400));
+  }
+
+  user.password = normalizePassword;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully",
+  });
+});
+
+export const resendVerificationEmailHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { id } = req.user;
+
+  if (!id) {
+    return next(new AppError("Access token invalid or expired!", 400));
+  }
+
+  const user = await UserModel.findOne({ _id: id });
+
+  if (!user) {
+    return next(new AppError("User not found!", 400));
+  }
+
+  if (user?.isEmailVerified) {
+    return next(new AppError("Email already verified!", 400));
+  }
+
+  user.emailVerificationExpires = null;
+  user.emailVerificationToken = null;
+
+  const verifyToken = generateRandomToken();
+  const verifyTokenDB = hashToken(verifyToken);
+
+  const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${verifyToken}`;
+
+  const emailContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f2f2f2; font-family: Arial, sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f2f2; padding: 30px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; padding:30px; text-align:center;">
+          
+          <tr>
+            <td style="padding-bottom:20px;">
+              <h2 style="margin:0; color:#2563EB; font-weight:bold;">
+                JobNest<span style="font-size:14px; vertical-align:super;">™</span>
+              </h2>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:15px;">
+              <h1 style="margin:0; font-size:22px; color:#333333;">
+                Verify your email address
+              </h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:25px;">
+              <p style="margin:0; font-size:14px; color:#777777; line-height:1.6;">
+                Please confirm that you want to use this as your account email address.
+                Once it's done you will be able to start using our platform!
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:25px;">
+              <a href="${verifyUrl}" 
+                style="display:inline-block; padding:14px 25px; background-color:#2563EB; color:#ffffff; text-decoration:none; font-size:16px; border-radius:4px;">
+                Verify my email
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:20px;">
+              <p style="margin:0; font-size:12px; color:#999999;">
+                Or paste this link into your browser:
+              </p>
+              <p style="margin:5px 0 0 0; font-size:12px;">
+                <a href="${verifyUrl}" style="color:#3498db; text-decoration:none;">
+                  ${verifyUrl}
+                </a>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top:20px; border-top:1px solid #eeeeee;">
+              <p style="margin:0; font-size:12px; color:#aaaaaa;">
+                © 2026 JobNest. All rights reserved.
+              </p>
+              <p style="margin:5px 0 0 0; font-size:12px; color:#aaaaaa;">
+                Salem - India
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+
+  sendEmail(user.email, "Email Verification", emailContent);
+
+  user.emailVerificationToken = verifyTokenDB;
+  user.emailVerificationExpires = new Date(Date.now() + 15 * 60 * 1000);
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Verify email sent successfully",
   });
 });

@@ -1,5 +1,12 @@
 import type { Types } from "mongoose";
 
+interface ISessionCollection {
+  deviceInfo: string;
+  ipAddress: string;
+  location: string;
+  isActive: boolean;
+}
+
 export interface IUser {
   id: Types.ObjectId;
   name: string;
@@ -26,6 +33,7 @@ export interface IUser {
   lastLogin: Date;
   isActive: boolean;
   updatedAt: Date;
+  sessionCollections: { deviceInfo: string; ipAddress: string; location: string; isActive: boolean }[];
   deletedAt: Date;
   comparePassword: (password: string) => boolean;
 }

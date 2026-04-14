@@ -6,7 +6,9 @@ import {
   logoutHandler,
   refreshAccessTokenHandler,
   registerHandler,
+  resendVerificationEmailHandler,
   resetPasswordhandler,
+  updatePasswordHandler,
   verifyEmailHandler,
 } from "../controllers/authController.js";
 import { googleAuthHandler, googleCallbackHandler } from "../controllers/googleAuthController.js";
@@ -20,6 +22,8 @@ router.route("/refresh-token").get(refreshAccessTokenHandler);
 router.route("/verify-email").get(verifyEmailHandler);
 router.route("/forgot-password").post(forgotPasswordHandler);
 router.route("/reset-password").post(resetPasswordhandler);
+router.route("/update-password").post(protectAuth, updatePasswordHandler);
+router.route("/resend-verification").get(protectAuth, resendVerificationEmailHandler);
 
 router.route("/me").get(protectAuth, getCurrentUser);
 

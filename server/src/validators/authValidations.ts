@@ -22,3 +22,9 @@ export const resetPasswordValidation = z.object({
   password: z.string(),
   confirmPassword: z.string(),
 });
+
+export const updatePasswordValidation = z.object({
+  oldPassword: z.string(),
+  newPassword: z.string(),
+  confirmPassword: z.string(),
+});

@@ -56,6 +56,10 @@ const candidateSchema = new mongoose.Schema<ICandidate>({
   ],
   resumeUrl: String,
   totalExperience: Number,
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
   expectedSalary: {
     min: Number,
     max: Number,

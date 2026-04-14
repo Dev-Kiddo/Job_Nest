@@ -4,6 +4,7 @@ export interface IUserAuthPayload {
   id: Types.ObjectId;
   email?: string;
   role: "user" | "admin" | "moderator";
+  sessionId: string;
 }
 
 declare global {

@@ -43,6 +43,7 @@ export interface ICandidate {
     currency: string;
   };
   preferredLocations: string[];
+  isActive: boolean;
   preferences: {
     jobType: string[];
     workMode: string[];

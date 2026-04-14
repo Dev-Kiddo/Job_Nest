@@ -3,7 +3,11 @@ import type { AccessTokenPayload, RefreshTokenPayload } from "../types/tokenType
 import crypto from "crypto";
 
 export const generateAccessToken = function (user: AccessTokenPayload) {
-  return jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_KEY!, { expiresIn: "15m", issuer: "jobnest", audience: "jobnest-users" });
+  return jwt.sign({ id: user.id, email: user.email, role: user.role, sessionId: user.sessionId }, process.env.JWT_ACCESS_KEY!, {
+    expiresIn: "15m",
+    issuer: "jobnest",
+    audience: "jobnest-users",
+  });
 };
 
 export const generateRefreshToken = function (user: RefreshTokenPayload) {

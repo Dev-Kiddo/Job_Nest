@@ -82,6 +82,15 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: Date,
       default: null,
     },
+    sessionCollections: [
+      {
+        _id: mongoose.Schema.Types.ObjectId,
+        deviceInfo: String,
+        ipAddress: String,
+        location: String,
+        isActive: Boolean,
+      },
+    ],
     deletedAt: {
       type: Date,
       default: null,
