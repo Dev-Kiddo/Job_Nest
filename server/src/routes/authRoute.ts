@@ -2,12 +2,14 @@ import { Router } from "express";
 import {
   forgotPasswordHandler,
   getCurrentUser,
+  getSessionsHandler,
   loginHandler,
   logoutHandler,
   refreshAccessTokenHandler,
   registerHandler,
   resendVerificationEmailHandler,
   resetPasswordhandler,
+  revokeSessionHandler,
   updatePasswordHandler,
   verifyEmailHandler,
 } from "../controllers/authController.js";
@@ -32,6 +34,7 @@ router.route("/google/callback").get(googleCallbackHandler);
 
 router.route("/logout").get(logoutHandler);
 
-router.get("asdas", registerHandler);
+router.get("/sessions", protectAuth, getSessionsHandler);
+router.delete("/sessions/:id", protectAuth, revokeSessionHandler);
 
 export default router;

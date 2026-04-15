@@ -107,3 +107,50 @@ export const deleteUserHandler = asyncHandler(async function (req: Request, res:
     message: "User deleted successfully",
   });
 });
+
+export const activateUserHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { id: disabledId } = req.params;
+
+  const user = await UserModel.findById({ _id: disabledId });
+
+  if (!user) {
+    return next(new AppError("User not found!", 400));
+  }
+
+  if (user.isActive) {
+    return next(new AppError("Account already in active", 400));
+  }
+
+  user.isActive = true;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: `Account activated successfully`,
+  });
+});
+
+export const changeUserRoleHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { role } = req.body;
+  const { id } = req.params;
+
+  const user = await UserModel.findById(id);
+
+  if (!user) {
+    return next(new AppError("User not found!", 400));
+  }
+
+  if (user._id === req.user.id) {
+    return next(new AppError("User can't update themself", 400));
+  }
+
+  user.role = role;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: `Role updated successfully`,
+  });
+});

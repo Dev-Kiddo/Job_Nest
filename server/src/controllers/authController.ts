@@ -10,9 +10,8 @@ import type { RefreshTokenPayload } from "../types/tokenTypes.js";
 import CandidateModel from "../models/candidateModel.js";
 import RecruiterModel from "../models/recruiterModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
-import { UAParser } from "ua-parser-js";
 import SessionModel from "../models/sessionModel.js";
-import { generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
+import { formatSessions, generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);
@@ -684,5 +683,37 @@ export const resendVerificationEmailHandler = asyncHandler(async function (req: 
   res.status(200).json({
     success: true,
     message: "Verify email sent successfully",
+  });
+});
+
+export const getSessionsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  console.log(req.user.id);
+
+  const sessions = await SessionModel.find({ userId: req.user.id, isActive: true });
+
+  const userSession = sessions.map((session) => formatSessions(session));
+
+  console.log("USERSESSION", userSession);
+
+  res.status(200).json({
+    success: true,
+    message: "Fetch login sessions successfully",
+    count: userSession.length,
+    sessions: userSession,
+  });
+});
+
+export const revokeSessionHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { id: sessionId } = req.params;
+
+  const session = await SessionModel.findByIdAndDelete({ _id: sessionId });
+
+  if (!session) {
+    return next(new AppError("Session ID not valid", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Session removed successfully",
   });
 });

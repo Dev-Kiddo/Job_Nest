@@ -42,3 +42,17 @@ export const getLocationFromIp = asyncHandler(async function (ip) {
     timezone: "unknown",
   };
 });
+
+export const formatSessions = function (session) {
+  return {
+    id: session._id,
+    sessionId: session.sessionId,
+    device: `${session.deviceInfo.browser} on ${session.deviceInfo.os}`,
+    deviceType: session.deviceInfo.device,
+    location: `${session.location.city}, ${session.location.country}`,
+    ipAddress: session.ipAddress,
+    createdAt: session.createdAt,
+    lastActive: session.lastActive,
+    isActive: session.isActive,
+  };
+};
