@@ -3,7 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import UserModel from "../models/userModel.js";
 import AppError from "../utils/AppError.js";
 import CandidateModel from "../models/candidateModel.js";
-import RecruiterModel from "../models/recruiterModel.js";
+import CompanyModel from "../models/companyModel.js";
 
 export const fetchUsersHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const users = await UserModel.find({});
@@ -88,7 +88,7 @@ export const deleteUserHandler = asyncHandler(async function (req: Request, res:
   }
 
   if (user.role === "recruiter") {
-    const recruiter = await RecruiterModel.findOne({ user: id });
+    const recruiter = await CompanyModel.findOne({ user: id });
 
     if (!recruiter) {
       return next(new AppError("recruiter not found!", 400));

@@ -2,6 +2,7 @@ export interface UserInitialState {
   currentUser: any | null;
   authChecking: boolean;
   loading: boolean;
+  redirectUrl: string | null;
 
   // Message
   message: string | null;

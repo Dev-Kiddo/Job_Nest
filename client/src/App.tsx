@@ -17,6 +17,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CandidateSettings from "./pages/CandidateSettings";
 import CandidateBasicInfo from "./components/CandidateBasicInfo";
+import ChooseCompany from "./pages/ChooseCompany";
+import CreateCompany from "./pages/CreateCompany";
+import CompanyInfo from "./components/CompanyInfo";
+import FoundingInfo from "./components/FoundingInfo";
 
 export default function App() {
   return (
@@ -27,6 +31,15 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/settings" element={<CandidateSettings />} />
+          <Route path="/setup-company" element={<ChooseCompany />} />
+
+          <Route path="/create-company" element={<CreateCompany />}>
+            <Route index element={<CompanyInfo />} />
+            <Route path="company-info" element={<CompanyInfo />} />
+            <Route path="founding-info" element={<FoundingInfo />} />
+            <Route index element={<CompanyInfo />} />
+            <Route index element={<CompanyInfo />} />
+          </Route>
 
           <Route path="/register" element={<Register />}>
             <Route index element={<Navigate to="candidate-register" replace />} />

@@ -4,11 +4,12 @@ import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValida
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
-import { generateAccessToken, generateRandomToken, generateRefreshToken, hashToken, verifyRefreshToken } from "../utils/tokenUtils.js";
+import { generateAccessAndRefreshToken, generateAccessToken, generateRandomToken, generateRefreshToken, hashToken, verifyRefreshToken } from "../utils/tokenUtils.js";
 import type { AccessTokenPayload } from "../types/tokenTypes.js";
 import type { RefreshTokenPayload } from "../types/tokenTypes.js";
 import CandidateModel from "../models/candidateModel.js";
-import RecruiterModel from "../models/recruiterModel.js";
+
+import CompanyModel from "../models/companyModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import SessionModel from "../models/sessionModel.js";
 import { formatSessions, generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
@@ -136,9 +137,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   }
 
   if (user.role === "recruiter") {
-    await RecruiterModel.create({
-      user: user._id,
-    });
+    user.needaCompanySetup = user.role === "recruiter";
   }
 
   const messageId = await sendEmail(user.email, "Email Verification", emailContent);
@@ -170,6 +169,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
     user: {
       id: user._id,
       email: user.email,
+      needaCompanySetup: user.role === "recruiter",
     },
   });
 });
@@ -201,12 +201,6 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     return next(new AppError("Your account is disabled", 404));
   }
 
-  const isMatch = await isUser.comparePassword(password);
-
-  if (!isMatch) {
-    return next(new AppError("Invalid Credentials", 400));
-  }
-
   // Generate session
   const sessionToken = generateSessionToken();
 
@@ -229,16 +223,34 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
 
-  const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
+  if (isUser.role === "recruiter" && isUser.needaCompanySetup) {
+    generateAccessAndRefreshToken(isUser, sessionToken, res);
 
-  const accessToken = generateAccessToken(accessTokenPayload);
+    return res.status(200).json({
+      success: true,
+      message: "Before login, you need to set up your company profile",
+      redirectUrl: `${process.env.CLIENT_URL}/setup-company`,
+    });
+  }
 
-  const refreshTokenPayload = { id: isUser._id };
-  const refreshToken = generateRefreshToken(refreshTokenPayload);
+  const isMatch = await isUser.comparePassword(password);
 
-  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  if (!isMatch) {
+    return next(new AppError("Invalid Credentials", 400));
+  }
 
-  res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  generateAccessAndRefreshToken(isUser, sessionToken, res);
+
+  // const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
+
+  // const accessToken = generateAccessToken(accessTokenPayload);
+
+  // const refreshTokenPayload = { id: isUser._id };
+  // const refreshToken = generateRefreshToken(refreshTokenPayload);
+
+  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+
+  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
   return res.status(200).json({
     success: true,
@@ -247,9 +259,9 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
 });
 
 export const logoutHandler = asyncHandler(async function (req: Request, res: Response, next) {
-  console.log(req.connection.remoteAddress);
-  console.log(req.socket.remoteAddress);
-  console.log(req.ip);
+  // console.log(req.connection.remoteAddress);
+  // console.log(req.socket.remoteAddress);
+  // console.log(req.ip);
 
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");

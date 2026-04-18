@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
+import type { ICompany } from "../types/companyTypes.js";
 
-const RecruiterSchema = new mongoose.Schema(
+const CompanySchema = new mongoose.Schema<ICompany>(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    user: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     name: {
       type: String,
       trim: true,
       maxLength: [100, "Company name cannot exceed 100 characters"],
+      unique: true,
     },
     description: {
       type: String,
@@ -24,6 +28,10 @@ const RecruiterSchema = new mongoose.Schema(
       default: false,
     },
     logo: {
+      type: String,
+      default: null,
+    },
+    banner: {
       type: String,
       default: null,
     },
@@ -86,6 +94,6 @@ const RecruiterSchema = new mongoose.Schema(
   },
 );
 
-const RecruiterModel = mongoose.model("Recruiter", RecruiterSchema);
+const CompanyModel = mongoose.model("Company", CompanySchema);
 
-export default RecruiterModel;
+export default CompanyModel;

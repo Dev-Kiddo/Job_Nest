@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, redirect, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
 
 function ProtectedRoute() {
-  const { currentUser, authChecking } = useSelector((state) => state.user);
+  const { currentUser, authChecking, redirectUrl } = useSelector((state) => state.user);
   const location = useLocation();
 
   // console.log("location", location);
@@ -23,6 +23,10 @@ function ProtectedRoute() {
 
   if (authChecking) {
     return <Loader colour="text-blue-500" margin="mx-auto" size="12" />;
+  }
+
+  if (!currentUser && redirectUrl) {
+    return <Navigate to="/setup-company" replace />;
   }
 
   if (!currentUser) {

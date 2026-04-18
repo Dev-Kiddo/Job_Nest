@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       enum: {
         values: ["candidate", "recruiter", "admin"],
-        message: "Role must be candidate, employer, or admin",
+        message: "Role must be candidate, employer",
       },
       default: "candidate",
     },
@@ -43,6 +43,9 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       enum: ["local", "google"],
       default: "local",
+    },
+    needaCompanySetup: {
+      type: Boolean,
     },
     googleId: {
       type: String,

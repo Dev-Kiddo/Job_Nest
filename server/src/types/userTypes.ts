@@ -25,6 +25,7 @@ export interface IUser {
   };
   authProvider: "local" | "google";
   googleId: string | null;
+  needaCompanySetup: boolean;
   isEmailVerified: boolean;
   emailVerificationToken: string | null;
   emailVerificationExpires: Date | null;
@@ -33,7 +34,7 @@ export interface IUser {
   lastLogin: Date;
   isActive: boolean;
   updatedAt: Date;
-  sessionCollections: { deviceInfo: string; ipAddress: string; location: string; isActive: boolean }[];
+  sessionCollections: { deviceInfo: string; ipAddress: string; location: string }[];
   deletedAt: Date;
   comparePassword: (password: string) => boolean;
 }

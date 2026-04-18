@@ -160,6 +160,8 @@ const initialState: UserInitialState = {
   currentUser: null,
   authChecking: true,
   loading: false,
+  redirectUrl: null,
+
   // Message State
   message: null,
   messageType: null,
@@ -198,7 +200,16 @@ const userSlice = createSlice({
 
         state.message = action.payload.message;
         state.messageType = "success";
-        state.authChecking = true;
+
+        console.log("action.payload", action.payload);
+
+        if (action.payload.redirectUrl) {
+          state.authChecking = false;
+          state.redirectUrl = action.payload.redirectUrl;
+        } else {
+          state.authChecking = true;
+        }
+
         state.isMessageShown = false;
       })
       .addCase(loginUser.rejected, (state, action) => {

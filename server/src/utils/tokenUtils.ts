@@ -43,3 +43,16 @@ export const hashToken = function (token: string) {
   const hash = crypto.createHash("sha256").update(token).digest("hex");
   return hash;
 };
+
+export const generateAccessAndRefreshToken = function (isUser, sessionToken, response) {
+  const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
+
+  const accessToken = generateAccessToken(accessTokenPayload);
+
+  const refreshTokenPayload = { id: isUser._id };
+  const refreshToken = generateRefreshToken(refreshTokenPayload);
+
+  response.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+
+  response.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+};

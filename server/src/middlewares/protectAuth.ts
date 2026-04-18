@@ -26,6 +26,8 @@ export const protectAuth = asyncHandler(async function (req, res, next) {
 
   const sessionToken = await SessionModel.findOne({ sessionId: verifyToken.sessionId, isActive: true });
 
+  // console.log("SESS", sessionToken);
+
   if (!sessionToken) {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
