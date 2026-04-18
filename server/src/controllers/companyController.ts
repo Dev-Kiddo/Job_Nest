@@ -76,3 +76,34 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
     company,
   });
 });
+
+export const fetchAllCompaniesHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const company = await CompanyModel.find({});
+
+  if (company.length === 0) {
+    return next(new AppError("No companies registered yet!", 200));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Fetch all companies success",
+    count: company.length,
+    company,
+  });
+});
+
+export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { user: currentUser } = req;
+
+  const company = await CompanyModel.findOne({ user: currentUser.id });
+
+  if (!company) {
+    return next(new AppError("No company registered by this user", 200));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Fetch my company successfully",
+    company,
+  });
+});
