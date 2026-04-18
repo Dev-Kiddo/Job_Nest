@@ -13,6 +13,7 @@ const CompanySchema = new mongoose.Schema<ICompany>(
       type: String,
       trim: true,
       maxLength: [100, "Company name cannot exceed 100 characters"],
+      required: [true, "Company name is required"],
       unique: true,
     },
     description: {
@@ -28,12 +29,12 @@ const CompanySchema = new mongoose.Schema<ICompany>(
       default: false,
     },
     logo: {
-      type: String,
-      default: null,
+      publicId: String,
+      url: String,
     },
     banner: {
-      type: String,
-      default: null,
+      publicId: String,
+      url: String,
     },
     website: {
       type: String,

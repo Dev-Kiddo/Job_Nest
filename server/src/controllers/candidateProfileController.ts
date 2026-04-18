@@ -24,7 +24,7 @@ export const getMyProfileController = asyncHandler(async function (req: Request,
 export const updateCandidateBasicInfo = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const { id } = req.user;
 
-  console.log(req.file);
+  console.log(req.files);
 
   const { phone, location, dateOfBirth, gender, headline, biography } = req.body;
 
@@ -43,9 +43,9 @@ export const updateCandidateBasicInfo = asyncHandler(async function (req: Reques
   if (headline !== undefined) candidate.headline = headline;
   if (biography !== undefined) candidate.biography = biography;
 
-  if (req.file !== undefined) {
-    const cloudinaryResult = await uploadToCloudinary(req.file.buffer, "avatar");
-    console.log("cloudinaryResult", cloudinaryResult);
+  if (req.files.avatar !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.buffer, "avatar");
+    // console.log("cloudinaryResult", cloudinaryResult);
     if (!cloudinaryResult) {
       return next(new AppError("Cloudinary avatar upload err", 400));
     }

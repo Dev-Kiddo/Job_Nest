@@ -2,7 +2,7 @@ import multer from "multer";
 import AppError from "./AppError.js";
 import type { Request } from "express";
 
-export const multerImageHandler = function (fileName: string) {
+export const multerImageHandler = function () {
   const storage = multer.memoryStorage();
 
   const fileFilter = (req: Request, file, cb) => {
@@ -12,7 +12,12 @@ export const multerImageHandler = function (fileName: string) {
       cb(new AppError("invalid file type, only PNG, JPG, and JPEG are allowed!", 404), false);
     }
   };
+
   const upload = multer({ storage, fileFilter });
 
-  return upload.single(fileName);
+  return upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "logo", maxCount: 1 },
+    { name: "banner", maxCount: 1 },
+  ]);
 };

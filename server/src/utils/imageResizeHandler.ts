@@ -3,11 +3,35 @@ import sharp from "sharp";
 import { asyncHandler } from "./asyncHandler.js";
 
 export const imageResizeHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  if (!req.file) next();
+  if (!req.files) next();
 
-  const resizedBuffer = await sharp(req.file?.buffer).resize(300, 300, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
+  // console.log("BEFORE", req.files);
 
-  req.file.buffer = resizedBuffer;
+  for (const [key, val] of Object.entries(req.files)) {
+    if (req.files.avater) {
+      const resizeBuff = await sharp(val[0].buffer).resize(250, 250, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
+
+      req.files[key][0].buffer = resizeBuff;
+    }
+
+    if (req.files.logo) {
+      const resizeBuff = await sharp(val[0].buffer).resize(250, 250, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
+
+      req.files[key][0].buffer = resizeBuff;
+    }
+
+    if (req.files.banner) {
+      const resizeBuff = await sharp(val[0].buffer).resize(1000, 350, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
+
+      req.files[key][0].buffer = resizeBuff;
+    }
+  }
+
+  // const resizedBuffer = await sharp(req.file?.buffer).resize(width, height, { fit: "cover", position: "center" }).jpeg({ quality: 80 }).toBuffer();
+
+  // req.files.buffer = resizedBuffer;
+
+  // console.log("requestFile", req.files);
 
   next();
 });
