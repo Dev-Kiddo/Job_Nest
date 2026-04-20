@@ -345,7 +345,7 @@ export const getCurrentUser = asyncHandler(async function (req: Request, res: Re
     return next(new AppError("Invalid or expired token!", 401));
   }
 
-  const user = await UserModel.findOne({ _id: userDetail.id }).select("name email role avatar phone location authProvider googleId isEmailVerified lastLogin");
+  const user = await UserModel.findOne({ _id: userDetail.id }).select("name email role avatar phone location authProvider googleId isEmailVerified lastLogin needaCompanySetup");
 
   if (!user) {
     return next(new AppError("User not found", 404));

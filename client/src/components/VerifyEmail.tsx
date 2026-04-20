@@ -35,7 +35,7 @@ function VerifyEmail() {
     }
   }, [message, messageType, navigate]);
 
-  useToastMessage("auth");
+  useToastMessage("user");
 
   return (
     <div className="max-w-2xl flex flex-col justify-center items-center p-10 mx-auto space-y-8 bg-white bg-opacity-50 rounded-lg">

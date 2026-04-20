@@ -19,13 +19,14 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
   }
 
   const isUser = req.user;
+
   // console.log(isUser);
 
-  const isCompanyRegistered = await CompanyModel.findOne({ name });
+  // const isCompanyRegistered = await CompanyModel.findOne({ name });
 
-  if (isCompanyRegistered) {
-    return next(new AppError("This name already registered, Please continue with existing company", 404));
-  }
+  // if (isCompanyRegistered) {
+  //   return next(new AppError("This name already registered, Please continue with existing company", 404));
+  // }
 
   const user = await UserModel.findOne({ _id: isUser.id, role: "recruiter", needaCompanySetup: true });
 
@@ -66,7 +67,7 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
 
   const company = await CompanyModel.create({ user: [req.user.id], name, description, tagline, website, logo: cloudinaryLogo, banner: cloudinaryBanner });
 
-  user.needaCompanySetup = false;
+  // user.needaCompanySetup = false;
 
   await user.save();
 
@@ -103,7 +104,54 @@ export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, 
 
   res.status(200).json({
     success: true,
-    message: "Fetch my company successfully",
+    message: "Fetch company success",
     company,
+  });
+});
+
+export const updateCompanyInfoHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { companyType, companySize, country, state, city, contactEmail, contactPhone } = req.body;
+
+  const { id: companyId } = req.params;
+
+  const company = await CompanyModel.findOne({ _id: companyId });
+
+  if (!company) {
+    return next(new AppError("Company not found or registered!", 400));
+  }
+
+  const isRecruiterHasCompany = company.user.some((user) => user.toString() === req.user.id);
+
+  if (!isRecruiterHasCompany) {
+    return next(new AppError("User not found as recruiter in this company", 400));
+  }
+
+  let updateData = {};
+
+  // const allowedFields = [companyType, companySize, country, state, city, email, phone];
+  // Object.keys(req.body).forEach((objKey) => {
+  //   if (allowedFields.includes(objKey) && req.body[objKey] !== undefined) {
+  //     updateData[objKey] = req.body[objKey];
+  //   }
+  // });
+
+  if (companyType !== undefined) updateData.companyType = companyType;
+  if (companySize !== undefined) updateData.companySize = companySize;
+  if (country !== undefined) updateData.country = country;
+  if (state !== undefined) updateData.state = state;
+  if (city !== undefined) updateData.city = city;
+  if (contactEmail !== undefined) updateData.contactEmail = contactEmail;
+  if (contactPhone !== undefined) updateData.contactPhone = contactPhone;
+
+  const updateCompany = await CompanyModel.findByIdAndUpdate(
+    { _id: companyId },
+    { companyType, companySize, locations: { country, state, city }, contactEmail, contactPhone },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "Update Company success",
+    updateCompany,
   });
 });

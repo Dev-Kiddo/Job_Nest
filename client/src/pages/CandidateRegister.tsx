@@ -65,7 +65,7 @@ const CandidateRegister = function () {
     }
   };
 
-  useToastMessage("auth");
+  useToastMessage("user");
 
   useEffect(() => {
     if (message && messageType === "success" && !isMessageShown) {

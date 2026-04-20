@@ -3,7 +3,7 @@ import { BriefcaseBusiness, Building2, ClockPlus, MapPin, Search, Users } from "
 import useToastMessage from "../hooks/useToastMessage";
 
 const Home = () => {
-  useToastMessage("auth");
+  useToastMessage("user");
 
   return (
     <>

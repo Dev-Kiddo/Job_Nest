@@ -45,9 +45,6 @@ const tableData = [
 
 function CandidateDashboard() {
   const { currentUser, loading } = useSelector((state) => state.user);
-  const role = useOutletContext();
-
-  console.log("ROLE", role);
 
   return (
     <div className="p-8 mt-2">

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet, redirect, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
@@ -19,7 +19,7 @@ function ProtectedRoute() {
     }
   }, [authChecking, dispatch]);
 
-  useToastMessage("auth");
+  useToastMessage("user");
 
   if (authChecking) {
     return <Loader colour="text-blue-500" margin="mx-auto" size="12" />;
@@ -40,6 +40,9 @@ function ProtectedRoute() {
   }
 
   if (location.pathname === "/dashboard") {
+    if (currentUser?.role === "recruiter" && currentUser?.needaCompanySetup === true) {
+      return <Navigate to="/create-company" replace />;
+    }
     if (currentUser?.role === "recruiter") {
       return <Navigate to="/dashboard/recruiter" replace />;
     }

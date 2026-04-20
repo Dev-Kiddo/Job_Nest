@@ -41,9 +41,7 @@ function ResetPassword() {
     }
   }, [message, messageType, navigate, isMessageShown]);
 
-  useToastMessage("auth");
-
-  useToastMessage("auth");
+  useToastMessage("user");
   return (
     <>
       <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6">

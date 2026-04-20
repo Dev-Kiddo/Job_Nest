@@ -20,6 +20,11 @@ export interface ICompany {
   }[];
   contactEmail: string;
   contactPhone: string;
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    linkedin: string;
+  };
   verifiedAt: Date;
   verifiedBy: Types.ObjectId;
   isActive: boolean;

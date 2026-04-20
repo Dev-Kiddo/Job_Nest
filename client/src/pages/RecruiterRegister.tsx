@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import { registerUser, clearMessage, markMessageAsShown } from "../features/userSlice";
+import { registerUser, clearMessage, userMarkMessageAsShown } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
 import Loader from "../components/Loader";
 
@@ -54,7 +54,7 @@ const RecruiterRegister = function () {
     }
   }, [message, messageType, isMessageShown, navigate]);
 
-  useToastMessage("auth");
+  useToastMessage("user");
 
   return (
     <div className="w-full mx-auto rounded-lg">

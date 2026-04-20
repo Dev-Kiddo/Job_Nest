@@ -74,6 +74,11 @@ const CompanySchema = new mongoose.Schema<ICompany>(
       type: String,
       trim: true,
     },
+    socialLinks: {
+      facebook: String,
+      instagram: String,
+      linkedin: String,
+    },
     verifiedAt: {
       type: Date,
       default: null,

@@ -31,6 +31,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/settings" element={<CandidateSettings />} />
+
           <Route path="/setup-company" element={<ChooseCompany />} />
 
           <Route path="/create-company" element={<CreateCompany />}>

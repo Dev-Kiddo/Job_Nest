@@ -33,7 +33,7 @@ function ForgotPassword() {
     }
   }, [message, messageType, navigate, isMessageShown]);
 
-  useToastMessage("auth");
+  useToastMessage("user");
 
   return (
     <>

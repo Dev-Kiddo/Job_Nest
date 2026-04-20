@@ -180,7 +180,7 @@ const userSlice = createSlice({
       state.messageType = null;
       state.isMessageShown = false;
     },
-    markMessageAsShown: (state) => {
+    userMarkMessageAsShown: (state) => {
       state.isMessageShown = true;
     },
   },
@@ -201,14 +201,15 @@ const userSlice = createSlice({
         state.message = action.payload.message;
         state.messageType = "success";
 
-        console.log("action.payload", action.payload);
+        // console.log("action.payload", action.payload);
 
-        if (action.payload.redirectUrl) {
-          state.authChecking = false;
-          state.redirectUrl = action.payload.redirectUrl;
-        } else {
-          state.authChecking = true;
-        }
+        // if (action.payload.redirectUrl) {
+        //   state.authChecking = false;
+        //   state.redirectUrl = action.payload.redirectUrl;
+        // } else {
+        //   state.authChecking = true;
+        // }
+        state.authChecking = true;
 
         state.isMessageShown = false;
       })
@@ -367,6 +368,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearMessage, clearUser, markMessageAsShown } = userSlice.actions;
+export const { clearMessage, clearUser, userMarkMessageAsShown } = userSlice.actions;
 
 export default userSlice.reducer;

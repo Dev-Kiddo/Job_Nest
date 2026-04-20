@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
-import { CloudCog, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { City, State, Country } from "country-state-city";
+import { updateCompanyInfo } from "../features/companySlice";
 
 const organizationType = [
   { type: "Select", value: "" },
@@ -17,7 +18,9 @@ const organizationType = [
 const companySizes = ["Select", "1-10", "11-50", "51-200", "201-500", "501-1000", "1001-5000", "5000+"];
 
 function FoundingInfo() {
-  const { loading } = useSelector((state) => state.user);
+  const { company, loading, message, messageType, isMessageShown } = useSelector((state) => state.company);
+
+  const dispatch = useDispatch();
 
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
@@ -27,13 +30,39 @@ function FoundingInfo() {
   const getStates = State.getStatesOfCountry(country);
   const getCities = City.getCitiesOfState(country, state);
 
+  const [payload, setPayload] = useState({
+    companyType: "",
+    companySize: "",
+    country: "",
+    state: "",
+    city: "",
+    contactEmail: "",
+    contactPhone: "",
+  });
+
+  const handleOnChange = function (event) {
+    const { id, value } = event.target;
+
+    console.log("value", value);
+    setPayload((data) => ({ ...data, [id]: value }));
+  };
+
+  const handleSubmit = function (event) {
+    event.preventDefault();
+
+    dispatch(updateCompanyInfo({ payload, companyId: company }));
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">Organization Type</label>
-            <select className="bg-gray-200 text-gray-800 p-2 my-1">
+            <label htmlFor="companyType" className="text-gray-500 capitalize">
+              Organization Type
+            </label>
+
+            <select id="companyType" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
               {organizationType.map((type) => (
                 <option className="capitalize " value={type.value} key={type.value}>
                   {type.type}
@@ -43,8 +72,11 @@ function FoundingInfo() {
           </div>
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">Company Size</label>
-            <select className="bg-gray-200 text-gray-800 p-2 my-1">
+            <label htmlFor="companySize" className="text-gray-500 capitalize">
+              Company Size
+            </label>
+
+            <select id="companySize" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
               {companySizes.map((size) => (
                 <option className="capitalize " value={size} key={size}>
                   {size}
@@ -56,11 +88,14 @@ function FoundingInfo() {
 
         <div className="flex gap-4 mt-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">Country</label>
-            <select className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setCountry(() => e.target.value)}>
+            <label htmlFor="country" className="text-gray-500 capitalize">
+              Country
+            </label>
+
+            <select onClick={(e) => setCountry(() => e.target.value)} onChange={handleOnChange} id="country" className="bg-gray-200 text-gray-800 p-2 my-1">
               <option value="">Select</option>
               {getCountries.map((cont) => (
-                <option key={cont.isoCode} value={cont.isoCode}>
+                <option key={cont.name} value={cont.isoCode}>
                   {cont.name}
                 </option>
               ))}
@@ -68,11 +103,14 @@ function FoundingInfo() {
           </div>
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">State</label>
-            <select className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setState(() => e.target.value)}>
+            <label htmlFor="state" className="text-gray-500 capitalize">
+              State
+            </label>
+
+            <select id="state" className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setState(() => e.target.value)} onChange={handleOnChange}>
               <option value="">Select</option>
               {getStates?.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
+                <option key={state.name} value={state.isoCode}>
                   {state.name}
                 </option>
               ))}
@@ -80,11 +118,13 @@ function FoundingInfo() {
           </div>
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">City</label>
-            <select className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setCity(() => e.target.value)}>
+            <label htmlFor="city" className="text-gray-500 capitalize">
+              City
+            </label>
+            <select id="city" className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setCity(() => e.target.value)} onChange={handleOnChange}>
               <option value="">Select</option>
               {getCities?.map((city) => (
-                <option key={city.isoCode} value={city.isoCode}>
+                <option key={city.name} value={city.name}>
                   {city.name}
                 </option>
               ))}
@@ -94,14 +134,25 @@ function FoundingInfo() {
 
         <div className="flex gap-4 mt-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">Email</label>
-            <input type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" autoComplete="disabled" />
+            <label htmlFor="contactEmail" className="text-gray-500 capitalize">
+              Email
+            </label>
+
+            <input
+              id="contactEmail"
+              onChange={handleOnChange}
+              type="text"
+              className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+              autoComplete="disabled"
+            />
           </div>
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
-            <label className="text-gray-500 capitalize">Phone</label>
+            <label htmlFor="contactPhone" className="text-gray-500 capitalize">
+              Phone
+            </label>
 
-            <input type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" />
+            <input onChange={handleOnChange} id="contactPhone" type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" />
           </div>
         </div>
 
