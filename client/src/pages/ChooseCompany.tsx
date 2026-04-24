@@ -1,7 +1,15 @@
 import { Building2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 
 function ChooseCompany() {
+  // const [params] = useSearchParams();
+  // const pp = params.get("token");
+  // console.log(pp);
+
+  // const location = useLocation();
+  // console.log(location);
+  // location.state = { hi: "hellos" };
+  // console.log(location);
   return (
     <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6">
       <div className="text-center">

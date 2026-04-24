@@ -8,16 +8,6 @@ function CheckEmail({ btnName = "Resend" }) {
   const navigate = useNavigate();
   const { currentUser, message, messageType } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (message && messageType === "success") {
-  //     navigate("/login");
-  //   }
-
-  //   if (message && messageType === "error") {
-  //     navigate("/");
-  //   }
-  // }, [message, messageType, navigate]);
-
   useToastMessage("user");
 
   return (

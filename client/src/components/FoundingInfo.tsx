@@ -160,7 +160,7 @@ function FoundingInfo() {
           <Link
             to="/create-company/company-info"
             type="submit"
-            className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer "
+            className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
           >
             Previous
           </Link>
