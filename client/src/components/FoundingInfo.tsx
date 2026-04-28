@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import { MoveRight } from "lucide-react";
 import { City, State, Country } from "country-state-city";
-import { updateCompanyInfo } from "../features/companySlice";
+import { clearMessage, updateCompanyInfo } from "../features/companySlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 const organizationType = [
   { type: "Select", value: "" },
@@ -19,6 +20,8 @@ const companySizes = ["Select", "1-10", "11-50", "51-200", "201-500", "501-1000"
 
 function FoundingInfo() {
   const { company, loading, message, messageType, isMessageShown } = useSelector((state) => state.company);
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -53,13 +56,22 @@ function FoundingInfo() {
     dispatch(updateCompanyInfo({ payload, companyId: company }));
   };
 
+  useEffect(() => {
+    if (messageType === "success" && message) {
+      navigate("/create-company/social-links");
+      dispatch(clearMessage());
+    }
+  }, [message, messageType, navigate, dispatch]);
+
+  useToastMessage("company");
+
   return (
     <div className="max-w-6xl mx-auto">
       <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companyType" className="text-gray-500 capitalize">
-              Organization Type
+              Organization Type <span className="text-blue-500">*</span>
             </label>
 
             <select id="companyType" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
@@ -73,7 +85,7 @@ function FoundingInfo() {
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companySize" className="text-gray-500 capitalize">
-              Company Size
+              Company Size <span className="text-blue-500">*</span>
             </label>
 
             <select id="companySize" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
@@ -159,7 +171,7 @@ function FoundingInfo() {
         <div className="flex mt-6 gap-4">
           <Link
             to="/create-company/company-info"
-            type="submit"
+            type="button"
             className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
           >
             Previous

@@ -16,8 +16,8 @@ export const multerImageHandler = function () {
   const upload = multer({ storage, fileFilter });
 
   return upload.fields([
-    { name: "avatar", maxCount: 1 },
     { name: "logo", maxCount: 1 },
+    { name: "avatar", maxCount: 1 },
     { name: "banner", maxCount: 1 },
   ]);
 };

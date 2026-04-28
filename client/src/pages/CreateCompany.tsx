@@ -17,7 +17,7 @@ const candidateSettingOptions = [
   {
     icon: Globe,
     label: "Social Media Profile",
-    url: "#",
+    url: "social-links",
   },
   {
     icon: Settings,

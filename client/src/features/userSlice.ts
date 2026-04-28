@@ -183,6 +183,9 @@ const userSlice = createSlice({
     userMarkMessageAsShown: (state) => {
       state.isMessageShown = true;
     },
+    activateAuthChecking(state) {
+      state.authChecking = true;
+    },
   },
   extraReducers: (builder) => {
     // LOGIN
@@ -368,6 +371,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearMessage, clearUser, userMarkMessageAsShown } = userSlice.actions;
+export const { clearMessage, clearUser, userMarkMessageAsShown, activateAuthChecking } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -20,15 +20,9 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
 
   const isUser = req.user;
 
-  // console.log(isUser);
+  const user = await UserModel.findOne({ _id: isUser.id, role: isUser.role, needaCompanySetup: true });
 
-  // const isCompanyRegistered = await CompanyModel.findOne({ name });
-
-  // if (isCompanyRegistered) {
-  //   return next(new AppError("This name already registered, Please continue with existing company", 404));
-  // }
-
-  const user = await UserModel.findOne({ _id: isUser.id, role: "recruiter", needaCompanySetup: true });
+  // console.log("USER", user);
 
   if (!user) {
     return next(new AppError("Oops, User not found!", 404));
@@ -37,7 +31,7 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
   let cloudinaryLogo;
   let cloudinaryBanner;
 
-  // console.log("ReqFiles", req.files);
+  console.log("ReqFiles Company Handler", req.files);
 
   if (req.files.logo !== undefined) {
     const cloudinaryResult = await uploadToCloudinary(req.files.logo[0].buffer, "logo");
@@ -65,9 +59,16 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
     };
   }
 
-  const company = await CompanyModel.create({ user: [req.user.id], name, description, tagline, website, logo: cloudinaryLogo, banner: cloudinaryBanner });
+  // if logo upload, that also need add in users data.
+  if (cloudinaryLogo) {
+    user.avatar = cloudinaryLogo;
+  }
 
-  // user.needaCompanySetup = false;
+  const company = await CompanyModel.create({ user: [req.user.id], name, description, tagline, website, logo: cloudinaryLogo, banner: cloudinaryBanner, registerStages: "stage1" });
+
+  console.log("Company:", company);
+
+  user.needaCompanySetup = false;
 
   await user.save();
 
@@ -110,10 +111,13 @@ export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, 
 });
 
 export const updateCompanyInfoHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const { companyType, companySize, country, state, city, contactEmail, contactPhone } = req.body;
+  const { companyType, companySize, country, state, city, contactEmail, contactPhone, socialLinks } = req.body;
+
+  const { user: currentUser } = req;
 
   const { id: companyId } = req.params;
 
+  const user = await CompanyModel.findOne({ _id: currentUser.id });
   const company = await CompanyModel.findOne({ _id: companyId });
 
   if (!company) {
@@ -143,15 +147,33 @@ export const updateCompanyInfoHandler = asyncHandler(async function (req: Reques
   if (contactEmail !== undefined) updateData.contactEmail = contactEmail;
   if (contactPhone !== undefined) updateData.contactPhone = contactPhone;
 
-  const updateCompany = await CompanyModel.findByIdAndUpdate(
+  if (socialLinks !== undefined) updateData.socialLinks = socialLinks;
+
+  let updateCompany = await CompanyModel.findByIdAndUpdate(
     { _id: companyId },
-    { companyType, companySize, locations: { country, state, city }, contactEmail, contactPhone },
+    {
+      companyType,
+      companySize,
+      locations: { country, state, city },
+      contactEmail,
+      contactPhone,
+      socialLinks,
+      registerStages: updateData?.companyType && updateData?.companySize ? "stage2" : "stage1" || updateData?.socialLinks ? "finished" : "stage2",
+    },
     { new: true },
   );
 
+  // if (updateData?.companyType && updateData?.companySize) {
+  //   updateCompany.registerStages = "stage2";
+  // }
+
+  // if (socialLinks) {
+  //   updateCompany.registerStages = "finished";
+  // }
+
   res.status(200).json({
     success: true,
-    message: "Update Company success",
+    message: "Success",
     updateCompany,
   });
 });

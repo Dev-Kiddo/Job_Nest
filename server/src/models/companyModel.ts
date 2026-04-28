@@ -93,6 +93,11 @@ const CompanySchema = new mongoose.Schema<ICompany>(
       type: Boolean,
       default: true,
     },
+    registerStages: {
+      type: String,
+      enum: ["setup", "stage1", "stage2", "finished"],
+      default: "setup",
+    },
   },
   {
     timestamps: true,

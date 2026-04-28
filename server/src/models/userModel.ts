@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       default: "candidate",
     },
     avatar: {
-      public_id: {
+      publicId: {
         type: String,
         default: null,
       },

@@ -14,7 +14,7 @@ export interface IUser {
   password: string;
   role: "candidate" | "recruiter" | "admin";
   avatar: {
-    public_id: string | null;
+    publicId: string | null;
     url: string | null;
   };
   phone: string | null;

@@ -28,4 +28,5 @@ export interface ICompany {
   verifiedAt: Date;
   verifiedBy: Types.ObjectId;
   isActive: boolean;
+  registerStages: "setup" | "stage1" | "stage2" | "finished";
 }

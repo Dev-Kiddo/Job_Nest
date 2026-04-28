@@ -2,13 +2,13 @@ import { ImageUp, MoveRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { registerCompany } from "../features/companySlice";
+import { clearMessage, registerCompany } from "../features/companySlice";
 import useToastMessage from "../hooks/useToastMessage";
 import { useNavigate } from "react-router-dom";
 
 function CompanyInfo() {
   const dispatch = useDispatch();
-  const { loading, company, error, message, messageType } = useSelector((state) => state.company);
+  const { loading, company, error, message, messageType, isMessageShown } = useSelector((state) => state.company);
 
   // const { loading } = useSelector((state) => state.user);
 
@@ -68,10 +68,11 @@ function CompanyInfo() {
   useToastMessage("company");
 
   useEffect(() => {
-    if (message && messageType === "success") {
+    if (message && messageType === "success" && !isMessageShown) {
       navigate("/create-company/founding-info");
+      dispatch(clearMessage());
     }
-  }, [message, messageType, navigate]);
+  }, [message, messageType, isMessageShown, navigate, dispatch]);
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -123,7 +124,9 @@ function CompanyInfo() {
         <hr className="my-5 border-gray-300" />
 
         <div className="text-sm flex flex-col mt-4">
-          <label className="text-gray-500 capitalize">Company Name</label>
+          <label className="text-gray-500 capitalize">
+            Company Name <span className="text-blue-500">*</span>
+          </label>
           <input
             type="text"
             id="name"

@@ -1,8 +1,11 @@
 import { CirclePlus, CircleX, Heading1, Logs, MoveRight } from "lucide-react";
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCompanyInfo } from "../features/companySlice";
+import useToastMessage from "../hooks/useToastMessage";
+import { activateAuthChecking } from "../features/userSlice";
 
 const linksList = ["facebook", "instagram", "youtube", "linkedin", "behance", "twitter"];
 
@@ -16,9 +19,10 @@ function CompanySocialMediaLinks() {
 
   // console.log("LINKS", links);
 
-  const [listLength, setListLength] = useState(4);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [payload, setPayload] = useState({});
+  const [listLength, setListLength] = useState(4);
 
   const handleAddNewSocialLink = function (e) {
     e.preventDefault();
@@ -35,9 +39,35 @@ function CompanySocialMediaLinks() {
     setLinks((links) => links.map((link) => (link.name === id ? { ...link, baseUrl: value } : link)));
   };
 
+  const handleSubmit = function (event) {
+    event.preventDefault();
+
+    const linksCopy = [...links];
+
+    const filterPayload = linksCopy.filter((link) => link.baseUrl !== "");
+
+    // console.log("PAYLOAD", payload);
+
+    const payload = {
+      socialLinks: filterPayload,
+    };
+
+    dispatch(updateCompanyInfo({ payload, companyId: company }));
+
+    dispatch(activateAuthChecking());
+  };
+
+  useToastMessage("company");
+
+  useEffect(() => {
+    if (messageType === "success" && message) {
+      navigate("/dashboard");
+    }
+  }, [message, messageType, navigate]);
+
   return (
     <div className="max-w-6xl mx-auto">
-      <form>
+      <form onSubmit={handleSubmit}>
         {Array.from({ length: listLength }, (_, index) => (
           <div key={index} className="w-full flex items-center justify-between gap-x-4">
             <div className="text-sm my-4 flex flex-1 items-center justify-between gap-2 bg-gray-200">
@@ -72,7 +102,7 @@ function CompanySocialMediaLinks() {
                 <input
                   type="text"
                   id={links[index].name}
-                  required
+                  // required
                   className="w-full py-3 px-4 text-sm bg-gray-200 rounded-md focus:outline-none"
                   placeholder="Profile link/url..."
                   autoComplete="off"
@@ -86,30 +116,30 @@ function CompanySocialMediaLinks() {
             </button>
           </div>
         ))}
-      </form>
 
-      <button
-        type="submit"
-        className="w-full bg-gray-200 text-gray-700 text-sm font-medium py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-x-2 cursor-pointer"
-        onClick={handleAddNewSocialLink}
-      >
-        <CirclePlus color="gray" /> Add New Social Link
-      </button>
-
-      <hr className="my-5 border-gray-300" />
-
-      <div className="flex mt-6 gap-4">
-        <Link
-          to="/create-company/company-info"
+        <button
           type="submit"
-          className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
+          className="w-full bg-gray-200 text-gray-700 text-sm font-medium py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-x-2 cursor-pointer"
+          onClick={handleAddNewSocialLink}
         >
-          Previous
-        </Link>
-        <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
-          Save & Next {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
+          <CirclePlus color="gray" /> Add New Social Link
         </button>
-      </div>
+
+        <hr className="my-5 border-gray-300" />
+
+        <div className="flex mt-6 gap-4">
+          <Link
+            to="/create-company/founding-info"
+            type="button"
+            className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
+          >
+            Previous
+          </Link>
+          <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+            Finish {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

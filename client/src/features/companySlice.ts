@@ -30,7 +30,8 @@ export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", a
   try {
     const apiPayload = payload;
 
-    console.log("apiPayload", apiPayload);
+    // console.log("apiPayload", apiPayload);
+    // console.log("apiPayloadStringify", JSON.stringify(apiPayload));
 
     if (!apiPayload.companyId) {
       return rejectWithValue("Company ID is required to process");
@@ -63,7 +64,6 @@ const companySlice = createSlice({
   name: "company",
   initialState: {
     loading: false,
-    error: null,
     company: null,
 
     // Message State
@@ -89,8 +89,7 @@ const companySlice = createSlice({
       //? CREATE COMPAY INFO
       .addCase(registerCompany.pending, (state) => {
         state.loading = true;
-        state.error = null;
-
+        state.message = null;
         state.messageType = null;
         state.isMessageShown = false;
       })
@@ -111,7 +110,8 @@ const companySlice = createSlice({
       //? UPDATE COMPANY INFO
       .addCase(updateCompanyInfo.pending, (state) => {
         state.loading = true;
-        state.error = null;
+
+        state.message = null;
         state.messageType = null;
         state.isMessageShown = false;
       })
