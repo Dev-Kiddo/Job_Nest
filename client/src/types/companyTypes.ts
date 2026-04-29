@@ -1,6 +1,6 @@
 export interface CompanyInitialState {
-  company: any | null;
   loading: boolean;
+  company: any | null;
 
   // Message
   message: string | null;

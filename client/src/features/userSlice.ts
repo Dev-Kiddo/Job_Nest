@@ -66,7 +66,7 @@ export const verifyEmail = createAsyncThunk("user/verifyEmail", async (payload, 
   }
 });
 
-export const getCurrentUser = createAsyncThunk("user/oauthRegister", async (_payload, { rejectWithValue }) => {
+export const getCurrentUser = createAsyncThunk("user/getCurrentUser", async (_payload, { rejectWithValue }) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
       method: "GET",
@@ -185,6 +185,9 @@ const userSlice = createSlice({
     },
     activateAuthChecking(state) {
       state.authChecking = true;
+    },
+    deactivateAuthChecking(state) {
+      state.authChecking = false;
     },
   },
   extraReducers: (builder) => {
@@ -371,6 +374,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearMessage, clearUser, userMarkMessageAsShown, activateAuthChecking } = userSlice.actions;
+export const { clearMessage, clearUser, userMarkMessageAsShown, activateAuthChecking, deactivateAuthChecking } = userSlice.actions;
 
 export default userSlice.reducer;

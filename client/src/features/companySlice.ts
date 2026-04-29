@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userMarkMessageAsShown } from "./userSlice";
+import type { CompanyInitialState } from "../types/companyTypes";
 
 export const registerCompany = createAsyncThunk("company/registerCompany", async (payload, { rejectWithValue }) => {
   console.log("PAY", payload);
@@ -60,17 +61,41 @@ export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", a
   }
 });
 
+export const getCurrentCompany = createAsyncThunk("company/getCurrentCompany", async function (_, { rejectWithValue }) {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/company/my-company`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Failed to get current company");
+    }
+
+    console.log("CURRENTCOMPANY", data);
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    rejectWithValue(err || "Something went wrong");
+  }
+});
+
+const initialState: CompanyInitialState = {
+  loading: false,
+  company: null,
+
+  // Message State
+  message: null,
+  messageType: null,
+  isMessageShown: false,
+};
+
 const companySlice = createSlice({
   name: "company",
-  initialState: {
-    loading: false,
-    company: null,
-
-    // Message State
-    message: null,
-    messageType: null,
-    isMessageShown: false,
-  },
+  initialState,
   reducers: {
     clearComapany: (state) => {
       state.company = null;
@@ -90,6 +115,7 @@ const companySlice = createSlice({
       .addCase(registerCompany.pending, (state) => {
         state.loading = true;
         state.message = null;
+
         state.messageType = null;
         state.isMessageShown = false;
       })
@@ -123,6 +149,28 @@ const companySlice = createSlice({
         state.isMessageShown = false;
       })
       .addCase(updateCompanyInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message;
+        state.isMessageShown = false;
+        state.messageType = "error";
+      })
+      //? GET CURRENT COMPANY
+      .addCase(getCurrentCompany.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(getCurrentCompany.fulfilled, (state, action) => {
+        state.loading = false;
+        state.company = action?.payload?.company;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(getCurrentCompany.rejected, (state, action) => {
         state.loading = false;
         state.message = action.payload.message;
         state.isMessageShown = false;

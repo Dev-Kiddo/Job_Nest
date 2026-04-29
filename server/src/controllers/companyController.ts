@@ -31,9 +31,9 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
   let cloudinaryLogo;
   let cloudinaryBanner;
 
-  console.log("ReqFiles Company Handler", req.files);
+  // console.log("ReqFiles Company Handler", req.files);
 
-  if (req.files.logo !== undefined) {
+  if (req?.files?.logo !== undefined) {
     const cloudinaryResult = await uploadToCloudinary(req.files.logo[0].buffer, "logo");
 
     if (!cloudinaryResult) {

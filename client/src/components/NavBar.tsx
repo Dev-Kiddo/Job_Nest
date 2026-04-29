@@ -49,7 +49,9 @@ function NavBar() {
 
           <div className="hidden lg:flex items-center gap-3">
             {currentUser?.avatar ? (
-              <img className="w-12 h-12 border-2 border-blue-500 rounded-full" src={currentUser.avatar.url} />
+              <Link to="/dashboard">
+                <img className="w-12 h-12 border-2 border-blue-500 rounded-full" src={currentUser.avatar.url} />
+              </Link>
             ) : (
               <>
                 <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm  hover:bg-blue-700 transition-colors font-medium" to="/register">

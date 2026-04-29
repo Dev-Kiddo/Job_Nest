@@ -1,5 +1,5 @@
 import { ImageUp } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -37,7 +37,7 @@ function CandidateBasicInfo() {
 
           <div className="text-sm flex flex-col row-span-1">
             <label className="text-gray-500 capitalize">Gender</label>
-            {/* <input type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" /> */}
+
             <select className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500">
               <option value="">Select</option>
               <option value="">M</option>
@@ -47,17 +47,18 @@ function CandidateBasicInfo() {
 
           <div className="text-sm flex flex-col row-span-1">
             <label className="text-gray-500 capitalize">Date of birth</label>
-            {/* <input type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" /> */}
+
             <div className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500">
               <DatePicker
                 selected={birthDate}
                 onChange={(date) => setBirthDate(date)}
                 dateFormat="dd/MM/yyyy"
-                maxDate={new Date()} // Prevents selecting future dates
-                showYearDropdown // Enables year selection
+                maxDate={new Date()}
+                showYearDropdown
                 scrollableYearDropdown
-                yearDropdownItemNumber={100} // Shows 100 years in the past
+                yearDropdownItemNumber={100}
                 placeholderText="Click to select DOB"
+                className="bg-transparent focus:outline-none"
               />
             </div>
           </div>

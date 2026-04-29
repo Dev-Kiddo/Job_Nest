@@ -45,9 +45,7 @@ const tableData = [
 
 function RecruiterDashboard() {
   const { currentUser, loading } = useSelector((state) => state.user);
-  const role = useOutletContext();
-
-  console.log("ROLE", role);
+  const { company } = useSelector((state) => state.company);
 
   return (
     <div className="p-8 mt-2">
@@ -59,24 +57,22 @@ function RecruiterDashboard() {
         <IconBoxsTest icon={Bookmark} count={125} label="Saved Candidates" bgColour="bg-orange-600" />
       </div>
 
-      <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
-        <div className="flex items-center gap-5">
-          <img
-            className="rounded-full"
-            // src={currentUser?.avatar.url || "https://lh3.googleusercontent.com/a/ACg8ocLym0EgCNR462bJKtifQI73252BCTrJfVLgMO1iOa6GXlmTAsc=s96-c"}
-            src={currentUser.avatar.url}
-          />
+      {company?.registerStages !== "finished" && (
+        <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
+          <div className="flex items-center gap-5">
+            <img className="rounded-full h-14" src={currentUser.avatar.url} />
 
-          <div>
-            <h4 className="text-md text-gray-200 mb-2">Your company profile is not complete.</h4>
-            <p className="text-xs text-gray-200">Finish it now to improve visibility and attract the right talent.</p>
+            <div>
+              <h4 className="text-md text-gray-200 mb-2">Your company profile is not complete.</h4>
+              <p className="text-xs text-gray-200">Finish it now to improve visibility and attract the right talent.</p>
+            </div>
           </div>
-        </div>
 
-        <button className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-sm cursor-pointer hover:bg-gray-100">
-          Setup Profile <MoveRight color="#E05151" />
-        </button>
-      </div>
+          <button className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-sm cursor-pointer hover:bg-gray-100">
+            Setup Profile <MoveRight color="#E05151" />
+          </button>
+        </div>
+      )}
 
       <div className="mt-6">
         <div className="flex justify-between">
