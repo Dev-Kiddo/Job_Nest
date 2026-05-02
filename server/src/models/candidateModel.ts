@@ -21,7 +21,7 @@ const candidateSchema = new mongoose.Schema<ICandidate>({
     enum: ["M", "F"],
   },
   avatar: {
-    public_id: String,
+    publicId: String,
     url: String,
   },
   headline: String,
@@ -54,7 +54,10 @@ const candidateSchema = new mongoose.Schema<ICandidate>({
       year: Number,
     },
   ],
-  resumeUrl: String,
+  resumeUrl: {
+    public_id: String,
+    url: String,
+  },
   totalExperience: Number,
   isActive: {
     type: Boolean,

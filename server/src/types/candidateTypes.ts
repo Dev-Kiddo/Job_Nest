@@ -11,7 +11,7 @@ export interface ICandidate {
   dateOfBirth: Date;
   gender: "M" | "F";
   avatar: {
-    public_id: string;
+    publicId: string;
     url: string;
   };
   headline: string;

@@ -5,10 +5,13 @@ import { deactivateAuthChecking, getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
 import { getCurrentCompany } from "../features/companySlice";
+import { getCandidateProfile } from "../features/candidateSlice";
 
 function ProtectedRoute() {
   const { currentUser, authChecking, redirectUrl } = useSelector((state) => state.user);
-  const { company, message, messageType } = useSelector((state) => state.company);
+  const { company } = useSelector((state) => state.company);
+  const { candidate } = useSelector((state) => state.candidate);
+
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -20,16 +23,16 @@ function ProtectedRoute() {
   }, [authChecking, dispatch]);
 
   useEffect(() => {
-    if (currentUser && !currentUser.needaCompanySetup && !company) {
+    if (currentUser && currentUser.role === "recruiter" && !currentUser.needaCompanySetup && !company) {
       dispatch(getCurrentCompany());
     }
   }, [dispatch, currentUser, company]);
 
-  // useEffect(() => {
-  //   if (message && messageType === "success") {
-  //     dispatch(deactivateAuthChecking());
-  //   }
-  // }, [dispatch, currentUser, message, messageType]);
+  useEffect(() => {
+    if (currentUser && currentUser.role === "candidate" && !candidate) {
+      dispatch(getCandidateProfile());
+    }
+  }, [dispatch, currentUser, candidate]);
 
   useToastMessage("user");
 

@@ -5,9 +5,15 @@ import { asyncHandler } from "./asyncHandler.js";
 export const imageResizeHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   if (!req.files) next();
 
+  console.log("REQFILES", req.files);
+
   for (const [key, val] of Object.entries(req.files)) {
     // console.log("KEY", key);
     // console.log("VALUE", val);
+
+    if (key === "resume") {
+      continue;
+    }
 
     if (key === req.files[key][0].fieldname) {
       let resizeBuff;

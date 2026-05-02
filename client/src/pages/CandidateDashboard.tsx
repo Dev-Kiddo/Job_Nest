@@ -1,9 +1,11 @@
 import { BriefcaseBusiness, Bookmark, BellRing, MoveRight, MapPin, BadgeIndianRupee } from "lucide-react";
 import IconBoxsTest from "../components/IconBox";
 import { useSelector } from "react-redux";
-import { useOutletContext } from "react-router-dom";
+import SetupProfileCard from "../components/SetupProfileCard";
+SetupProfileCard;
 
 const tableHead = ["Job", "Date Applied", "Status", "Action"];
+
 const tableData = [
   {
     logoUrl: "/src/assets/img/jobnest.svg",
@@ -57,24 +59,7 @@ function CandidateDashboard() {
         <IconBoxsTest icon={BellRing} count={270} label="Job Alerts" bgColour="bg-green-600" />
       </div>
 
-      <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
-        <div className="flex items-center gap-5">
-          <img
-            className="rounded-full"
-            // src={currentUser?.avatar.url || "https://lh3.googleusercontent.com/a/ACg8ocLym0EgCNR462bJKtifQI73252BCTrJfVLgMO1iOa6GXlmTAsc=s96-c"}
-            src={currentUser.avatar.url}
-          />
-
-          <div>
-            <h4 className="text-md text-gray-200 mb-2">Your profile setup is not completed.</h4>
-            <p className="text-xs text-gray-200">Your profile is not complete. Finish it now and get noticed 3x faster.</p>
-          </div>
-        </div>
-
-        <button className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-sm cursor-pointer hover:bg-gray-100">
-          Setup Profile <MoveRight color="#E05151" />
-        </button>
-      </div>
+      <SetupProfileCard currentUser={currentUser} />
 
       <div className="mt-6">
         <div className="flex justify-between">

@@ -59,7 +59,7 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
     };
   }
 
-  // if logo upload, that also need add in users data.
+  // if logo upload, that also need to add in users data.
   if (cloudinaryLogo) {
     user.avatar = cloudinaryLogo;
   }

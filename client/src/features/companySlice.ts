@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { userMarkMessageAsShown } from "./userSlice";
 import type { CompanyInitialState } from "../types/companyTypes";
 
 export const registerCompany = createAsyncThunk("company/registerCompany", async (payload, { rejectWithValue }) => {
-  console.log("PAY", payload);
+  if (!payload) {
+    return;
+  }
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/company`, {
@@ -74,7 +75,7 @@ export const getCurrentCompany = createAsyncThunk("company/getCurrentCompany", a
       return rejectWithValue(data.message || "Failed to get current company");
     }
 
-    console.log("CURRENTCOMPANY", data);
+    // console.log("CURRENTCOMPANY", data);
 
     return data;
   } catch (error) {

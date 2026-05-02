@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { companyMarkMessageAsShown } from "../features/companySlice";
 
 function useToastMessage(sliceName: string) {
-  console.log("ToastSliceName", sliceName);
+  // console.log("ToastSliceName", sliceName);
 
   const toastShownRef = useRef(false);
 

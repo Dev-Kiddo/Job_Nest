@@ -2,6 +2,7 @@ import { BriefcaseBusiness, Bookmark, MoveRight, MapPin, BadgeIndianRupee, Circl
 import IconBoxsTest from "../components/IconBox";
 import { useSelector } from "react-redux";
 import { useOutletContext } from "react-router-dom";
+import SetupProfileCard from "../components/SetupProfileCard";
 
 const tableHead = ["Jobs", "Applications", "Status", "Action"];
 const tableData = [
@@ -57,22 +58,7 @@ function RecruiterDashboard() {
         <IconBoxsTest icon={Bookmark} count={125} label="Saved Candidates" bgColour="bg-orange-600" />
       </div>
 
-      {company?.registerStages !== "finished" && (
-        <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
-          <div className="flex items-center gap-5">
-            <img className="rounded-full h-14" src={currentUser.avatar.url} />
-
-            <div>
-              <h4 className="text-md text-gray-200 mb-2">Your company profile is not complete.</h4>
-              <p className="text-xs text-gray-200">Finish it now to improve visibility and attract the right talent.</p>
-            </div>
-          </div>
-
-          <button className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-sm cursor-pointer hover:bg-gray-100">
-            Setup Profile <MoveRight color="#E05151" />
-          </button>
-        </div>
-      )}
+      {company?.registerStages !== "finished" && <SetupProfileCard currentUser={currentUser} />}
 
       <div className="mt-6">
         <div className="flex justify-between">

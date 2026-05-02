@@ -24,9 +24,24 @@ export const getMyProfileController = asyncHandler(async function (req: Request,
 export const updateCandidateBasicInfo = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const { id } = req.user;
 
-  console.log(req.files);
+  // console.log("REQFILES HANDLER", req.files);
 
-  const { phone, location, dateOfBirth, gender, headline, biography } = req.body;
+  const {
+    phone,
+    location,
+    dateOfBirth,
+    gender,
+    headline,
+    biography,
+    skills,
+    experience,
+    education,
+    totalExperience,
+    expectedSalary,
+    preferredLocations,
+    preferences,
+    socialLinks,
+  } = req.body;
 
   const candidate = await CandidateModel.findOne({ user: id });
 
@@ -34,33 +49,68 @@ export const updateCandidateBasicInfo = asyncHandler(async function (req: Reques
     return next(new AppError("Candidate profile not found!", 404));
   }
 
-  console.log("candidate:", candidate);
+  const user = await UserModel.findOne({ _id: id });
 
-  if (phone !== undefined) candidate.phone = phone;
-  if (location !== undefined) candidate.location = location;
-  if (dateOfBirth !== undefined) candidate.dateOfBirth = dateOfBirth;
-  if (gender !== undefined) candidate.gender = gender;
-  if (headline !== undefined) candidate.headline = headline;
-  if (biography !== undefined) candidate.biography = biography;
+  if (!user) {
+    return next(new AppError("User not found!", 404));
+  }
 
-  if (req.files.avatar !== undefined) {
-    const cloudinaryResult = await uploadToCloudinary(req.files.buffer, "avatar");
+  const updatedata: any = {};
+
+  if (req.files?.avatar !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.avatar[0].buffer, "avatar");
     // console.log("cloudinaryResult", cloudinaryResult);
     if (!cloudinaryResult) {
       return next(new AppError("Cloudinary avatar upload err", 400));
     }
 
-    candidate.avatar = {
+    const result = {
+      publicId: cloudinaryResult.public_id,
+      url: cloudinaryResult.url,
+    };
+
+    updatedata.avatar = result;
+    user.avatar = result;
+  }
+
+  if (req.files?.resume !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.resume[0].buffer, "resume");
+    // console.log("cloudinaryResult", cloudinaryResult);
+    if (!cloudinaryResult) {
+      return next(new AppError("Cloudinary resume upload err", 400));
+    }
+
+    updatedata.resumeUrl = {
       public_id: cloudinaryResult.public_id,
       url: cloudinaryResult.url,
     };
   }
 
-  await candidate.save();
+  if (phone !== undefined) updatedata.phone = phone;
+  if (location !== undefined) updatedata.location = location;
+  if (dateOfBirth !== undefined) updatedata.dateOfBirth = dateOfBirth;
+  if (gender !== undefined) updatedata.gender = gender;
+  if (headline !== undefined) updatedata.headline = headline;
+  if (biography !== undefined) updatedata.biography = biography;
+  if (skills !== undefined) updatedata.skills = skills;
+  if (experience !== undefined) updatedata.experience = experience;
+  if (education !== undefined) updatedata.education = education;
+
+  if (totalExperience !== undefined) updatedata.totalExperience = totalExperience;
+  if (expectedSalary !== undefined) updatedata.expectedSalary = expectedSalary;
+  if (preferredLocations !== undefined) updatedata.preferredLocations = preferredLocations;
+  if (preferences !== undefined) updatedata.preferences = preferences;
+  if (socialLinks !== undefined) updatedata.socialLinks = socialLinks;
+
+  Object.assign(candidate, updatedata);
+
+  const updatedCandidate = await candidate.save();
+  await user.save();
 
   res.status(200).json({
     success: true,
     message: "Updated successfully",
+    updatedCandidate,
   });
 });
 
