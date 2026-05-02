@@ -3,13 +3,16 @@ import { motion } from "framer-motion";
 import React from "react";
 
 const populatJobCategories = [
-  { name: "Programming", icon: LaptopMinimalCheck },
-  { name: "Data Science", icon: DatabaseZap },
-  { name: "Designing", icon: LassoSelect },
-  { name: "Networking", icon: Waypoints },
-  { name: "Management", icon: FileUser },
-  { name: "Marketing", icon: TicketCheck },
-  { name: "Cybersecurity", icon: ShieldPlus },
+  { name: "Programming", icon: LaptopMinimalCheck, positionOpen: 312 },
+  { name: "Data Science", icon: DatabaseZap, positionOpen: 422 },
+  { name: "Design", icon: LassoSelect, positionOpen: 333 },
+  { name: "Networking", icon: Waypoints, positionOpen: 476 },
+  { name: "Management", icon: FileUser, positionOpen: 231 },
+  { name: "Marketing", icon: TicketCheck, positionOpen: 288 },
+  { name: "Cybersecurity", icon: ShieldPlus, positionOpen: 189 },
+  { name: "Health&Care", icon: ShieldPlus, positionOpen: 99 },
+  { name: "Music&audio", icon: ShieldPlus, positionOpen: 121 },
+  { name: "Finance", icon: ShieldPlus, positionOpen: 245 },
 ];
 
 function PopularJobs() {
@@ -21,21 +24,21 @@ function PopularJobs() {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 md:gap-6"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
         initial={{ opacity: 0, x: 60 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
         {populatJobCategories.map((job) => (
-          <div
-            key={job.name}
-            role="button"
-            className="group bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-gray-300 cursor-pointer transition-all duration-200 flex flex-col items-center text-center"
-          >
-            <div className="bg-blue-50 p-3 rounded-full mb-3 transition-transform group-hover:scale-110">
-              <job.icon />
+          <div className="group h-20 flex gap-x-4 items-center justify-center cursor-pointer">
+            <div className="w-20 h-full bg-gray-200 flex items-center justify-center p-3 rounded-md transition-transform group-hover:scale-110">
+              <job.icon className="lucide-big" color="#2563eb" />
             </div>
-            <span className="font-medium text-gray-600 text-sm">{job.name}</span>
+
+            <div className="transition-all duration-200 flex flex-col">
+              <h2 className="font-medium text-gray-600 text-base">{job.name}</h2>
+              <p className="text-gray-500 text-xs mt-3 font-medium">{job.positionOpen} Open Position</p>
+            </div>
           </div>
         ))}
       </motion.div>
