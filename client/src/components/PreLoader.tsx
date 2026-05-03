@@ -1,13 +1,10 @@
-import { div } from "framer-motion/client";
-import React from "react";
-
 function PreLoader() {
   return (
     <section className="w-full h-screen flex justify-center items-center">
-      <div className="flex flex-row gap-2">
-        <div className="w-4 h-4 rounded-full bg-blue-600 animate-bounce [animation-delay:.7s]"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-600 animate-bounce [animation-delay:.3s]"></div>
-        <div className="w-4 h-4 rounded-full bg-blue-600 animate-bounce [animation-delay:.7s]"></div>
+      <div role="status" className="w-10 h-10 rounded-full bg-blue-600 relative">
+        <div className="absolute w-full h-full bg-blue-300 rounded-full animate-ping"></div>
+        <div className="absolute w-full h-full bg-gray-300 rounded-full animate-ping delay-200"></div>
+        <span className="sr-only">Loading…</span>
       </div>
     </section>
   );

@@ -47,7 +47,12 @@ function HeroSection() {
         <p className="text-gray-500 text-xs mt-3">Suggestions: Developer, Designer, Digital Maraketing, Video Editor</p>
       </motion.div>
 
-      <motion.div className="flex justify-center gap-x-5 mt-8" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+      <motion.div
+        className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         {heroIconBoxes.map((box) => (
           <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
             <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">

@@ -31,8 +31,8 @@ function TrustedPartners() {
   return (
     <div className="py-7 px-4 max-w-6xl mx-auto mt-24">
       <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 60 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-        <h2 className="text-3xl font-bold text-gray-700 mb-2">Trusted By</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <h2 className="text-3xl font-bold text-gray-700 mb-2">Our Trusted Partners</h2>
+        <p className="text-gray-600 max-w-2xl mx-auto">Partnering with reliable companies to connect you with the right career opportunities.</p>
       </motion.div>
 
       <div className="flex flex-wrap justify-center items-center gap-10">

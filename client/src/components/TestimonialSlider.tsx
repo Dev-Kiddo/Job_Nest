@@ -10,7 +10,7 @@ const TestimonialList = [
   {
     id: 1,
     title: "Smooth Career Transition",
-    quote: "Switching industries was daunting, but the layout and resource guides here made it seamless. I landed a role in tech within three weeks!",
+    quote: "Switching industries was daunting, but the layout and resource guides Jobnest made it seamless. I landed a role in tech within three weeks!",
     avatar: "https://i.pravatar.cc/150?img=1",
     name: "David Chen",
     desigination: "Software Engineer",
@@ -18,7 +18,7 @@ const TestimonialList = [
   {
     id: 2,
     title: "Stress-Free Job Hunting",
-    quote: "The automated matching system is incredible. I stopped scrolling through irrelevant listings and started getting interviews that actually fit my skillset.",
+    quote: "Jobnest automated matching system is incredible. I stopped scrolling through irrelevant listings and started getting interviews that actually fit my skillset.",
     avatar: "https://i.pravatar.cc/150?img=2",
     name: "Sarah Jenkins",
     desigination: "Marketing Specialist",
@@ -34,7 +34,7 @@ const TestimonialList = [
   {
     id: 4,
     title: "Dream Job Secured",
-    quote: "I’ve tried the big-name sites, but I found my current dream role here. The direct communication with recruiters set this platform apart from the rest.",
+    quote: "I’ve tried the big-name sites, but I found my current dream role here. The direct communication with recruiters set Jobnest apart from the rest.",
     avatar: "https://i.pravatar.cc/150?img=4",
     name: "Marcus Thorne",
     desigination: "Project Manager",
