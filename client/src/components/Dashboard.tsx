@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Outlet } from "react-router-dom";
 import { logoutUser } from "../features/userSlice";
-import useToastMessage from "../hooks/useToastMessage";
 import SidebarOptions from "./SidebarOptions";
 
 const candidateSidebar = [
-  { title: "overview", icon: Dock, url: "/" },
+  { title: "overview", icon: Dock, url: "/dashboard/candidate/overview" },
   { title: "applied jobs", icon: BriefcaseBusiness, url: "/" },
   { title: "favorite jobs", icon: Bookmark, url: "/" },
   { title: "job alert", icon: BellRing, url: "/" },
@@ -39,7 +38,7 @@ function Dashboard() {
     <div className="w-full flex">
       {/* SIDEBAR */}
       <div className=" flex w-1/6 border-r border-gray-300">
-        <div className="w-full h-full flex flex-col justify-center">
+        <div className="w-full h-full flex flex-col justify-center gap-y-5">
           <p className="text-xs py-4 mx-5">{currentUser?.role === "candidate" ? "Candidate" : "Recruiter"} Dashboard</p>
 
           <nav className="text-sm font-medium">

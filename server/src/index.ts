@@ -4,7 +4,7 @@ dotenv.config();
 import { errorHandler } from "./middlewares/error.js";
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
-import candidateRouter from "./routes/candidateRoute.js";
+import profileRouter from "./routes/profileRoute.js";
 import companyRouter from "./routes/companyRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -25,8 +25,8 @@ app.use(
 
 // ROUTES
 app.use("/api/auth", authRouter);
-app.use("/api", userRouter);
-app.use("/api", candidateRouter);
+app.use("/api/users", userRouter);
+app.use("/api/candidate", profileRouter);
 app.use("/api/company", companyRouter);
 
 // Err Middlerware

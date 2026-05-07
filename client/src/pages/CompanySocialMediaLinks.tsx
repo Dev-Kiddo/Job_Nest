@@ -1,5 +1,5 @@
-import { CirclePlus, CircleX, Heading1, Logs, MoveRight } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { CirclePlus, CircleX, MoveRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { useDispatch, useSelector } from "react-redux";

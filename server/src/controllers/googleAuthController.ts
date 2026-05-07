@@ -6,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import UserModel from "../models/userModel.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
-import CandidateModel from "../models/candidateModel.js";
+import Profilemodel from "../models/profileModel.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
@@ -106,7 +106,7 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
     authProvider: "google",
   });
 
-  const candidate = await CandidateModel.create({
+  const candidate = await Profilemodel.create({
     user: user._id,
   });
 

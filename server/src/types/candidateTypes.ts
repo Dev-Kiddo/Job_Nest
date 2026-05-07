@@ -2,58 +2,41 @@ import type { Types } from "mongoose";
 
 export interface ICandidate {
   user: Types.ObjectId;
-  phone: string;
+  fullName: string;
+  totalExperience: number;
   location: {
-    city: string;
-    state: string;
     country: string;
   };
   dateOfBirth: Date;
-  gender: "M" | "F";
+  gender: "male" | "female" | "";
   avatar: {
     publicId: string;
     url: string;
   };
+  banner: {
+    publicId: string;
+    url: string;
+  };
   headline: string;
-  biography: string;
-  skills: {
-    name: string;
-    level: "beginner" | "intermediate" | "expert";
-  }[];
+  skills: [string];
+  languages: [string];
   experience: {
     title: string;
     company: string;
     location: string;
-    startDate: Date;
-    endDate: Date;
-    isCurrent: boolean;
-    description: string;
-  }[];
+    companyExperience: string;
+  };
   education: {
     degree: string;
     field: string;
     institution: string;
     year: number;
-  }[];
+  };
   resumeUrl: string;
-  totalExperience: number;
-  expectedSalary: {
-    min: number;
-    max: number;
-    currency: string;
-  };
-  preferredLocations: string[];
   isActive: boolean;
-  preferences: {
-    jobType: string[];
-    workMode: string[];
-    noticePeriod: string;
-  };
-  socialLinks: {
-    linkedin: string;
-    github: string;
-    portfolio: string;
-  };
+
+  socialLinks: { name: String, baseUrl: String }[],
+;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -3,7 +3,9 @@ import sharp from "sharp";
 import { asyncHandler } from "./asyncHandler.js";
 
 export const imageResizeHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  if (!req.files) next();
+  if (!req.files) {
+    return next();
+  }
 
   console.log("REQFILES", req.files);
 

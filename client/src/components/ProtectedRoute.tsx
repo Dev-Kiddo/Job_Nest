@@ -5,12 +5,12 @@ import { deactivateAuthChecking, getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
 import { getCurrentCompany } from "../features/companySlice";
-import { getCandidateProfile } from "../features/candidateSlice";
+import { getCandidateProfile } from "../features/profileSlice";
 
 function ProtectedRoute() {
   const { currentUser, authChecking, redirectUrl } = useSelector((state) => state.user);
   const { company } = useSelector((state) => state.company);
-  const { candidate } = useSelector((state) => state.candidate);
+  const { candidate } = useSelector((state) => state.profile);
 
   const location = useLocation();
 

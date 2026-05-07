@@ -16,12 +16,15 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CandidateSettings from "./pages/CandidateSettings";
-import CandidateBasicInfo from "./components/CandidateBasicInfo";
+import CandidatePersonalInfo from "./components/CandidatePersonalInfo";
 import ChooseCompany from "./pages/ChooseCompany";
 import CreateCompany from "./pages/CreateCompany";
 import CompanyInfo from "./components/CompanyInfo";
 import FoundingInfo from "./components/FoundingInfo";
 import CompanySocialMediaLinks from "./pages/CompanySocialMediaLinks";
+import CandidateOverview from "./components/CandidateOverview";
+import CandidateProfileInfo from "./components/CandidateProfileInfo";
+import CandidateSocialInfo from "./components/CandidateSocialInfo";
 
 export default function App() {
   return (
@@ -67,10 +70,21 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<CandidateDashboard />} />
-              <Route path="candidate" element={<CandidateDashboard />} />
+
               <Route path="recruiter" element={<RecruiterDashboard />} />
-              <Route path="candidate/settings" element={<CandidateSettings />}>
-                <Route index element={<CandidateBasicInfo />} />
+
+              {/* <Route index element={<CandidatePersonalInfo />} /> */}
+
+              <Route path="candidate" element={<CandidateDashboard />}>
+                <Route index element={<CandidateOverview />} />
+                <Route path="overview" element={<CandidateOverview />} />
+
+                <Route path="settings" element={<CandidateSettings />}>
+                  <Route index element={<CandidatePersonalInfo />} />
+                  <Route path="personal-info" element={<CandidatePersonalInfo />} />
+                  <Route path="profile-info" element={<CandidateProfileInfo />} />
+                  <Route path="social-info" element={<CandidateSocialInfo />} />
+                </Route>
               </Route>
             </Route>
           </Route>

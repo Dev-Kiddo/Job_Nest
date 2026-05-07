@@ -6,7 +6,7 @@ export const multerImageHandler = function () {
   const storage = multer.memoryStorage();
 
   const fileFilter = (req: Request, file, cb) => {
-    console.log("FILE", file);
+    // console.log("FILE", file);
 
     // if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
     //   cb(null, true);

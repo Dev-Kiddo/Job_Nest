@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCurrentCompany } from "./companySlice";
 
 const initialState = {
   candidate: null,
@@ -11,7 +10,7 @@ const initialState = {
   isMessageShown: false,
 };
 
-export const getCandidateProfile = createAsyncThunk("candidate/getCandidateProfile", async (_, { rejectWithValue }) => {
+export const getCandidateProfile = createAsyncThunk("profile/getCandidateProfile", async (_, { rejectWithValue }) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/candidate/profile`, {
       method: "GET",
@@ -20,14 +19,9 @@ export const getCandidateProfile = createAsyncThunk("candidate/getCandidateProfi
 
     const data = await res.json();
 
-    // console.log("CANDIDATE DATA", data);
-
     if (!res.ok) {
       return rejectWithValue(data.message || "failed to get candidate profile");
     }
-
-    // console.log("CANDIDATE DATA", data);
-
     return data;
   } catch (error) {
     const err = error as Error;
@@ -35,12 +29,23 @@ export const getCandidateProfile = createAsyncThunk("candidate/getCandidateProfi
   }
 });
 
-export const updateCandidaeProfile = createAsyncThunk(async (payload, { rejectWithValue }) => {
+export const updateCandidateProfile = createAsyncThunk("profile/updateCandidateProfile", async (payload, { rejectWithValue }) => {
+  console.log("PAYLOAD", payload);
+
+  const isFormData = payload instanceof FormData;
+
+  console.log("isFormData:", isFormData);
+
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_URl}/api/candidate/update-profile`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/candidate/profile`, {
       method: "PATCH",
       credentials: "include",
-      body: payload,
+      headers: isFormData
+        ? undefined
+        : {
+            "Content-Type": "application/json",
+          },
+      body: isFormData ? payload : JSON.stringify(payload),
     });
 
     const data = await res.json();
@@ -56,8 +61,8 @@ export const updateCandidaeProfile = createAsyncThunk(async (payload, { rejectWi
   }
 });
 
-const candidateSlice = createSlice({
-  name: "candidate",
+const profileSlice = createSlice({
+  name: "profile",
   initialState,
   reducers: {
     clearCandidate: (state) => {
@@ -95,15 +100,14 @@ const candidateSlice = createSlice({
         state.messageType = "error";
         state.isMessageShown = false;
       })
-      //   UPDATE CANDIDATE PROFILE
-      .addCase(updateCandidaeProfile.pending, (state) => {
+      .addCase(updateCandidateProfile.pending, (state) => {
         state.loading = true;
 
         state.message = null;
         state.messageType = null;
         state.isMessageShown = false;
       })
-      .addCase(updateCandidaeProfile.fulfilled, (state, action) => {
+      .addCase(updateCandidateProfile.fulfilled, (state, action) => {
         state.loading = false;
 
         state.candidate = action.payload.updatedCandidate;
@@ -111,7 +115,7 @@ const candidateSlice = createSlice({
         state.messageType = "success";
         state.isMessageShown = false;
       })
-      .addCase(updateCandidaeProfile.rejected, (state) => {
+      .addCase(updateCandidateProfile.rejected, (state, action) => {
         state.loading = false;
 
         state.message = action.payload as string;
@@ -121,5 +125,5 @@ const candidateSlice = createSlice({
   },
 });
 
-export const { clearMessage } = candidateSlice.actions;
-export default candidateSlice.reducer;
+export const { clearMessage } = profileSlice.actions;
+export default profileSlice.reducer;

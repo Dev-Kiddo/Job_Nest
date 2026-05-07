@@ -32,6 +32,11 @@ body {
   margin: 0;
 }
 
+.react-datepicker-wrapper {
+  width: 100%;
+  padding: 15px 8px !important;
+}
+
 @layer base {
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-gray-500;

@@ -7,23 +7,23 @@ const candidateSettingOptions = [
   {
     icon: UserRound,
     label: "personal",
-    url: "#",
+    url: "personal-info",
   },
   {
     icon: CircleUser,
     label: "profile",
-    url: "#",
+    url: "profile-info",
   },
   {
     icon: Globe,
     label: "social links",
-    url: "#",
+    url: "social-info",
   },
-  {
-    icon: Settings,
-    label: "account settings",
-    url: "#",
-  },
+  // {
+  //   icon: Settings,
+  //   label: "account settings",
+  //   url: "account-info",
+  // },
 ];
 
 function CandidateSettings() {

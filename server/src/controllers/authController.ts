@@ -7,9 +7,8 @@ import jwt from "jsonwebtoken";
 import { generateAccessAndRefreshToken, generateAccessToken, generateRandomToken, generateRefreshToken, hashToken, verifyRefreshToken } from "../utils/tokenUtils.js";
 import type { AccessTokenPayload } from "../types/tokenTypes.js";
 import type { RefreshTokenPayload } from "../types/tokenTypes.js";
-import CandidateModel from "../models/candidateModel.js";
+import Profilemodel from "../models/profileModel.js";
 
-import CompanyModel from "../models/companyModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import SessionModel from "../models/sessionModel.js";
 import { formatSessions, generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
@@ -131,7 +130,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   });
 
   if (user.role === "candidate") {
-    await CandidateModel.create({
+    await Profilemodel.create({
       user: user._id,
     });
   }

@@ -1,19 +1,19 @@
-import { BriefcaseBusiness, Bookmark, MoveRight, MapPin, BadgeIndianRupee, CircleDashed, CircleDot, UsersRound, EllipsisVertical } from "lucide-react";
-import IconBoxsTest from "../components/IconBox";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useOutletContext } from "react-router-dom";
-import SetupProfileCard from "../components/SetupProfileCard";
-import IconBox from "../components/IconBox";
+import SetupProfileCard from "./SetupProfileCard";
+import { BadgeIndianRupee, BellRing, Bookmark, BriefcaseBusiness, MapPin, MoveRight } from "lucide-react";
+import IconBox from "./IconBox";
 
-const tableHead = ["Jobs", "Applications", "Status", "Action"];
+const tableHead = ["Job", "Date Applied", "Status", "Action"];
+
 const tableData = [
   {
     logoUrl: "/src/assets/img/jobnest.svg",
     title: "Full Stack Developer",
     type: "Full-Time",
     location: "India",
-    daysRemaining: 24,
-    numOfApplicants: 302,
+    salaryRange: [50, 80],
+    DateApplied: new Date().toISOString(),
     status: "active",
   },
   {
@@ -21,8 +21,8 @@ const tableData = [
     title: "NodeJs Developer",
     type: "Remote",
     location: "India",
-    daysRemaining: 15,
-    numOfApplicants: 162,
+    salaryRange: [30, 60],
+    DateApplied: new Date().toISOString(),
     status: "active",
   },
   {
@@ -30,8 +30,8 @@ const tableData = [
     title: "Graphic Designer",
     type: "Temporary",
     location: "India",
-    daysRemaining: 2,
-    numOfApplicants: 8,
+    salaryRange: [25, 50],
+    DateApplied: new Date().toISOString(),
     status: "active",
   },
   {
@@ -39,31 +39,35 @@ const tableData = [
     title: "Graphic Designer",
     type: "Temporary",
     location: "India",
-    daysRemaining: 9,
-    numOfApplicants: 255,
-    status: "Expire",
+    salaryRange: [25, 50],
+    DateApplied: new Date().toISOString(),
+    status: "active",
   },
 ];
 
 const iconBoxList = [
   {
-    label: "Open Jobs",
-    count: 299,
+    label: "Applied Jobs",
+    count: 659,
     icon: BriefcaseBusiness,
     bgColour: "bg-blue-600",
   },
   {
-    label: "Saved Candidates",
-    count: 106,
+    label: "Favorite Jobs",
+    count: 156,
     icon: Bookmark,
-    bgColour: "bg-violet-600",
+    bgColour: "bg-orange-600",
+  },
+  {
+    label: "Job Alerts",
+    count: 244,
+    icon: BellRing,
+    bgColour: "bg-green-600",
   },
 ];
 
-function RecruiterDashboard() {
+function CandidateOverview() {
   const { currentUser, loading } = useSelector((state) => state.user);
-  const { company } = useSelector((state) => state.company);
-
   return (
     <>
       <div className="px-8">
@@ -75,8 +79,8 @@ function RecruiterDashboard() {
       </div>
 
       <div className="p-8 mt-2">
-        <h1 className="text-lg capitalize">Hello, {currentUser?.name}</h1>
-        <p className="text-xs text-gray-800">Here's your daily activities and applications</p>
+        <h1 className="text-xl font-semibold capitalize">Hello, {currentUser?.name}</h1>
+        <p className="text-xs text-gray-800">Here's your daily activities and job alerts</p>
 
         <div className="flex justify-between gap-x-5 mt-5">
           {iconBoxList.map((box) => (
@@ -84,11 +88,11 @@ function RecruiterDashboard() {
           ))}
         </div>
 
-        {company?.registerStages !== "finished" && <SetupProfileCard currentUser={currentUser} />}
+        <SetupProfileCard currentUser={currentUser} />
 
         <div className="mt-6">
           <div className="flex justify-between">
-            <h1 className="text-sm font-medium">Recently Posed Jobs</h1>
+            <h1 className="text-sm font-medium">Recently Applied</h1>
             <button className="flex gap-x-2 text-sm text-gray-600 hover:underline">
               View all <MoveRight />
             </button>
@@ -98,7 +102,7 @@ function RecruiterDashboard() {
             <tbody>
               <tr className="w-full bg-gray-200 p-2">
                 {tableHead.map((head, i) => (
-                  <th className="text-center text-sm p-2 text-gray-600" key={i}>
+                  <th className="text-left text-sm p-2 text-gray-600" key={i}>
                     {head}
                   </th>
                 ))}
@@ -114,31 +118,21 @@ function RecruiterDashboard() {
                       <h1 className="text-sm relative capitalize text-gray-900">
                         {data.title} <span className="bg-gray-300 text-green-600 font-medium px-2 py-1 rounded-full text-[10px]">{data.type}</span>
                       </h1>
-
                       <div className="flex gap-x-4 mt-2">
                         <span className="flex gap-x-1 text-xs text-gray-900">
                           <MapPin className="lucide-sm" color="gray" />
                           {data.location}
                         </span>
                         <span className="flex gap-x-1 text-xs text-gray-900">
-                          <CircleDot className="lucide-sm" color="gray" />
-                          {data.daysRemaining || "-"} days remaining
+                          <BadgeIndianRupee className="lucide-sm" color="gray" />${data.salaryRange[0]}K-${data.salaryRange[1]}K/month
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="text-sm relative capitalize text-gray-900">
-                    <span className="flex gap-x-1 text-xs text-gray-900">
-                      <UsersRound className="lucide-sm" color="gray" />
-                      {data.numOfApplicants} Applications
-                    </span>
-                  </td>
+                  <td className="text-sm relative capitalize text-gray-900">{data.DateApplied}</td>
                   <td className="text-sm relative capitalize text-gray-900">{data.status}</td>
                   <td className="text-sm relative capitalize text-gray-900 text-center">
-                    <span className="flex items-center justify-center cursor-pointer gap-x-1 text-xs text-gray-900">
-                      <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Applications</button>
-                      <EllipsisVertical />
-                    </span>
+                    <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Details</button>
                   </td>
                 </tr>
               ))}
@@ -150,4 +144,4 @@ function RecruiterDashboard() {
   );
 }
 
-export default RecruiterDashboard;
+export default CandidateOverview;

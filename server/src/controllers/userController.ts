@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import UserModel from "../models/userModel.js";
 import AppError from "../utils/AppError.js";
-import CandidateModel from "../models/candidateModel.js";
+import Profilemodel from "../models/profileModel.js";
 import CompanyModel from "../models/companyModel.js";
 
 export const fetchUsersHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
@@ -76,7 +76,7 @@ export const deleteUserHandler = asyncHandler(async function (req: Request, res:
   user.isActive = false;
 
   if (user.role === "candidate") {
-    const candidate = await CandidateModel.findOne({ user: id });
+    const candidate = await Profilemodel.findOne({ user: id });
 
     if (!candidate) {
       return next(new AppError("Candidate not found!", 400));

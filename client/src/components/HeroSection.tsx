@@ -5,18 +5,22 @@ const heroIconBoxes = [
   {
     label: "Live jobs",
     count: "1,75,323",
+    icon: BriefcaseBusiness,
   },
   {
     label: "Companies",
     count: "2,05,964",
+    icon: Building2,
   },
   {
     label: "Candidates",
     count: "2,75,323",
+    icon: Users,
   },
   {
     label: "New jobs",
     count: "75,323",
+    icon: ClockPlus,
   },
 ];
 
@@ -54,9 +58,9 @@ function HeroSection() {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         {heroIconBoxes.map((box) => (
-          <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group">
+          <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group" key={box.label}>
             <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
-              <BriefcaseBusiness className="lucide-big transition group-hover:bg-blue-700" />
+              <box.icon className="lucide-big transition group-hover:bg-blue-700" />
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{box.count}</h3>

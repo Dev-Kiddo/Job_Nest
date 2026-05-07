@@ -5,12 +5,12 @@ import { roleAuth } from "../middlewares/roleAuth.js";
 
 const router = Router();
 
-router.route("/users").get(protectAuth, roleAuth("admin"), fetchUsersHandler);
+router.route("/").get(protectAuth, roleAuth("admin"), fetchUsersHandler);
 
-router.route("/users/:id").get(protectAuth, fetchSingleUserHandler).patch(protectAuth, updateUserHandler).delete(deleteUserHandler);
+router.route("/:id").get(protectAuth, fetchSingleUserHandler).patch(protectAuth, updateUserHandler).delete(deleteUserHandler);
 
-router.route("/users/:id/activate").get(protectAuth, roleAuth("admin"), activateUserHandler);
+router.route("/:id/activate").get(protectAuth, roleAuth("admin"), activateUserHandler);
 
-router.route("/users/:id/role").get(protectAuth, roleAuth("admin"), changeUserRoleHandler);
+router.route("/:id/role").get(protectAuth, roleAuth("admin"), changeUserRoleHandler);
 
 export default router;
