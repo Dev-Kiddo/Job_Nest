@@ -7,7 +7,7 @@ export const imageResizeHandler = asyncHandler(async function (req: Request, res
     return next();
   }
 
-  console.log("REQFILES", req.files);
+  // console.log("REQFILES", req.files);
 
   for (const [key, val] of Object.entries(req.files)) {
     // console.log("KEY", key);

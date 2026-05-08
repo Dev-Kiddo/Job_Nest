@@ -125,7 +125,7 @@ function CompanyInfo() {
 
         <div className="text-sm flex flex-col mt-4">
           <label className="text-gray-500 capitalize">
-            Company Name <span className="text-blue-500">*</span>
+            Company Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"

@@ -27,6 +27,10 @@ import CandidateProfileInfo from "./components/CandidateProfileInfo";
 import CandidateSocialInfo from "./components/CandidateSocialInfo";
 import CompanyOverview from "./components/CompanyOverview";
 import CompanySettings from "./pages/CompanySettings";
+import EditCompanyInfo from "./components/ManageCompanyInfo";
+import ManageCompanyInfo from "./components/ManageCompanyInfo";
+import ManageFoundingInfo from "./components/ManageFoundingInfo";
+import ManageSocialInfo from "./components/ManageSocialInfo";
 
 export default function App() {
   return (
@@ -90,10 +94,10 @@ export default function App() {
                 <Route path="overview" element={<CompanyOverview />} />
 
                 <Route path="settings" element={<CompanySettings />}>
-                  <Route index element={<CompanyInfo />} />
-                  <Route path="company-info" element={<CompanyInfo />} />
-                  <Route path="founding-info" element={<FoundingInfo />} />
-                  <Route path="social-info" element={<CompanySocialMediaLinks />} />
+                  <Route index element={<ManageCompanyInfo />} />
+                  <Route path="manage-company-info" element={<ManageCompanyInfo />} />
+                  <Route path="manage-founding-info" element={<ManageFoundingInfo />} />
+                  <Route path="manage-social-info" element={<ManageSocialInfo />} />
                 </Route>
               </Route>
             </Route>

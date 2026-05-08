@@ -54,17 +54,14 @@ const CompanySchema = new mongoose.Schema<ICompany>(
       enum: ["public", "private", "startup", "nonprofit", "government"],
       default: "private",
     },
-    locations: [
-      {
-        city: String,
-        state: String,
-        country: {
-          type: String,
-          default: "india",
-        },
-        address: String,
+    location: {
+      city: String,
+      state: String,
+      country: {
+        type: String,
+        default: "india",
       },
-    ],
+    },
     contactEmail: {
       type: String,
       trim: true,

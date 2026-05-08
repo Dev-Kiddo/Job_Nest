@@ -13,6 +13,6 @@ router.route("/").post(protectAuth, multerImageHandler(), imageResizeHandler, cr
 
 router.route("/my-company").get(protectAuth, fetchMyCompanyHandler);
 
-router.route("/:id").patch(protectAuth, updateCompanyInfoHandler);
+router.route("/:id").patch(protectAuth, multerImageHandler(), imageResizeHandler, updateCompanyInfoHandler);
 
 export default router;

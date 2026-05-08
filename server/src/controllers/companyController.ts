@@ -111,14 +111,20 @@ export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, 
 });
 
 export const updateCompanyInfoHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const { companyType, companySize, country, state, city, contactEmail, contactPhone, socialLinks } = req.body;
+  console.log("BODY", req.body);
+
+  const { name, description, tagline, website, companyType, companySize, location, contactEmail, contactPhone, socialLinks } = req.body;
 
   const { user: currentUser } = req;
 
   const { id: companyId } = req.params;
 
-  const user = await CompanyModel.findOne({ _id: currentUser.id });
+  const user = await UserModel.findOne({ _id: currentUser.id });
   const company = await CompanyModel.findOne({ _id: companyId });
+
+  if (!user) {
+    return next(new AppError("Oops, User not found or Token expired!", 404));
+  }
 
   if (!company) {
     return next(new AppError("Company not found or registered!", 400));
@@ -130,48 +136,75 @@ export const updateCompanyInfoHandler = asyncHandler(async function (req: Reques
     return next(new AppError("User not found as recruiter in this company", 400));
   }
 
+  let cloudinaryLogo;
+  let cloudinaryBanner;
   let updateData = {};
 
-  // const allowedFields = [companyType, companySize, country, state, city, email, phone];
-  // Object.keys(req.body).forEach((objKey) => {
-  //   if (allowedFields.includes(objKey) && req.body[objKey] !== undefined) {
-  //     updateData[objKey] = req.body[objKey];
-  //   }
-  // });
+  if (req?.files?.logo !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.logo[0].buffer, "logo");
+    // console.log("res1", cloudinaryResult);
+
+    if (!cloudinaryResult) {
+      return next(new AppError("Cloudinary Logo Update Err", 404));
+    }
+
+    cloudinaryLogo = {
+      publicId: cloudinaryResult.public_id,
+      url: cloudinaryResult.url,
+    };
+
+    if (cloudinaryLogo) {
+      user.avatar = cloudinaryLogo;
+    }
+  }
+
+  if (req?.files?.banner !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.banner[0].buffer, "banner");
+
+    // console.log("res2", cloudinaryResult);
+
+    if (!cloudinaryResult) {
+      return next(new AppError("Cloudinary Banner Update Err", 404));
+    }
+
+    cloudinaryBanner = {
+      publicId: cloudinaryResult.public_id,
+      url: cloudinaryResult.url,
+    };
+  }
+
+  // console.log("CLOUD1", cloudinaryLogo);
+  // console.log("CLOUD2", cloudinaryBanner);
+
+  if (req?.files?.logo !== undefined) updateData.logo = cloudinaryLogo;
+  if (req?.files?.banner !== undefined) updateData.banner = cloudinaryBanner;
+  if (name !== undefined) updateData.name = name;
+  if (description !== undefined) updateData.description = description;
+  if (tagline !== undefined) updateData.tagline = tagline;
+  if (website !== undefined) updateData.website = website;
 
   if (companyType !== undefined) updateData.companyType = companyType;
   if (companySize !== undefined) updateData.companySize = companySize;
-  if (country !== undefined) updateData.country = country;
-  if (state !== undefined) updateData.state = state;
-  if (city !== undefined) updateData.city = city;
+  if (location !== undefined) updateData.location = location;
   if (contactEmail !== undefined) updateData.contactEmail = contactEmail;
   if (contactPhone !== undefined) updateData.contactPhone = contactPhone;
 
   if (socialLinks !== undefined) updateData.socialLinks = socialLinks;
 
+  // console.log("updatedData", updateData);
+
   let updateCompany = await CompanyModel.findByIdAndUpdate(
     { _id: companyId },
     {
-      companyType,
-      companySize,
-      locations: { country, state, city },
-      contactEmail,
-      contactPhone,
-      socialLinks,
+      ...updateData,
       registerStages: updateData?.companyType && updateData?.companySize ? "stage2" : "stage1" || updateData?.socialLinks ? "finished" : "stage2",
     },
     { new: true },
   );
 
-  // if (updateData?.companyType && updateData?.companySize) {
-  //   updateCompany.registerStages = "stage2";
-  // }
+  await user.save();
 
-  // if (socialLinks) {
-  //   updateCompany.registerStages = "finished";
-  // }
-
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Success",
     updateCompany,

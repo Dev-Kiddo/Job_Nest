@@ -6,17 +6,17 @@ const candidateSettingOptions = [
   {
     icon: UserRound,
     label: "Company-Info",
-    url: "company-info",
+    url: "manage-company-info",
   },
   {
     icon: CircleUser,
     label: "Founding-Info",
-    url: "founding-info",
+    url: "manage-founding-info",
   },
   {
     icon: Globe,
     label: "Social links",
-    url: "social-info",
+    url: "manage-social-info",
   },
 ];
 

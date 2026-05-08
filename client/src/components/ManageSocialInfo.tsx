@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { updateCandidateProfile } from "../features/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { CircleX, MoveRight } from "lucide-react";
 import Loader from "./Loader";
+import { CircleX, MoveRight } from "lucide-react";
+import { updateCompanyInfo } from "../features/companySlice";
 
-function CandidateSocialInfo() {
-  const { candidate, loading, messageType } = useSelector((state) => state.profile);
+function ManageSocialInfo() {
+  const { company, loading, messageType, isMessageShown } = useSelector((state) => state.company);
 
   const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
 
   const [links, setLinks] = useState([
-    { name: "portfolio", baseUrl: candidate?.socialLinks.find((el) => el.name === "portfolio")?.baseUrl || "" },
-    { name: "linkedin", baseUrl: candidate?.socialLinks.find((el) => el.name === "linkedin")?.baseUrl || "" },
-    { name: "github", baseUrl: candidate?.socialLinks.find((el) => el.name === "github")?.baseUrl || "" },
-    { name: "twitter", baseUrl: candidate?.socialLinks.find((el) => el.name === "twitter")?.baseUrl || "" },
+    { name: "facebook", baseUrl: company?.socialLinks.find((el) => el.name === "facebook")?.baseUrl || "" },
+    { name: "linkedin", baseUrl: company?.socialLinks.find((el) => el.name === "linkedin")?.baseUrl || "" },
+    { name: "instagram", baseUrl: company?.socialLinks.find((el) => el.name === "instagram")?.baseUrl || "" },
+    { name: "youtube", baseUrl: company?.socialLinks.find((el) => el.name === "youtube")?.baseUrl || "" },
   ]);
 
   const handleOnChangeLinks = function (event) {
@@ -35,21 +35,14 @@ function CandidateSocialInfo() {
       socialLinks: filterPayload,
     };
 
-    dispatch(updateCandidateProfile(payload));
+    dispatch(updateCompanyInfo({ payload, companyId: company }));
   };
 
   useEffect(() => {
-    if ((!loading, messageType === "success")) {
+    if (!loading && messageType === "success") {
       setIsEdit(false);
     }
   }, [loading, messageType]);
-
-  // const handleDelete = function (name) {
-  //   console.log("name", name);
-  //   setLinks((link) => link.filter((li) => li !== name));
-
-  // };
-
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit}>
@@ -117,4 +110,4 @@ function CandidateSocialInfo() {
   );
 }
 
-export default CandidateSocialInfo;
+export default ManageSocialInfo;

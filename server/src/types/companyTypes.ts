@@ -12,12 +12,11 @@ export interface ICompany {
   companySize: string;
   foundedYear: number;
   companyType: string;
-  locations: {
+  location: {
     city: string;
     state: string;
     country: string;
-    address: string;
-  }[];
+  };
   contactEmail: string;
   contactPhone: string;
   socialLinks: {

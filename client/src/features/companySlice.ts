@@ -30,10 +30,13 @@ export const registerCompany = createAsyncThunk("company/registerCompany", async
 
 export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", async (payload, { rejectWithValue }) => {
   try {
+    console.log("payload", payload);
     const apiPayload = payload;
 
-    // console.log("apiPayload", apiPayload);
-    // console.log("apiPayloadStringify", JSON.stringify(apiPayload));
+    console.log("APIPAYLOAD", apiPayload);
+
+    const isFormData = apiPayload.formData instanceof FormData;
+    console.log("isFormData", isFormData);
 
     if (!apiPayload.companyId) {
       return rejectWithValue("Company ID is required to process");
@@ -42,13 +45,17 @@ export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", a
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/company/${apiPayload.companyId.id}`, {
       method: "PATCH",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(apiPayload.payload),
+      headers: isFormData
+        ? undefined
+        : {
+            "Content-Type": "application/json",
+          },
+      body: isFormData ? apiPayload.formData : JSON.stringify(apiPayload.payload),
     });
 
     const data = await res.json();
+
+    console.log("DATA", data);
 
     if (!res.ok) {
       return rejectWithValue(data.message || "Failed to update company info");
