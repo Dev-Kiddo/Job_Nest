@@ -35,10 +35,10 @@ function Dashboard() {
   };
 
   return (
-    <div className="w-full flex">
+    <div className="w-full flex items-start">
       {/* SIDEBAR */}
-      <div className=" flex w-1/6 border-r border-gray-300">
-        <div className="w-full h-full flex flex-col justify-center gap-y-5">
+      <div className="w-1/6 h-[800px] border-r border-gray-300">
+        <div className="w-full h-full flex flex-col gap-y-5">
           <p className="text-xs py-4 mx-5">{currentUser?.role === "candidate" ? "Candidate" : "Recruiter"} Dashboard</p>
 
           <nav className="text-sm font-medium">

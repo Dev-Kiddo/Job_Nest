@@ -18,11 +18,6 @@ const candidateSettingOptions = [
     label: "Social links",
     url: "social-info",
   },
-  // {
-  //   icon: Settings,
-  //   label: "account settings",
-  //   url: "account-info",
-  // },
 ];
 
 function CompanySettings() {
