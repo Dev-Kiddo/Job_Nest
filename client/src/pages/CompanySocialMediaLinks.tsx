@@ -12,13 +12,9 @@ const linksList = ["facebook", "instagram", "youtube", "linkedin", "behance", "t
 function CompanySocialMediaLinks() {
   const { company, loading, message, messageType, isMessageShown } = useSelector((state) => state.company);
 
-  // const [links, setLinks] = useState(linksList);
-
   const [links, setLinks] = useState(() => {
     return linksList.map((el) => ({ name: el, baseUrl: "" }));
   });
-
-  // console.log("LINKS", links);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

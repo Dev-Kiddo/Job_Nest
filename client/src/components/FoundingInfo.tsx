@@ -74,7 +74,7 @@ function FoundingInfo() {
               Organization Type <span className="text-blue-500">*</span>
             </label>
 
-            <select id="companyType" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
+            <select id="companyType" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onChange={handleOnChange} required>
               {organizationType.map((type) => (
                 <option className="capitalize " value={type.value} key={type.value}>
                   {type.type}
@@ -88,7 +88,7 @@ function FoundingInfo() {
               Company Size <span className="text-blue-500">*</span>
             </label>
 
-            <select id="companySize" className="bg-gray-200 text-gray-800 p-2 my-1" onChange={handleOnChange} required>
+            <select id="companySize" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onChange={handleOnChange} required>
               {companySizes.map((size) => (
                 <option className="capitalize " value={size} key={size}>
                   {size}
@@ -104,7 +104,7 @@ function FoundingInfo() {
               Country
             </label>
 
-            <select onClick={(e) => setCountry(() => e.target.value)} onChange={handleOnChange} id="country" className="bg-gray-200 text-gray-800 p-2 my-1">
+            <select onClick={(e) => setCountry(() => e.target.value)} onChange={handleOnChange} id="country" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1">
               <option value="">Select</option>
               {getCountries.map((cont) => (
                 <option key={cont.name} value={cont.isoCode}>
@@ -119,7 +119,7 @@ function FoundingInfo() {
               State
             </label>
 
-            <select id="state" className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setState(() => e.target.value)} onChange={handleOnChange}>
+            <select id="state" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onClick={(e) => setState(() => e.target.value)} onChange={handleOnChange}>
               <option value="">Select</option>
               {getStates?.map((state) => (
                 <option key={state.name} value={state.isoCode}>
@@ -133,7 +133,7 @@ function FoundingInfo() {
             <label htmlFor="city" className="text-gray-500 capitalize">
               City
             </label>
-            <select id="city" className="bg-gray-200 text-gray-800 p-2 my-1" onClick={(e) => setCity(() => e.target.value)} onChange={handleOnChange}>
+            <select id="city" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onClick={(e) => setCity(() => e.target.value)} onChange={handleOnChange}>
               <option value="">Select</option>
               {getCities?.map((city) => (
                 <option key={city.name} value={city.name}>

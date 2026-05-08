@@ -14,14 +14,14 @@ const candidateSidebar = [
 ];
 
 const RecruiterSidebar = [
-  { title: "overview", icon: Dock, url: "/" },
+  { title: "overview", icon: Dock, url: "/dashboard/recruiter/overview" },
   { title: "employer's profile", icon: CircleUser, url: "/" },
   { title: "post a job", icon: CirclePlus, url: "/" },
   { title: "my jobs", icon: BriefcaseBusiness, url: "/" },
   { title: "saved candidates", icon: Bookmark, url: "/" },
   { title: "plans & billing", icon: NotebookPen, url: "/" },
   { title: "all companies", icon: Building2, url: "/" },
-  { title: "settings", icon: Settings, url: "" },
+  { title: "settings", icon: Settings, url: "recruiter/settings" },
 ];
 
 function Dashboard() {

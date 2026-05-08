@@ -25,6 +25,8 @@ import CompanySocialMediaLinks from "./pages/CompanySocialMediaLinks";
 import CandidateOverview from "./components/CandidateOverview";
 import CandidateProfileInfo from "./components/CandidateProfileInfo";
 import CandidateSocialInfo from "./components/CandidateSocialInfo";
+import CompanyOverview from "./components/CompanyOverview";
+import CompanySettings from "./pages/CompanySettings";
 
 export default function App() {
   return (
@@ -71,10 +73,6 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<CandidateDashboard />} />
 
-              <Route path="recruiter" element={<RecruiterDashboard />} />
-
-              {/* <Route index element={<CandidatePersonalInfo />} /> */}
-
               <Route path="candidate" element={<CandidateDashboard />}>
                 <Route index element={<CandidateOverview />} />
                 <Route path="overview" element={<CandidateOverview />} />
@@ -84,6 +82,18 @@ export default function App() {
                   <Route path="personal-info" element={<CandidatePersonalInfo />} />
                   <Route path="profile-info" element={<CandidateProfileInfo />} />
                   <Route path="social-info" element={<CandidateSocialInfo />} />
+                </Route>
+              </Route>
+
+              <Route path="recruiter" element={<RecruiterDashboard />}>
+                <Route index element={<CompanyOverview />} />
+                <Route path="overview" element={<CompanyOverview />} />
+
+                <Route path="settings" element={<CompanySettings />}>
+                  <Route index element={<CompanyInfo />} />
+                  <Route path="company-info" element={<CompanyInfo />} />
+                  <Route path="founding-info" element={<FoundingInfo />} />
+                  <Route path="social-info" element={<CompanySocialMediaLinks />} />
                 </Route>
               </Route>
             </Route>

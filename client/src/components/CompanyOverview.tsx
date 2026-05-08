@@ -1,19 +1,17 @@
-import React from "react";
+import SetupProfileCard from "../components/SetupProfileCard";
+import IconBox from "../components/IconBox";
+import { BriefcaseBusiness, Bookmark, MoveRight, MapPin, CircleDot, UsersRound, EllipsisVertical } from "lucide-react";
 import { useSelector } from "react-redux";
-import SetupProfileCard from "./SetupProfileCard";
-import { BadgeIndianRupee, BellRing, Bookmark, BriefcaseBusiness, MapPin, MoveRight } from "lucide-react";
-import IconBox from "./IconBox";
 
-const tableHead = ["Job", "Date Applied", "Status", "Action"];
-
+const tableHead = ["Jobs", "Applications", "Status", "Action"];
 const tableData = [
   {
     logoUrl: "/src/assets/img/jobnest.svg",
     title: "Full Stack Developer",
     type: "Full-Time",
     location: "India",
-    salaryRange: [50, 80],
-    DateApplied: new Date().toISOString(),
+    daysRemaining: 24,
+    numOfApplicants: 302,
     status: "active",
   },
   {
@@ -21,8 +19,8 @@ const tableData = [
     title: "NodeJs Developer",
     type: "Remote",
     location: "India",
-    salaryRange: [30, 60],
-    DateApplied: new Date().toISOString(),
+    daysRemaining: 15,
+    numOfApplicants: 162,
     status: "active",
   },
   {
@@ -30,8 +28,8 @@ const tableData = [
     title: "Graphic Designer",
     type: "Temporary",
     location: "India",
-    salaryRange: [25, 50],
-    DateApplied: new Date().toISOString(),
+    daysRemaining: 2,
+    numOfApplicants: 8,
     status: "active",
   },
   {
@@ -39,49 +37,43 @@ const tableData = [
     title: "Graphic Designer",
     type: "Temporary",
     location: "India",
-    salaryRange: [25, 50],
-    DateApplied: new Date().toISOString(),
-    status: "active",
+    daysRemaining: 9,
+    numOfApplicants: 255,
+    status: "Expire",
   },
 ];
 
 const iconBoxList = [
   {
-    label: "Applied Jobs",
-    count: 659,
+    label: "Open Jobs",
+    count: 299,
     icon: BriefcaseBusiness,
     bgColour: "bg-blue-600",
   },
   {
-    label: "Favorite Jobs",
-    count: 156,
+    label: "Saved Candidates",
+    count: 106,
     icon: Bookmark,
-    bgColour: "bg-orange-600",
-  },
-  {
-    label: "Job Alerts",
-    count: 244,
-    icon: BellRing,
-    bgColour: "bg-green-600",
+    bgColour: "bg-violet-600",
   },
 ];
 
-function CandidateOverview() {
+function CompanyOverview() {
   const { currentUser, loading } = useSelector((state) => state.user);
-  const { candidate, loading: profileLoading } = useSelector((state) => state.profile);
+  const { company } = useSelector((state) => state.company);
   return (
     <>
       <div className="px-8">
         <div className="relative">
-          <img style={{ height: "246px" }} className="w-full rounded-lg object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
+          <img className="w-full rounded-lg" src={currentUser?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
 
           <img style={{ width: "125px" }} className="rounded-full absolute bottom-4 left-4" src={currentUser?.avatar?.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
         </div>
       </div>
 
       <div className="p-8 mt-2">
-        <h1 className="text-xl font-semibold capitalize">Hello, {currentUser?.name}</h1>
-        <p className="text-xs text-gray-800">Here's your daily activities and job alerts</p>
+        <h1 className="text-lg capitalize">Hello, {currentUser?.name}</h1>
+        <p className="text-xs text-gray-800">Here's your daily activities and applications</p>
 
         <div className="flex justify-between gap-x-5 mt-5">
           {iconBoxList.map((box) => (
@@ -89,11 +81,11 @@ function CandidateOverview() {
           ))}
         </div>
 
-        <SetupProfileCard currentUser={currentUser} />
+        {company?.registerStages !== "finished" && <SetupProfileCard currentUser={currentUser} />}
 
         <div className="mt-6">
           <div className="flex justify-between">
-            <h1 className="text-sm font-medium">Recently Applied</h1>
+            <h1 className="text-sm font-medium">Recently Posed Jobs</h1>
             <button className="flex gap-x-2 text-sm text-gray-600 hover:underline">
               View all <MoveRight />
             </button>
@@ -103,7 +95,7 @@ function CandidateOverview() {
             <tbody>
               <tr className="w-full bg-gray-200 p-2">
                 {tableHead.map((head, i) => (
-                  <th className="text-left text-sm p-2 text-gray-600" key={i}>
+                  <th className="text-center text-sm p-2 text-gray-600" key={i}>
                     {head}
                   </th>
                 ))}
@@ -119,21 +111,31 @@ function CandidateOverview() {
                       <h1 className="text-sm relative capitalize text-gray-900">
                         {data.title} <span className="bg-gray-300 text-green-600 font-medium px-2 py-1 rounded-full text-[10px]">{data.type}</span>
                       </h1>
+
                       <div className="flex gap-x-4 mt-2">
                         <span className="flex gap-x-1 text-xs text-gray-900">
                           <MapPin className="lucide-sm" color="gray" />
                           {data.location}
                         </span>
                         <span className="flex gap-x-1 text-xs text-gray-900">
-                          <BadgeIndianRupee className="lucide-sm" color="gray" />${data.salaryRange[0]}K-${data.salaryRange[1]}K/month
+                          <CircleDot className="lucide-sm" color="gray" />
+                          {data.daysRemaining || "-"} days remaining
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="text-sm relative capitalize text-gray-900">{data.DateApplied}</td>
+                  <td className="text-sm relative capitalize text-gray-900">
+                    <span className="flex gap-x-1 text-xs text-gray-900">
+                      <UsersRound className="lucide-sm" color="gray" />
+                      {data.numOfApplicants} Applications
+                    </span>
+                  </td>
                   <td className="text-sm relative capitalize text-gray-900">{data.status}</td>
                   <td className="text-sm relative capitalize text-gray-900 text-center">
-                    <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Details</button>
+                    <span className="flex items-center justify-center cursor-pointer gap-x-1 text-xs text-gray-900">
+                      <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Applications</button>
+                      <EllipsisVertical />
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -145,4 +147,4 @@ function CandidateOverview() {
   );
 }
 
-export default CandidateOverview;
+export default CompanyOverview;

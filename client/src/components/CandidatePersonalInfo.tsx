@@ -16,6 +16,7 @@ function CandidatePersonalInfo() {
   const [payload, setPayload] = useState({
     fullName: candidate?.fullName || "",
     avatar: "",
+    banner: "",
     headline: candidate?.headline || "",
     totalExperience: candidate?.totalExperience || "",
     phone: candidate?.phone || "",
@@ -28,7 +29,7 @@ function CandidatePersonalInfo() {
   const handleFormData = function (event: React.ChangeEvent<HTMLInputElement>) {
     const { id, files, value } = event.target;
 
-    if (id === "avatar" || id === "resume") {
+    if (id === "avatar" || id === "banner" || id === "resume") {
       const file = files[0];
 
       setPayload((payload) => ({ ...payload, [id]: file }));
@@ -46,6 +47,7 @@ function CandidatePersonalInfo() {
 
     formData.append("fullName", payload.fullName);
     formData.append("avatar", payload.avatar);
+    formData.append("banner", payload.banner);
     formData.append("headline", payload.headline);
     formData.append("totalExperience", payload.totalExperience);
     formData.append("phone", payload.phone);
@@ -67,7 +69,7 @@ function CandidatePersonalInfo() {
       <h1 className="text-md mb-4 capitalize">Basic information</h1>
 
       <form onSubmit={handleSubmitHandler}>
-        <div className="grid grid-cols-3 grid-rows-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {isEdit ? (
             <div className="text-sm text-gray-500 row-span-2">
               Upload Avatar
@@ -92,12 +94,51 @@ function CandidatePersonalInfo() {
           ) : (
             <div className="text-sm text-gray-500 row-span-2 items-center">
               Avatar
-              <div className="rounded mt-2">
-                <img style={{ height: "158px" }} className="rounded-md" src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
+              <div className="rounded mt-2 relative">
+                <img
+                  style={{ height: "158px" }}
+                  className="absolute w-full blur-sm rounded-md mx-auto -z-10"
+                  src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"}
+                  alt="avatar"
+                />
+
+                <img style={{ height: "158px" }} className="rounded-md mx-auto" src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
               </div>
             </div>
           )}
 
+          {isEdit ? (
+            <div className="text-sm text-gray-500 col-span-2">
+              Upload Banner
+              <div className="bg-gray-200 border-2 border-dashed border-gray-300 rounded mt-2 p-5 cursor-pointer">
+                <label htmlFor="banner" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                  <ImageUp className="lucide-big" color="#99a1af" />
+                  {payload.banner !== "" ? (
+                    <p className="text-xs text-center text-green-700">
+                      <span className="text-xs font-medium text-gray-800 hidden">Choose a file or drag and drop it here</span> <br />
+                      File uploaded successfully!
+                    </p>
+                  ) : (
+                    <p className="text-xs text-center text-gray-500">
+                      <span className="text-xs font-medium text-gray-800">Choose a file or drag and drop it here</span> <br />
+                      JPEG, JPG, PNG formats, upto 1MB
+                    </p>
+                  )}
+                </label>
+                <input type="file" id="banner" onChange={(e) => handleFormData(e)} hidden />
+              </div>
+            </div>
+          ) : (
+            <div className="text-sm text-gray-500 row-span-2 col-span-2 items-center">
+              Banner
+              <div className="mt-2">
+                <img style={{ height: "158px" }} className="w-full rounded-md object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="avatar" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-4">
           <div className="text-sm flex flex-col row-span-1">
             <label htmlFor="fullName" className="text-gray-500 capitalize">
               full name

@@ -71,6 +71,19 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
       fileName: req.files?.resume[0]?.originalname || `resume-${cloudinaryResult.display_name}`,
     };
   }
+  if (req.files?.banner !== undefined) {
+    const cloudinaryResult = await uploadToCloudinary(req.files.banner[0].buffer, "banner");
+    if (!cloudinaryResult) {
+      return next(new AppError("Cloudinary banner upload err", 400));
+    }
+
+    const result = {
+      publicId: cloudinaryResult.public_id,
+      url: cloudinaryResult.url,
+    };
+
+    updatedata.banner = result;
+  }
 
   if (fullName !== undefined) updatedata.fullName = fullName;
   if (totalExperience !== undefined) updatedata.totalExperience = totalExperience;

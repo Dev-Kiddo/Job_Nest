@@ -99,7 +99,7 @@ function CandidateProfileInfo() {
                   )}
                 </div>
               ) : (
-                <p
+                <div
                   className={`${payload?.skills.length > 0 ? "text-gray-900" : "text-gray-500"} py-3 capitalize px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}
                 >
                   {(payload?.skills.length > 0 &&
@@ -109,7 +109,7 @@ function CandidateProfileInfo() {
                       </p>
                     ))) ||
                     "—"}
-                </p>
+                </div>
               )}
             </div>
           </div>
@@ -143,7 +143,7 @@ function CandidateProfileInfo() {
                   )}
                 </div>
               ) : (
-                <p
+                <div
                   className={`${payload?.languages.length > 0 ? "text-gray-900" : "text-gray-500"} py-3 capitalize px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}
                 >
                   {(payload?.languages.length > 0 &&
@@ -153,7 +153,7 @@ function CandidateProfileInfo() {
                       </p>
                     ))) ||
                     "—"}
-                </p>
+                </div>
               )}
             </div>
           </div>
