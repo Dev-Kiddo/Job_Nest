@@ -106,3 +106,11 @@ const CompanySchema = new mongoose.Schema<ICompany>(
 const CompanyModel = mongoose.model("Company", CompanySchema);
 
 export default CompanyModel;
+
+// Who can post a job?
+
+// A person who register their account as recruiter and completed company setup can post a job.
+
+// a company can post one or many jobs right
+// but
+// a job only belongs to one not many company right?
