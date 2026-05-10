@@ -272,8 +272,6 @@ export const logoutHandler = asyncHandler(async function (req: Request, res: Res
 });
 
 export const verifyEmailHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  console.log("hhee");
-
   const { token } = req.query;
 
   if (!token) {

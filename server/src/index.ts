@@ -6,6 +6,8 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 import profileRouter from "./routes/profileRoute.js";
 import companyRouter from "./routes/companyRoute.js";
+import categoryRouter from "./routes/categoryRoute.js";
+import jobRouter from "./routes/jobRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -28,6 +30,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/candidate", profileRouter);
 app.use("/api/company", companyRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/jobs", jobRouter);
 
 // Err Middlerware
 app.use(errorHandler);

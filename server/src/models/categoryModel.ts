@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import { maxLength } from "zod";
 
-const CategortSchema = new mongoose.Schema(
+const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -9,8 +8,8 @@ const CategortSchema = new mongoose.Schema(
       trim: true,
     },
     description: {
-      trpe: String,
-      maxLength: [300, "Description cannot exceed 300 characters"],
+      type: String,
+      maxLength: [400, "Description cannot exceed 400 characters"],
     },
     isActive: {
       type: Boolean,
@@ -28,6 +27,6 @@ const CategortSchema = new mongoose.Schema(
   },
 );
 
-const CategoryModel = mongoose.model("Category", CategortSchema);
+const CategoryModel = mongoose.model("Category", CategorySchema);
 
 export default CategoryModel;

@@ -16,15 +16,15 @@ const JobSchema = new mongoose.Schema(
       ref: "Company",
       required: [true, "Company is required"],
     },
-    postedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      rer: "User",
-      required: ["true", "Posted by is required"],
-    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: [true, "Category is required"],
+    },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      rer: "User",
+      required: ["true", "Posted by is required"],
     },
     skillsRequired: {
       type: [String],
@@ -38,7 +38,7 @@ const JobSchema = new mongoose.Schema(
         type: Number,
       },
     },
-    educaitionRequired: {
+    educationRequired: {
       type: String,
       enum: ["any", "high-school", "diploma", "bachelor", "master", "phd"],
       default: "any",
@@ -66,6 +66,7 @@ const JobSchema = new mongoose.Schema(
     jobType: {
       type: String,
       enum: ["full-time", "part-time", "contract", "internship", "freelance"],
+      default: "full-time",
     },
     vacancies: {
       type: Number,
@@ -79,7 +80,7 @@ const JobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "paused", "closed", "expired"],
-      default: "draft",
+      default: "active",
     },
     isActive: {
       type: String,
