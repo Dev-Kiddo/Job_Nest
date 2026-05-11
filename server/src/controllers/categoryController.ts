@@ -4,7 +4,18 @@ import CategoryModel from "../models/categoryModel.js";
 import AppError from "../utils/AppError.js";
 
 export const getCategories = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const category = await CategoryModel.find({});
+  console.log("req", req.query);
+
+  const query = { ...req.query };
+  const excludeFields = ["filter", "page", "limit", "sort"];
+
+  excludeFields.forEach((field) => delete query[field]);
+
+  console.log(query);
+
+  let categoryQuery = CategoryModel.find(query);
+
+  const category = await categoryQuery;
 
   if (category.length <= 0) {
     return next(new AppError("No categories found", 200));
@@ -71,3 +82,9 @@ export const deleteCategory = asyncHandler(async function (req: Request, res: Re
     message: "Delete category successfull",
   });
 });
+
+// export const getCategoryLists = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+//   const categoryLists = await CategoryModel.find({}).select({ name: 1, _id: 0 });
+
+//   console.log("categoryLists", categoryLists);
+// });

@@ -7,7 +7,64 @@ import CategoryModel from "../models/categoryModel.js";
 import CompanyModel from "../models/companyModel.js";
 
 export const getJobsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const jobs = await JobModel.find({});
+  const query = { ...req.query };
+
+  const excludeFields = ["search", "sort", "page", "limit", "fields"];
+
+  // Filteing
+
+  excludeFields.forEach((field) => delete query[field]);
+
+  const queryStr = JSON.stringify(query).replace(/\b(lt|lte|gt|gte)\b/g, (match) => `$${match}`);
+
+  let jobQuery = JobModel.find(JSON.parse(queryStr));
+
+  // Search
+  if (req.query.search) {
+    jobQuery = jobQuery.find({
+      title: { $regex: req.query.search, $options: "i" },
+    });
+  }
+
+  // Sorting
+  if (req.query.sort) {
+    const sortby = req.query.sort.split(",").join(" ");
+
+    jobQuery = jobQuery.sort(`${sortby}`);
+  } else {
+    jobQuery = jobQuery.sort("-createAt");
+  }
+
+  // Fields
+  if (req.query.fields) {
+    let reqFields = req.query.fields;
+
+    const fields = reqFields.split(",").join(" ");
+
+    jobQuery = jobQuery.select(fields);
+  }
+
+  // Pagination
+
+  if (Number(req?.query?.page) < 1 || Number(req?.query?.limit) < 1) {
+    return next(new AppError("Page or Limit must be greater than 0", 400));
+  }
+
+  const totalJobs = await JobModel.countDocuments();
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+
+  const totalPages = Math.ceil(totalJobs / limit);
+
+  if (page > totalPages) {
+    return next(new AppError("Page does not exist", 400));
+  }
+
+  const skip = page * limit - limit;
+  jobQuery = jobQuery.skip(skip).limit(limit);
+
+  const jobs = await jobQuery;
 
   if (jobs.length <= 0) {
     return next(new AppError("No Jobs found", 200));
@@ -50,8 +107,6 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
 
   const verifyPosted = getCompany.user.find((id) => id.equals(user.id));
 
-  console.log("VERIFY POSTED BY", verifyPosted);
-
   if (!verifyPosted) {
     return next(new AppError("Recruiter not found!", 200));
   }
@@ -72,7 +127,7 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
 
   const newJob = await JobModel.create(job);
 
-  console.log("newJob", newJob);
+  // console.log("newJob", newJob);
 
   res.status(200).json({
     success: true,
