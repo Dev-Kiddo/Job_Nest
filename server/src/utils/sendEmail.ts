@@ -15,6 +15,8 @@ export const sendEmail = async function (toUser: string, emailSubject: string, e
       },
     });
 
+    console.log(transport);
+
     const emailInfo = await transport.sendMail({
       from: process.env.EMAIL_FROM_USER,
       to: toUser,

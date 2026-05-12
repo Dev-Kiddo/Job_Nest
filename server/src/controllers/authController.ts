@@ -141,6 +141,8 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   const messageId = await sendEmail(user.email, "Email Verification", emailContent);
 
+  // console.log("MAILID", messageId);
+
   if (!messageId) {
     return next(new AppError("Failed to send verification email", 400));
   }
