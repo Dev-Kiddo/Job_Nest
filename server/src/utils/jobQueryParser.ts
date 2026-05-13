@@ -5,7 +5,7 @@ class JobQueryParser {
   }
 
   filter() {
-    console.log("reqQueryString", this.reqQueryString);
+    // console.log("reqQueryString", this.reqQueryString);
 
     const queryObj = { ...this.reqQueryString };
     const excludeFields = ["search", "sort", "page", "limit", "fields"];
@@ -56,7 +56,7 @@ class JobQueryParser {
 
   pagination() {
     const page = Number(this.reqQueryString.page) || 1;
-    const limit = Number(this.reqQueryString.limit) || 5;
+    const limit = Number(this.reqQueryString.limit) || 12;
 
     // const skip = page * limit - limit;
     const skip = (page - 1) * limit;

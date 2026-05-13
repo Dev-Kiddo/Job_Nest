@@ -8,6 +8,8 @@ import profileRouter from "./routes/profileRoute.js";
 import companyRouter from "./routes/companyRoute.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import jobRouter from "./routes/jobRoute.js";
+import applicationRouter from "./routes/applicationRoute.js";
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -34,6 +36,7 @@ app.use("/api/candidate", profileRouter);
 app.use("/api/company", companyRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/jobs", jobRouter);
+app.use("/api/application", applicationRouter);
 
 // Err Middlerware
 app.use(errorHandler);

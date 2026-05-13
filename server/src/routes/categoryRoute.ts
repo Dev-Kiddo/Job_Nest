@@ -4,7 +4,7 @@ import { roleAuth } from "../middlewares/roleAuth.js";
 
 const router = express.Router();
 
-router.route("/").get(getCategories).post(roleAuth("admin"), createCategories);
+router.route("/").get(getCategories).post(createCategories);
 router.route("/:id").patch(roleAuth("admin"), updateCategory).delete(deleteCategory);
 // router.route("/lists").get(getCategoryLists);
 

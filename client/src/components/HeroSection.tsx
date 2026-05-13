@@ -1,5 +1,9 @@
 import { BriefcaseBusiness, Building2, ClockPlus, MapPin, Search, Users } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchJobs } from "../features/jobSlice";
+import { useNavigate } from "react-router-dom";
 
 const heroIconBoxes = [
   {
@@ -25,6 +29,29 @@ const heroIconBoxes = [
 ];
 
 function HeroSection() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [payload, setPayload] = useState({
+    title: "",
+    location: "",
+  });
+
+  const onChangeHandler = function (e) {
+    const { id, value } = e.target;
+    setPayload((payload) => ({ ...payload, [id]: value }));
+  };
+
+  const onSubmitHandler = function (e) {
+    e.preventDefault();
+
+    dispatch(fetchJobs({ label: "search", data: payload })).then((result) => {
+      if (fetchJobs.fulfilled.match(result)) {
+        navigate("/jobs");
+      }
+    });
+  };
+
   return (
     <div className="bg-gradient-to-r from-blue-100 to-orange-100 rounded-lg py-16 px-6 md:px-20">
       <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -34,14 +61,28 @@ function HeroSection() {
           search resumes, while job hunters can create profiles, browse jobs, and apply, often featuring advanced filters and instant alerts to secure ideal opportunities.
         </p>
 
-        <form className="bg-white rounded-lg shadow p-3 flex gap-4 w-full">
+        <form className="bg-white rounded-lg shadow p-3 flex gap-4 w-full" onSubmit={onSubmitHandler}>
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 bg-white flex-grow">
             <Search className="mr-2" />
-            <input placeholder="Job title, Keyword..." className="w-full outline-none text-sm bg-transparent placeholder-gray-500" type="text" />
+            <input
+              id="title"
+              placeholder="Job title, Keyword..."
+              className="w-full outline-none text-sm bg-transparent placeholder-gray-500"
+              type="text"
+              value={payload.title}
+              onChange={onChangeHandler}
+            />
           </div>
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 bg-white flex-grow">
             <MapPin className="mr-2" />
-            <input placeholder="Preferred location" className="w-full outline-none text-sm bg-transparent placeholder-gray-500" type="text" />
+            <input
+              id="location"
+              placeholder="Preferred location"
+              className="w-full outline-none text-sm bg-transparent placeholder-gray-500"
+              type="text"
+              value={payload.location}
+              onChange={onChangeHandler}
+            />
           </div>
           <button type="submit" className="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-md transition text-sm cursor-pointer flex-none hover:bg-blue-700">
             Find Job

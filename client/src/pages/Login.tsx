@@ -1,7 +1,7 @@
 import { Eye, EyeOff, Lock, Mail, MoveRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginUser } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
 import Loader from "../components/Loader";
@@ -14,6 +14,8 @@ function Login() {
   });
   const navigate = useNavigate();
   const allowAccess = useRef(false);
+
+  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
@@ -34,9 +36,9 @@ function Login() {
 
   useEffect(() => {
     if (message && messageType === "success" && allowAccess.current) {
-      navigate("/dashboard");
+      navigate("/dashboard", { state: { from: location?.state?.from } });
     }
-  }, [message, messageType, navigate]);
+  }, [message, messageType, navigate, location?.state?.from]);
 
   useToastMessage("user");
   return (

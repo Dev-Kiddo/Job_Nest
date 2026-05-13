@@ -65,7 +65,7 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
   // const skip = page * limit - limit;
   // jobQuery = jobQuery.skip(skip).limit(limit);
 
-  const features = new JobQueryParser(JobModel.find(), query).filter().search().sort().fields().pagination();
+  const features = new JobQueryParser(JobModel.find().populate({ path: "company", select: "name" }), query).filter().search().sort().fields().pagination();
 
   const jobs = await features.query;
 
@@ -83,12 +83,29 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
   });
 });
 
+export const getSingleJobHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+
+  console.log("ID", id);
+  const job = await JobModel.findById(id).populate("company", "name");
+
+  if (!job) {
+    return next(new AppError("Job not found", 401));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Fetch job successfully",
+    job,
+  });
+});
+
 export const createJobsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = jobValidations.safeParse(req.body);
 
-  if (!result.success) {
-    return next(new AppError("* Fields is required", 400));
-  }
+  // if (!result.success) {
+  //   return next(new AppError("* Fields is required", 400));
+  // }
 
   const { user } = req;
 
@@ -96,7 +113,7 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
     return next(new AppError("Invalid or expired token!", 401));
   }
 
-  const { title, description, companyId, category, skillsRequired, experianceRequired, educationRequired, salary, location } = req.body;
+  const { title, description, companyId, category, skillsRequired, experianceRequired, educationRequired, salary, location, workMode, jobType } = req.body;
 
   const getCategory = await CategoryModel.findOne({ name: category });
 
@@ -127,6 +144,8 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
   if (educationRequired !== undefined) job.educationRequired = educationRequired;
   if (salary !== undefined) job.salary = salary;
   if (location !== undefined) job.location = location;
+  if (workMode !== undefined) job.workMode = workMode;
+  if (jobType !== undefined) job.jobType = jobType;
   job.postedBy = user.id;
   job.publishedAt = Date.now();
 

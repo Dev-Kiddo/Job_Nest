@@ -27,10 +27,11 @@ import CandidateProfileInfo from "./components/CandidateProfileInfo";
 import CandidateSocialInfo from "./components/CandidateSocialInfo";
 import CompanyOverview from "./components/CompanyOverview";
 import CompanySettings from "./pages/CompanySettings";
-import EditCompanyInfo from "./components/ManageCompanyInfo";
 import ManageCompanyInfo from "./components/ManageCompanyInfo";
 import ManageFoundingInfo from "./components/ManageFoundingInfo";
 import ManageSocialInfo from "./components/ManageSocialInfo";
+import Jobs from "./pages/Jobs";
+import JobPreview from "./pages/JobPreview";
 
 export default function App() {
   return (
@@ -39,6 +40,12 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           {/* Public Routes */}
           <Route index element={<Home />} />
+          <Route path="/jobs" element={<Jobs />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/job-preview" element={<JobPreview />} />
+          </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/settings" element={<CandidateSettings />} />
 

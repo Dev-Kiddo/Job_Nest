@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearMessage, userMarkMessageAsShown } from "../features/userSlice";
 import { toast } from "react-toastify";
 import { companyMarkMessageAsShown } from "../features/companySlice";
+import { jobMarkMessageAsShown } from "../features/jobSlice";
 
 function useToastMessage(sliceName: string) {
   // console.log("ToastSliceName", sliceName);
@@ -30,6 +31,10 @@ function useToastMessage(sliceName: string) {
 
     if (sliceName === "company") {
       messageShown = companyMarkMessageAsShown;
+    }
+
+    if (sliceName === "job") {
+      messageShown = jobMarkMessageAsShown;
     }
 
     if (message && !isMessageShown && !toastShownRef.current) {

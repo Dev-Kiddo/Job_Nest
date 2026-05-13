@@ -1,0 +1,222 @@
+[
+  {
+    "title": "Full Stack Engineer",
+    "description": "Building scalable web applications for a fintech platform using the MERN ecosystem.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js", "Redux"],
+    "salary": { "min": 40000, "max": 75000 },
+    "location": { "city": "Chennai", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "remote",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Backend Developer",
+    "description": "Focusing on API development and database optimization for an e-commerce backend.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["Node.js", "Express", "MongoDB", "Mongoose"],
+    "salary": { "min": 30000, "max": 55000 },
+    "location": { "city": "Bangalore", "state": "Karnataka", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "contract"
+  },
+  {
+    "title": "Junior MERN Developer",
+    "description": "Assisting the senior team in developing internal admin dashboards and tools.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Node.js", "JavaScript", "CSS"],
+    "salary": { "min": 15000, "max": 25000 },
+    "location": { "city": "Coimbatore", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "hybrid",
+    "jobType": "internship"
+  },
+  {
+    "title": "React Specialist",
+    "description": "Crafting highly responsive UI components for a global SaaS product.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Next.js", "Tailwind CSS", "JavaScript"],
+    "salary": { "min": 45000, "max": 85000 },
+    "location": { "city": "Hyderabad", "state": "Telangana", "country": "India" },
+    "workMode": "remote",
+    "jobType": "freelance"
+  },
+  {
+    "title": "Lead MERN Stack Architect",
+    "description": "Leading a team of 5 developers to ship a real-time analytics dashboard.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js", "AWS"],
+    "salary": { "min": 90000, "max": 150000 },
+    "location": { "city": "Pune", "state": "Maharashtra", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Node.js Developer",
+    "description": "Building microservices and handling third-party API integrations.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["Node.js", "Express", "Redis", "MongoDB"],
+    "salary": { "min": 35000, "max": 60000 },
+    "location": { "city": "Mumbai", "state": "Maharashtra", "country": "India" },
+    "workMode": "hybrid",
+    "jobType": "part-time"
+  },
+  {
+    "title": "Software Engineer (MERN)",
+    "description": "Full lifecycle development for a healthcare management system.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js", "TypeScript"],
+    "salary": { "min": 50000, "max": 90000 },
+    "location": { "city": "Chennai", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "remote",
+    "jobType": "full-time"
+  },
+  {
+    "title": "MERN Stack Consultant",
+    "description": "Providing technical guidance and code reviews for various startup projects.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Node.js", "MongoDB", "Architecture"],
+    "salary": { "min": 100000, "max": 180000 },
+    "location": { "city": "Gurgaon", "state": "Haryana", "country": "India" },
+    "workMode": "remote",
+    "jobType": "contract"
+  },
+  {
+    "title": "Frontend Developer (React)",
+    "description": "Focusing on the user-facing side of a high-traffic travel booking site.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Redux", "Bootstrap", "JavaScript"],
+    "salary": { "min": 30000, "max": 50000 },
+    "location": { "city": "Kochi", "state": "Kerala", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Web Developer Intern",
+    "description": "Learning the ropes of full-stack development while building a portfolio project.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["HTML", "CSS", "JavaScript", "React"],
+    "salary": { "min": 10000, "max": 18000 },
+    "location": { "city": "Coimbatore", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "hybrid",
+    "jobType": "internship"
+  },
+  {
+    "title": "MERN Product Engineer",
+    "description": "Taking ownership of specific modules for a video streaming platform.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["Node.js", "Express", "React", "Socket.io"],
+    "salary": { "min": 55000, "max": 95000 },
+    "location": { "city": "Bangalore", "state": "Karnataka", "country": "India" },
+    "workMode": "remote",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Technical Lead (MERN)",
+    "description": "Defining tech stacks and mentoring developers for a logistics startup.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js", "Docker"],
+    "salary": { "min": 120000, "max": 200000 },
+    "location": { "city": "Chennai", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Full Stack Freelancer",
+    "description": "Short-term project to build a custom CRM system for a local business.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "React", "Node.js", "Express"],
+    "salary": { "min": 25000, "max": 45000 },
+    "location": { "city": "Madurai", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "remote",
+    "jobType": "freelance"
+  },
+  {
+    "title": "UI/UX Developer (MERN)",
+    "description": "Bridging the gap between design and development for a lifestyle app.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "SASS", "Figma", "Node.js"],
+    "salary": { "min": 40000, "max": 70000 },
+    "location": { "city": "Noida", "state": "Uttar Pradesh", "country": "India" },
+    "workMode": "hybrid",
+    "jobType": "full-time"
+  },
+  {
+    "title": "API Developer",
+    "description": "Developing robust RESTful and GraphQL APIs for mobile integrations.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["Node.js", "Express", "GraphQL", "MongoDB"],
+    "salary": { "min": 45000, "max": 80000 },
+    "location": { "city": "Bangalore", "state": "Karnataka", "country": "India" },
+    "workMode": "remote",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Database Engineer (MongoDB)",
+    "description": "Focusing on data modeling and scaling MongoDB clusters for big data.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "NoSQL", "Node.js", "Express"],
+    "salary": { "min": 60000, "max": 110000 },
+    "location": { "city": "Hyderabad", "state": "Telangana", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "contract"
+  },
+  {
+    "title": "MERN Developer (Growth Lab)",
+    "description": "Rapidly prototyping new features for an ed-tech experimental lab.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js"],
+    "salary": { "min": 35000, "max": 65000 },
+    "location": { "city": "Coimbatore", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "hybrid",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Support Engineer (Web)",
+    "description": "Fixing bugs and maintaining client projects built on MERN stacks.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Express", "JavaScript", "Debugging"],
+    "salary": { "min": 25000, "max": 40000 },
+    "location": { "city": "Chennai", "state": "Tamil Nadu", "country": "India" },
+    "workMode": "remote",
+    "jobType": "full-time"
+  },
+  {
+    "title": "Full Stack Specialist",
+    "description": "Building a custom marketplace from scratch using modern web tech.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["MongoDB", "Express", "React", "Node.js", "Next.js"],
+    "salary": { "min": 70000, "max": 120000 },
+    "location": { "city": "Mumbai", "state": "Maharashtra", "country": "India" },
+    "workMode": "remote",
+    "jobType": "part-time"
+  },
+  {
+    "title": "App Developer (MERN)",
+    "description": "Working on a progressive web app for an international retail brand.",
+    "companyId": "69f98b1f56c26c246d639c03",
+    "category": "Technology and Engineering",
+    "skillsRequired": ["React", "Node.js", "PWA", "Service Workers"],
+    "salary": { "min": 50000, "max": 85000 },
+    "location": { "city": "Ahmedabad", "state": "Gujarat", "country": "India" },
+    "workMode": "onsite",
+    "jobType": "full-time"
+  }
+]

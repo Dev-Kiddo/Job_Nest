@@ -9,10 +9,15 @@ import { getCandidateProfile } from "../features/profileSlice";
 
 function ProtectedRoute() {
   const { currentUser, authChecking, redirectUrl } = useSelector((state) => state.user);
+
+  const { jobs } = useSelector((state) => state.job);
+
   const { company } = useSelector((state) => state.company);
   const { candidate } = useSelector((state) => state.profile);
 
   const location = useLocation();
+
+  // console.log("LOCATION", location);
 
   const dispatch = useDispatch();
 
@@ -44,13 +49,17 @@ function ProtectedRoute() {
     return <Navigate to="/setup-company" replace />;
   }
 
+  if (location.pathname === "/job-preview" && !jobs) {
+    return <Navigate to="/" replace />;
+  }
+
   if (!currentUser) {
     return <Navigate to="/" replace />;
   }
 
   if (location.pathname === "/dashboard") {
     if (currentUser?.role === "candidate") {
-      return <Navigate to="/dashboard/candidate" replace />;
+      return <Navigate to={location?.state?.from ? location?.state?.from : "/dashboard/candidate"} />;
     }
   }
 

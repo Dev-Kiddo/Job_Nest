@@ -223,7 +223,7 @@ const userSlice = createSlice({
         state.loading = false;
 
         state.authChecking = false;
-        state.message = action.payload as string;
+        state.message = action.payload.message as string;
         state.messageType = "error";
         state.isMessageShown = false;
       })
