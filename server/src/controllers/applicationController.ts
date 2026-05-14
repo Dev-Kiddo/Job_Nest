@@ -4,9 +4,11 @@ import UserModel from "../models/userModel.js";
 import AppError from "../utils/AppError.js";
 import JobModel from "../models/jobModel.js";
 import ApplicationModel from "../models/applicationModel.js";
+import CompanyModel from "../models/companyModel.js";
 
 export const fetchApplicationsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const application = await ApplicationModel.find({});
+  const application = await ApplicationModel.find({}).populate("company", "logo").populate("job", "title salary jobType location createdAt isActive");
+  // const application = await ApplicationModel.find({});
 
   if (application.length <= 0) {
     return next(new AppError("No application found!", 200));
@@ -21,19 +23,17 @@ export const fetchApplicationsHandler = asyncHandler(async function (req: Reques
 });
 
 export const createApplicationHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  console.log("hehe");
-
-  console.log(req.body);
+  // console.log(req.body);
   const { applicantId, jobId, coverLetter, resume } = req.body;
 
   const { user } = req;
 
-  console.log("USER", user);
-  console.log(applicantId);
+  // console.log("USER", user);
+  // console.log(applicantId);
 
   const applicant = await UserModel.findById(applicantId);
 
-  console.log(applicant);
+  // console.log(applicant);
 
   if (!applicant) {
     return next(new AppError("Applicant not found!", 400));
@@ -49,20 +49,27 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
     return next(new AppError("Job not found!", 400));
   }
 
+  const company = await CompanyModel.findById(job?.company);
+
+  if (!company) {
+    return next(new AppError("Company doesn't have this job", 400));
+  }
+
   if (!resume.name || !resume.url) {
     return next(new AppError("Resume is required!", 400));
   }
 
   const application = await ApplicationModel.create({
-    applicant: applicantId,
-    job: jobId,
+    applicant: applicant._id,
+    job: job._id,
+    company: company._id,
     coverLetter,
     resume,
   });
 
   res.status(200).json({
     success: true,
-    message: "Fetch all application success",
+    message: "Applied successfully",
     application,
   });
 });

@@ -1,7 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export const getAllApplications = createAsyncThunk("application/getAllApplications", async (_, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/application`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message);
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    rejectWithValue(err || "Something went wrong");
+  }
+});
+
 export const createApplication = createAsyncThunk("application/createApplication", async (payload, { rejectWithValue }) => {
-  console.log("PAYLOAD", payload);
+  // console.log("PAYLOAD", payload);
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/application`, {
@@ -72,6 +92,28 @@ const applicationSlice = createSlice({
         state.isMessageShown = false;
       })
       .addCase(createApplication.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload.message;
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      .addCase(getAllApplications.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(getAllApplications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.applications = action.payload.application;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(getAllApplications.rejected, (state, action) => {
         state.loading = false;
 
         state.message = action.payload.message;

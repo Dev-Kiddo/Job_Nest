@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createApplication } from "../features/applicationSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 function ApplyJobCard({ setIsClicked }) {
   const { candidate } = useSelector((state) => state.profile);
@@ -28,8 +29,18 @@ function ApplyJobCard({ setIsClicked }) {
   const onSubmitHandler = function (e) {
     e.preventDefault();
 
-    dispatch(createApplication(payload));
+    if (!payload.applicantId && !payload.jobId) {
+      return;
+    }
+
+    dispatch(createApplication(payload)).then((result) => {
+      if (createApplication.fulfilled.match(result)) {
+        setIsClicked(false);
+      }
+    });
   };
+
+  useToastMessage("application");
 
   return (
     <>

@@ -7,7 +7,7 @@ import SidebarOptions from "./SidebarOptions";
 
 const candidateSidebar = [
   { title: "overview", icon: Dock, url: "/dashboard/candidate/overview" },
-  { title: "applied jobs", icon: BriefcaseBusiness, url: "/" },
+  { title: "applied jobs", icon: BriefcaseBusiness, url: "/dashboard/candidate/applied-jobs" },
   { title: "favorite jobs", icon: Bookmark, url: "/" },
   { title: "job alert", icon: BellRing, url: "/" },
   { title: "settings", icon: Settings, url: "candidate/settings" },

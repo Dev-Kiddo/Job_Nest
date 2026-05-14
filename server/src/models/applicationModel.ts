@@ -12,6 +12,11 @@ const ApplicationSchema = new mongoose.Schema(
       ref: "Job",
       required: [true, "Job is required"],
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      required: [true, "Company is required"],
+    },
     coverLetter: {
       type: String,
       maxLength: [5000, "Cover letter cannot exceed 5000 characters"],
