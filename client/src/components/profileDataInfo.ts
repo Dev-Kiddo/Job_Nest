@@ -111,3 +111,7 @@ export const universitiesList = [
 ];
 
 export const languagesList = ["Hindi", "English", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam", "Punjabi"];
+
+export const workMode = ["remote", "onsite", "hybrid"];
+
+export const jobType = ["full-time", "part-time", "contract", "internship", "freelance"];

@@ -25,7 +25,7 @@ function JobListView({ title = "Recently Applied", applications }) {
 
         <tbody>
           {applications?.map((data, i) => (
-            <tr key={i} className="w-full border-b border-gray-300 hover:border hover:border-gray-300">
+            <tr key={i} className="w-full border-b border-gray-300 hover:border hover:border-gray-300 hover:scale-200">
               <td className=" flex py-4 gap-x-4 items-center">
                 <img src={data?.company?.logo?.url} className="w-28 px-4 py-2" />
                 <div>

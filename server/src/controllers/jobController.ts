@@ -101,19 +101,15 @@ export const getSingleJobHandler = asyncHandler(async function (req: Request, re
 });
 
 export const createJobsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const result = jobValidations.safeParse(req.body);
+  // console.log("REQUEST", req.body);
 
-  // if (!result.success) {
-  //   return next(new AppError("* Fields is required", 400));
-  // }
+  const { title, description, companyId, category, skillsRequired, experianceRequired, educationRequired, salary, location, workMode, jobType } = req.body;
 
   const { user } = req;
 
   if (!user) {
     return next(new AppError("Invalid or expired token!", 401));
   }
-
-  const { title, description, companyId, category, skillsRequired, experianceRequired, educationRequired, salary, location, workMode, jobType } = req.body;
 
   const getCategory = await CategoryModel.findOne({ name: category });
 

@@ -50,10 +50,55 @@ export const fetchSingleJob = createAsyncThunk("job/fetchSingleJob", async funct
   }
 });
 
+export const fetchCategories = createAsyncThunk("job/fetchCategories", async (_, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/category?fields=name`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Failed to fetch categories");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    rejectWithValue(err || "Something went wrong");
+  }
+});
+
+export const createJobHandler = createAsyncThunk("job/createJobHandler", async (payload, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/jobs`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Failed to create Job");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    rejectWithValue(err || "Something went wrong");
+  }
+});
+
 const initialState = {
   loading: false,
   jobs: null,
   selectedJob: null,
+  categories: null,
 
   message: null,
   messageType: null,
@@ -122,6 +167,50 @@ const jobSlice = createSlice({
         state.loading = false;
 
         state.message = action.payload.message || "Failed to get jobs";
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      // Fetch Categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categories = action.payload.category;
+
+        // state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload.message || "Failed to get categories";
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      .addCase(createJobHandler.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(createJobHandler.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload.message;
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(createJobHandler.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload.message || "Failed to create job!";
         state.messageType = "error";
         state.isMessageShown = false;
       });

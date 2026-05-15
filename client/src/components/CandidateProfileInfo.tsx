@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
 import { MoveRight } from "lucide-react";
-import { skilsList, expList, yearsArray, degreeList, fieldList, universitiesList, languagesList } from "../data/profileDataInfo";
+import { skilsList, expList, yearsArray, degreeList, fieldList, universitiesList, languagesList } from "./profileDataInfo";
 import { updateCandidateProfile } from "../features/profileSlice";
 
 function CandidateProfileInfo() {

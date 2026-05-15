@@ -109,7 +109,7 @@ const applicationSlice = createSlice({
         state.loading = false;
         state.applications = action.payload.application;
 
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
         state.messageType = "success";
         state.isMessageShown = false;
       })

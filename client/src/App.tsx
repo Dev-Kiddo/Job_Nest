@@ -33,6 +33,7 @@ import ManageSocialInfo from "./components/ManageSocialInfo";
 import Jobs from "./pages/Jobs";
 import JobPreview from "./pages/JobPreview";
 import AppliedJobs from "./components/AppliedJobs";
+import PostJob from "./components/PostJob";
 
 export default function App() {
   return (
@@ -101,6 +102,7 @@ export default function App() {
               <Route path="recruiter" element={<RecruiterDashboard />}>
                 <Route index element={<CompanyOverview />} />
                 <Route path="overview" element={<CompanyOverview />} />
+                <Route path="post-job" element={<PostJob />} />
 
                 <Route path="settings" element={<CompanySettings />}>
                   <Route index element={<ManageCompanyInfo />} />

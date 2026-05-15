@@ -2,20 +2,19 @@ import type { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import CategoryModel from "../models/categoryModel.js";
 import AppError from "../utils/AppError.js";
+import JobQueryParser from "../utils/jobQueryParser.js";
 
 export const getCategories = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  console.log("req", req.query);
+  // console.log("req", req.query);
 
   const query = { ...req.query };
-  const excludeFields = ["filter", "page", "limit", "sort"];
+  // const excludeFields = ["filter", "page", "limit", "sort"];
 
-  excludeFields.forEach((field) => delete query[field]);
+  // excludeFields.forEach((field) => delete query[field]);
 
-  console.log(query);
+  const features = new JobQueryParser(CategoryModel.find(), query).filter().search().fields().sort().pagination();
 
-  let categoryQuery = CategoryModel.find(query);
-
-  const category = await categoryQuery;
+  const category = await features.query;
 
   if (category.length <= 0) {
     return next(new AppError("No categories found", 200));

@@ -30,13 +30,8 @@ const JobSchema = new mongoose.Schema(
       type: [String],
     },
     experianceRequired: {
-      min: {
-        type: Number,
-        min: [0, "experiance cannot be negative"],
-      },
-      max: {
-        type: Number,
-      },
+      type: Number,
+      min: [0, "experiance cannot be negative"],
     },
     educationRequired: {
       type: String,
