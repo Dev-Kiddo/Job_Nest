@@ -54,6 +54,7 @@ function CandidatePersonalInfo() {
     formData.append("location", payload.location);
     formData.append("gender", payload.gender);
     formData.append("dateOfBirth", payload.dateOfBirth);
+    formData.append("resume", payload.resume);
 
     dispatch(updateCandidateProfile(formData));
   };
@@ -69,13 +70,14 @@ function CandidatePersonalInfo() {
       <h1 className="text-md mb-4 capitalize">Basic information</h1>
 
       <form onSubmit={handleSubmitHandler}>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 grid-rows-1 gap-4">
           {isEdit ? (
             <div className="text-sm text-gray-500 row-span-2">
               Upload Avatar
               <div className="bg-gray-200 border-2 border-dashed border-gray-300 rounded mt-2 p-5 cursor-pointer">
-                <label htmlFor="avatar" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                <label htmlFor="avatar" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                   <ImageUp className="lucide-big" color="#99a1af" />
+
                   {payload.avatar !== "" ? (
                     <p className="text-xs text-center text-green-700">
                       <span className="text-xs font-medium text-gray-800 hidden">Choose a file or drag and drop it here</span> <br />
@@ -92,17 +94,14 @@ function CandidatePersonalInfo() {
               </div>
             </div>
           ) : (
-            <div className="text-sm text-gray-500 row-span-2 items-center">
+            <div className="text-sm text-gray-500">
               Avatar
               <div className="rounded mt-2 relative">
-                <img
-                  style={{ height: "158px" }}
-                  className="absolute w-full blur-sm rounded-md mx-auto -z-10"
-                  src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"}
-                  alt="avatar"
-                />
-
-                <img style={{ height: "158px" }} className="rounded-md mx-auto" src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
+                <div className="mt-2 p-5 bg-gray-200 border-2 border-dashed border-gray-300 rounded flex flex-col justify-center items-center">
+                  {/* <Files className="lucide-big" color="#99a1af" /> */}
+                  <img className="w-12 rounded-full mx-auto" src={candidate?.avatar?.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
+                  <p className="text-xs text-center text-gray-500 mt-4">Profile picture</p>
+                </div>
               </div>
             </div>
           )}
@@ -111,7 +110,7 @@ function CandidatePersonalInfo() {
             <div className="text-sm text-gray-500 col-span-2">
               Upload Banner
               <div className="bg-gray-200 border-2 border-dashed border-gray-300 rounded mt-2 p-5 cursor-pointer">
-                <label htmlFor="banner" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                <label htmlFor="banner" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                   <ImageUp className="lucide-big" color="#99a1af" />
                   {payload.banner !== "" ? (
                     <p className="text-xs text-center text-green-700">
@@ -132,7 +131,7 @@ function CandidatePersonalInfo() {
             <div className="text-sm text-gray-500 row-span-2 col-span-2 items-center">
               Banner
               <div className="mt-2">
-                <img style={{ height: "158px" }} className="w-full rounded-md object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="avatar" />
+                <img style={{ height: "124px" }} className="w-full rounded-md object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="avatar" />
               </div>
             </div>
           )}
@@ -225,6 +224,12 @@ function CandidatePersonalInfo() {
           <div className="mt-6">
             <div className="text-sm text-gray-500 col-span-2">
               Resume
+              {!isEdit && !candidate?.resumeUrl?.fileName && (
+                <div className="mt-2 p-5 bg-gray-200 border-2 border-dashed border-gray-300 rounded flex flex-col justify-center items-center">
+                  <Files className="lucide-big" color="#99a1af" />
+                  <p className="text-xs text-center text-gray-500 mt-4">Please attach your resume to proceed</p>
+                </div>
+              )}
               {!isEdit && candidate?.resumeUrl?.fileName && (
                 <div className="mt-2 p-5 cursor-pointer bg-gray-200 border-2 border-dashed border-gray-300 rounded flex flex-col justify-center items-center">
                   <Files className="lucide-big" color="#99a1af" />
@@ -235,12 +240,19 @@ function CandidatePersonalInfo() {
               )}
               {isEdit && (
                 <div className="mt-2 p-5 cursor-pointer bg-gray-200 border-2 border-dashed border-gray-300 rounded">
-                  <label htmlFor="resume" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                  <label htmlFor="resume" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                     <Files className="lucide-big" color="#99a1af" />
-                    <p className="text-xs text-center text-gray-500">
-                      <span className="text-xs font-medium text-gray-800">Click to upload or Drop your resume here</span> <br />
-                      Acceptable file types: PDF, DOCX (3MB max)
-                    </p>
+                    {payload.resume !== "" ? (
+                      <p className="text-xs text-center text-green-700">
+                        <span className="text-xs font-medium text-gray-800 hidden">Choose a file or drag and drop it here</span> <br />
+                        File uploaded successfully!
+                      </p>
+                    ) : (
+                      <p className="text-xs text-center text-gray-500">
+                        <span className="text-xs font-medium text-gray-800">Click to upload or Drop your resume here</span> <br />
+                        Acceptable file types: PDF, DOCX (3MB max)
+                      </p>
+                    )}
                   </label>
                   <input type="file" id="resume" onChange={handleFormData} accept=".pdf, application/pdf" hidden />
                 </div>

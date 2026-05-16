@@ -64,8 +64,9 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
 
   // const skip = page * limit - limit;
   // jobQuery = jobQuery.skip(skip).limit(limit);
+  const totalJobs = await JobModel.countDocuments();
 
-  const features = new JobQueryParser(JobModel.find().populate({ path: "company", select: "name" }), query).filter().search().sort().fields().pagination();
+  const features = new JobQueryParser(JobModel.find().populate({ path: "company", select: "name logo" }), query).filter().search().sort().fields().pagination();
 
   const jobs = await features.query;
 
@@ -78,6 +79,7 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
   return res.status(200).json({
     success: true,
     message: "Get all jobs successfully",
+    totalJobs,
     count: jobs.length,
     jobs,
   });

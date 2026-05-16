@@ -19,7 +19,7 @@ export const multerImageHandler = function () {
     if (allowedExtensions.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new AppError("invalid file type, only PNG, JPG, and JPEG are allowed!", 404), false);
+      cb(new AppError("invalid file type!", 404), false);
     }
   };
 

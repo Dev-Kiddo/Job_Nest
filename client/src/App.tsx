@@ -34,6 +34,8 @@ import Jobs from "./pages/Jobs";
 import JobPreview from "./pages/JobPreview";
 import AppliedJobs from "./components/AppliedJobs";
 import PostJob from "./components/PostJob";
+import MyJobs from "./components/MyJobs";
+import AppliedCandidates from "./components/AppliedCandidates";
 
 export default function App() {
   return (
@@ -103,6 +105,8 @@ export default function App() {
                 <Route index element={<CompanyOverview />} />
                 <Route path="overview" element={<CompanyOverview />} />
                 <Route path="post-job" element={<PostJob />} />
+                <Route path="my-jobs" element={<MyJobs />} />
+                <Route path="applied-candidates" element={<AppliedCandidates />} />
 
                 <Route path="settings" element={<CompanySettings />}>
                   <Route index element={<ManageCompanyInfo />} />

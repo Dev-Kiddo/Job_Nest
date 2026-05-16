@@ -1,8 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const getAllApplications = createAsyncThunk("application/getAllApplications", async (_, { rejectWithValue }) => {
+export const getAllApplications = createAsyncThunk("application/getAllApplications", async (payload, { rejectWithValue }) => {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/application`, {
+    let url = `${import.meta.env.VITE_API_URL}`;
+
+    if (payload.label === "applications") {
+      url = `${url}/api/application`;
+    }
+
+    if (payload.label === "appliedCandidates") {
+      url = `${url}/api/application?job=6a06ff798b90456e903c4d4e`;
+    }
+
+    const res = await fetch(`${url}`, {
       method: "GET",
       credentials: "include",
     });

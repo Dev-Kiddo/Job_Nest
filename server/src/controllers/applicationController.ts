@@ -5,9 +5,29 @@ import AppError from "../utils/AppError.js";
 import JobModel from "../models/jobModel.js";
 import ApplicationModel from "../models/applicationModel.js";
 import CompanyModel from "../models/companyModel.js";
+import JobQueryParser from "../utils/jobQueryParser.js";
+import Profilemodel from "../models/profileModel.js";
 
 export const fetchApplicationsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  const application = await ApplicationModel.find({}).populate("company", "logo").populate("job", "title salary jobType location createdAt isActive");
+  const query = { ...req.query };
+
+  const totalApplicants = await ApplicationModel.countDocuments();
+
+  const features = new JobQueryParser(
+    ApplicationModel.find()
+      .populate("company", "logo")
+      .populate("job", "title salary jobType location createdAt isActive")
+      .populate("applicant", "name")
+      .populate("profile", "fullName headline totalExperience"),
+    query,
+  )
+    .search()
+    .filter()
+    .fields()
+    .sort()
+    .pagination();
+
+  const application = await features.query;
   // const application = await ApplicationModel.find({});
 
   if (application.length <= 0) {
@@ -17,6 +37,7 @@ export const fetchApplicationsHandler = asyncHandler(async function (req: Reques
   res.status(200).json({
     success: true,
     message: "Fetch all application success",
+    totalApplicants,
     count: application.length,
     application,
   });
@@ -43,6 +64,12 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
     return next(new AppError("User and applicant not match!", 400));
   }
 
+  const userProfile = await Profilemodel.findOne({ user: applicant._id });
+
+  if (!userProfile) {
+    return next(new AppError("User profile not found!", 400));
+  }
+
   const job = await JobModel.findById(jobId);
 
   if (!job) {
@@ -50,6 +77,7 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
   }
 
   const company = await CompanyModel.findById(job?.company);
+  console.log("Company", company);
 
   if (!company) {
     return next(new AppError("Company doesn't have this job", 400));
@@ -59,10 +87,15 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
     return next(new AppError("Resume is required!", 400));
   }
 
+  job.applicationCount = job.applicationCount + 1;
+
+  await job.save();
+
   const application = await ApplicationModel.create({
     applicant: applicant._id,
     job: job._id,
     company: company._id,
+    profile: userProfile._id,
     coverLetter,
     resume,
   });
@@ -73,3 +106,5 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
     application,
   });
 });
+
+export const updateApplicationHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {});

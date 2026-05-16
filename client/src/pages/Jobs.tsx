@@ -48,10 +48,8 @@ function Jobs() {
   // useToastMessage("job");
 
   useEffect(() => {
-    if (!jobs) {
-      dispatch(fetchJobs({ label: "getJobs", data: null }));
-    }
-  }, [dispatch, jobs]);
+    dispatch(fetchJobs({ label: "getJobs", data: null }));
+  }, [dispatch]);
 
   return (
     <>

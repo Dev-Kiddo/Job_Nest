@@ -42,6 +42,10 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 
   const updatedata: any = {};
 
+  // console.log("Files1", req.files.avatar);
+  // console.log("Files2", req.files.banner);
+  // console.log("Files3", req.files.resume);
+
   if (req.files?.avatar !== undefined) {
     const cloudinaryResult = await uploadToCloudinary(req.files.avatar[0].buffer, "avatar");
     // console.log("cloudinaryResult", cloudinaryResult);
@@ -71,6 +75,7 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
       fileName: req.files?.resume[0]?.originalname || `resume-${cloudinaryResult.display_name}`,
     };
   }
+
   if (req.files?.banner !== undefined) {
     const cloudinaryResult = await uploadToCloudinary(req.files.banner[0].buffer, "banner");
     if (!cloudinaryResult) {

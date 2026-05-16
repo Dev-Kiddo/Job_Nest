@@ -17,7 +17,7 @@ const RecruiterSidebar = [
   { title: "overview", icon: Dock, url: "/dashboard/recruiter/overview" },
   { title: "employer's profile", icon: CircleUser, url: "/" },
   { title: "post a job", icon: CirclePlus, url: "/dashboard/recruiter/post-job" },
-  { title: "my jobs", icon: BriefcaseBusiness, url: "/" },
+  { title: "my jobs", icon: BriefcaseBusiness, url: "/dashboard/recruiter/my-jobs" },
   { title: "saved candidates", icon: Bookmark, url: "/" },
   { title: "plans & billing", icon: NotebookPen, url: "/" },
   { title: "all companies", icon: Building2, url: "/" },

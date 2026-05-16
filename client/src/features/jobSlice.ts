@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchJobs = createAsyncThunk("job/fetchJobs", async (payload, { rejectWithValue }) => {
   try {
+    // console.log("Fetch Job Payload", payload);
+
     let url = `${import.meta.env.VITE_API_URL}`;
 
     if (payload.label === "getJobs") {
@@ -12,12 +14,18 @@ export const fetchJobs = createAsyncThunk("job/fetchJobs", async (payload, { rej
       url = `${url}/api/jobs?search=${payload?.data?.title}`;
     }
 
+    if (payload.label === "companyJobs") {
+      url = `${url}/api/jobs?company=${payload.data}&limit=10`;
+    }
+
     const res = await fetch(url, {
       method: "GET",
       credentials: "include",
     });
 
     const data = await res.json();
+
+    // console.log("Fetch Job DATA", data);
 
     if (!res.ok) {
       return rejectWithValue(data.message || "Failed to get jobs");
@@ -134,6 +142,8 @@ const jobSlice = createSlice({
         state.isMessageShown = false;
       })
       .addCase(fetchJobs.fulfilled, (state, action) => {
+        console.log("action", action.payload);
+
         state.loading = false;
         state.jobs = action.payload.jobs;
 

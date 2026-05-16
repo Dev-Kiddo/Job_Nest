@@ -3,13 +3,14 @@ import { getAllApplications } from "../features/applicationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import JobListView from "./JobListView";
 import Loader from "./Loader";
+import EmptyState from "./EmptyState";
 
 function AppliedJobs() {
   const { applications, loading } = useSelector((state) => state.application);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllApplications());
+    dispatch(getAllApplications({ label: "applications" }));
   }, [dispatch]);
 
   return (
@@ -20,8 +21,10 @@ function AppliedJobs() {
             <Loader colour="text-blue-600" />
           </div>
         </>
+      ) : applications?.length > 0 ? (
+        <JobListView data={applications} />
       ) : (
-        <JobListView applications={applications} />
+        <EmptyState label="No Applications Yet!" description="You have not submitted any job applications." />
       )}
     </>
   );

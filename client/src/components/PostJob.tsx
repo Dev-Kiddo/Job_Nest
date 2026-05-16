@@ -79,6 +79,11 @@ function PostJob() {
   const onSubmitHandler = function (e) {
     e.preventDefault();
     dispatch(createJobHandler(payload));
+    // dispatch(createJobHandler(payload)).then(result => {
+    //   if(createJobHandler.fulfilled.match(result)){
+    // setPayload(payload => ({...payload, }))
+    //   }
+    // });
   };
 
   useEffect(() => {
