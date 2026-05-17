@@ -117,18 +117,18 @@ function Companies() {
   }, []);
   return (
     <>
-      <h1 className="mt-8 text-center font-semibold capitalize">Top companies hiring now</h1>
+      <h1 className="mt-8 text-center font-semibold capitalize text-gray-900">Top companies hiring now</h1>
 
       <motion.div className="mx-auto px-8 py-6 bg-gray-200 mt-8 rounded-xl" initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
         <Swiper slidesPerView={6} spaceBetween={25} modules={[Autoplay]} autoplay={{ delay: 1000, disableOnInteraction: false }} className="mySwiper">
           {companySliderList.map((company) => (
             <SwiperSlide>
               <div className="p-6 rounded-xl h-full flex flex-col bg-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 capitalize">{company.companyType}</h3>
+                <h3 className="text-md font-semibold text-gray-900 mb-2 capitalize">{company.companyType}</h3>
 
                 <div className="flex gap-x-2 cursor-pointer hover:underline">
-                  <h5 className="text-sm font-medium text-blue-500 capitalize">{company.companyList} Companies</h5>
-                  <CircleChevronRight color="#2563eb" />
+                  <h5 className="text-xs font-medium text-blue-500 capitalize">{company.companyList} Companies</h5>
+                  <CircleChevronRight className="lucide-sm" color="#2563eb" />
                 </div>
               </div>
             </SwiperSlide>
