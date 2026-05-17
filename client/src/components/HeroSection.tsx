@@ -105,7 +105,7 @@ function HeroSection() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">{box.count}</h3>
-              <p className="text-gray-500 text-xs mt-3 font-medium">{box.label}</p>
+              <p className="text-gray-500 text-xs mt-1 font-medium">{box.label}</p>
             </div>
           </div>
         ))}

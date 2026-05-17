@@ -56,6 +56,32 @@ export const createApplication = createAsyncThunk("application/createApplication
   }
 });
 
+export const updateApplicationStatus = createAsyncThunk("application/updateApplicationStatus", async (payload, { rejectWithValue }) => {
+  try {
+    console.log("PAYLOAD", payload);
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/application/${payload.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload.applicationStatus),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return rejectWithValue(data.message || "Failed to update status");
+    }
+
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    rejectWithValue(err || "Something went wrong");
+  }
+});
+
 const initialState = {
   loading: false,
   applications: null,
@@ -124,6 +150,32 @@ const applicationSlice = createSlice({
         state.isMessageShown = false;
       })
       .addCase(getAllApplications.rejected, (state, action) => {
+        state.loading = false;
+
+        state.message = action.payload.message;
+        state.messageType = "error";
+        state.isMessageShown = false;
+      })
+      //? Application Update Status
+      .addCase(updateApplicationStatus.pending, (state) => {
+        state.loading = true;
+
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+      })
+      .addCase(updateApplicationStatus.fulfilled, (state, action) => {
+        const updateApplication = action.payload.application;
+
+        const findUpdateIndex = state.applications.findIndex((el) => el._id === updateApplication._id);
+
+        state.loading = false;
+        state.applications[findUpdateIndex] = updateApplication;
+
+        state.messageType = "success";
+        state.isMessageShown = false;
+      })
+      .addCase(updateApplicationStatus.rejected, (state, action) => {
         state.loading = false;
 
         state.message = action.payload.message;

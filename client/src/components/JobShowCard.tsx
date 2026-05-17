@@ -1,6 +1,5 @@
 import { Bookmark, MapPin } from "lucide-react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
   const { currentUser, loading } = useSelector((state) => state.user);

@@ -39,7 +39,7 @@ function Dashboard() {
       {/* SIDEBAR */}
       <div className="w-1/6 h-[800px] border-r border-gray-300">
         <div className="w-full h-full flex flex-col gap-y-5">
-          <p className="text-xs py-4 mx-5">{currentUser?.role === "candidate" ? "Candidate" : "Recruiter"} Dashboard</p>
+          <p className="text-xs font-medium text-blue-600 pt-8">{currentUser?.role === "candidate" ? "Candidate" : "Recruiter"} Dashboard</p>
 
           <nav className="text-sm font-medium">
             <ul className="">

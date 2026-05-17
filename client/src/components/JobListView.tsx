@@ -29,18 +29,18 @@ function JobListView({ title = "Recently Applied", data }) {
           {data?.map((el, i) => (
             <tr key={i} className="w-full border-b border-gray-300 hover:scale-[1.01] duration-200 backface-hidden">
               <td className=" flex py-2 gap-x-4 items-center">
-                <img src={el?.company?.logo?.url} className="w-24 py-1" />
+                <img src={el?.company?.logo?.url} className="w-20 rounded-lg" />
                 <div>
                   <h1 className="text-sm relative capitalize text-gray-900">
                     {el?.job?.title} <span className="bg-gray-300 text-orange-600 font-medium px-2 py-1 rounded-full text-[10px]">{el?.job?.jobType}</span>
                   </h1>
                   <div className="flex gap-x-4 mt-2">
                     <span className="flex gap-x-1 text-xs text-gray-900">
-                      <MapPin className="lucide-sm" color="gray" />
+                      <MapPin className="lucide-sm" color="#2563eb" />
                       {el?.job?.location?.country}
                     </span>
                     <span className="flex gap-x-1 text-xs text-gray-900">
-                      <BadgeIndianRupee className="lucide-sm" color="gray" />${el?.job?.salary?.min}K-${el?.job?.salary?.max}K/month
+                      <BadgeIndianRupee className="lucide-sm" color="#2563eb" />${el?.job?.salary?.min}K-${el?.job?.salary?.max}K/month
                     </span>
                   </div>
                 </div>
@@ -48,7 +48,7 @@ function JobListView({ title = "Recently Applied", data }) {
               <td className="text-sm relative capitalize text-gray-900">{new Date(el?.job?.createdAt).toLocaleDateString()}</td>
               <td className="text-sm relative capitalize text-gray-900">{el?.status}</td>
               <td className="text-sm relative capitalize text-gray-900 text-center">
-                <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Details</button>
+                <button className="bg-gray-200 px-6 py-3 border border-gray-600 hover:bg-gray-700 hover:text-white rounded-sm transition">View Details</button>
               </td>
             </tr>
           ))}

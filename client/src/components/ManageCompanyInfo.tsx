@@ -77,14 +77,15 @@ function ManageCompanyInfo() {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 grid-rows-1 gap-4">
           {isEdit ? (
-            <div className="text-sm text-gray-500 row-span-2">
+            <div className="text-sm text-gray-500">
               Upload Logo
               <div className="bg-gray-200 border-2 border-dashed border-gray-300 rounded mt-2 p-5 cursor-pointer">
-                <label htmlFor="logo" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                <label htmlFor="logo" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                   <ImageUp className="lucide-big" color="#99a1af" />
-                  {payload.logo !== "" ? (
+
+                  {payload?.logo !== "" ? (
                     <p className="text-xs text-center text-green-700">
                       <span className="text-xs font-medium text-gray-800 hidden">Choose a file or drag and drop it here</span> <br />
                       File uploaded successfully!
@@ -103,19 +104,10 @@ function ManageCompanyInfo() {
             <div className="text-sm text-gray-500 row-span-2 items-center">
               Logo
               <div className="rounded mt-2 relative">
-                <img
-                  style={{ height: "158px" }}
-                  className="absolute w-full blur-sm rounded-md mx-auto -z-10"
-                  src={company?.logo?.url || "/src/assets/img/default-avatar.png"}
-                  alt="logo"
-                />
-
-                <img
-                  style={{ height: "158px" }}
-                  className="rounded-md mx-auto border-4 p-1 border-gray-300"
-                  src={company?.logo?.url || "/src/assets/img/default-avatar.png"}
-                  alt="logo"
-                />
+                <div className="mt-2 p-5 bg-gray-200 border-2 border-dashed border-gray-300 rounded flex flex-col justify-center items-center">
+                  <img className="w-12 rounded-full mx-auto" src={company?.logo?.url || "/src/assets/img/default-avatar.png"} alt="logo" />
+                  <p className="text-xs text-center text-gray-500 mt-4">Company Logo</p>
+                </div>
               </div>
             </div>
           )}
@@ -124,7 +116,7 @@ function ManageCompanyInfo() {
             <div className="text-sm text-gray-500 col-span-2">
               Upload Banner
               <div className="bg-gray-200 border-2 border-dashed border-gray-300 rounded mt-2 p-5 cursor-pointer">
-                <label htmlFor="banner" className="text-xs flex flex-col items-center justify-between gap-8 cursor-pointer">
+                <label htmlFor="banner" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                   <ImageUp className="lucide-big" color="#99a1af" />
                   {payload.banner !== "" ? (
                     <p className="text-xs text-center text-green-700">
@@ -145,7 +137,7 @@ function ManageCompanyInfo() {
             <div className="text-sm text-gray-500 row-span-2 col-span-2 items-center">
               Banner
               <div className="mt-2">
-                <img style={{ height: "158px" }} className="w-full rounded-md object-cover" src={company?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
+                <img style={{ height: "124px" }} className="w-full rounded-md object-cover" src={company?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
               </div>
             </div>
           )}

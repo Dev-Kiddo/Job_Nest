@@ -78,7 +78,7 @@ function CandidatePersonalInfo() {
                 <label htmlFor="avatar" className="text-xs flex flex-col items-center justify-between gap-4 cursor-pointer">
                   <ImageUp className="lucide-big" color="#99a1af" />
 
-                  {payload.avatar !== "" ? (
+                  {payload?.avatar !== "" ? (
                     <p className="text-xs text-center text-green-700">
                       <span className="text-xs font-medium text-gray-800 hidden">Choose a file or drag and drop it here</span> <br />
                       File uploaded successfully!

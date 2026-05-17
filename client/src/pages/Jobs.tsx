@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs, fetchSingleJob } from "../features/jobSlice";
 import Loader from "../components/Loader";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Jobs() {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ function Jobs() {
 
   return (
     <>
-      <div className="border border-gray-300 rounded-lg">
+      <motion.div className="border border-gray-300 rounded-lg mt-8" initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <form className="rounded-lg shadow p-2 flex gap-4 w-full">
           <div className="flex items-center px-3 py-2 flex-grow border-r-2 border-gray-300">
             <Search className="mr-2" color="#2563eb" />
@@ -76,7 +77,7 @@ function Jobs() {
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
 
       <div className="text-gray-500 text-xs mt-4 flex gap-x-2">
         Popular searches: <p className="text-gray-700 font-medium">Front-end, Back-end, Developer, Designer, Team Lead, Digital Maraketing, Video Editor</p>

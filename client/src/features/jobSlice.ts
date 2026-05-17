@@ -142,7 +142,7 @@ const jobSlice = createSlice({
         state.isMessageShown = false;
       })
       .addCase(fetchJobs.fulfilled, (state, action) => {
-        console.log("action", action.payload);
+        // console.log("action", action.payload);
 
         state.loading = false;
         state.jobs = action.payload.jobs;

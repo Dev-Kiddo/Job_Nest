@@ -35,15 +35,6 @@ const tableData = [
     DateApplied: new Date().toISOString(),
     status: "active",
   },
-  {
-    logoUrl: "/src/assets/img/jobnest.svg",
-    title: "Graphic Designer",
-    type: "Temporary",
-    location: "India",
-    salaryRange: [25, 50],
-    DateApplied: new Date().toISOString(),
-    status: "active",
-  },
 ];
 
 const iconBoxList = [
@@ -85,20 +76,20 @@ function CandidateOverview() {
         </div>
       ) : (
         <>
-          <div className="px-8">
+          <div className="px-8 py-8">
             <div className="relative">
-              <img style={{ height: "246px" }} className="w-full rounded-lg object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
+              <img style={{ height: "160px" }} className="w-full rounded-lg object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
 
               <img
-                style={{ width: "125px" }}
-                className="rounded-full absolute bottom-4 left-4"
+                style={{ width: "75px" }}
+                className="rounded-xl absolute -bottom-1/4 left-6 p-0.5 border-2 border-blue-600"
                 src={currentUser?.avatar?.url || "/src/assets/img/default-avatar.png"}
                 alt="avatar"
               />
             </div>
           </div>
 
-          <div className="p-8 mt-2">
+          <div className="px-8 pt-8">
             <h1 className="text-xl font-semibold capitalize">Hello, {currentUser?.name}</h1>
             <p className="text-xs text-gray-800">Here's your daily activities and job alerts</p>
 
@@ -110,15 +101,15 @@ function CandidateOverview() {
 
             <SetupProfileCard currentUser={currentUser} />
 
-            <div className="mt-6">
+            <div className="mt-8">
               <div className="flex justify-between">
                 <h1 className="text-sm font-medium">Recently Applied</h1>
-                <button className="flex gap-x-2 text-sm text-gray-600 hover:underline">
+                <button className="flex gap-x-2 text-sm text-gray-600 underline">
                   View all <MoveRight />
                 </button>
               </div>
 
-              <table className="w-full mt-4">
+              <table className="w-full mt-5">
                 <tbody>
                   <tr className="w-full bg-gray-200 p-2">
                     {tableHead.map((head, i) => (
@@ -152,7 +143,7 @@ function CandidateOverview() {
                       <td className="text-sm relative capitalize text-gray-900">{data.DateApplied}</td>
                       <td className="text-sm relative capitalize text-gray-900">{data.status}</td>
                       <td className="text-sm relative capitalize text-gray-900 text-center">
-                        <button className="bg-gray-200 px-6 py-3 hover:bg-blue-600 hover:text-white rounded-sm transition">View Details</button>
+                        <button className="bg-gray-200 px-6 py-2 hover:bg-blue-600 hover:text-white rounded-sm transition">View Details</button>
                       </td>
                     </tr>
                   ))}

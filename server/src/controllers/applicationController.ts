@@ -107,4 +107,18 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
   });
 });
 
-export const updateApplicationHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {});
+export const updatedApplicationStatusHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+
+  const application = await ApplicationModel.findByIdAndUpdate(id, req.body, { new: true });
+
+  if (!application) {
+    return next(new AppError("Application not found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Status Updated successfully",
+    application,
+  });
+});

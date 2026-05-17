@@ -16,11 +16,9 @@ function AppliedJobs() {
   return (
     <>
       {loading ? (
-        <>
-          <div className="flex items-center justify-center mt-10 p-4">
-            <Loader colour="text-blue-600" />
-          </div>
-        </>
+        <div className="flex items-center justify-center mt-10 p-4">
+          <Loader colour="text-blue-600" />
+        </div>
       ) : applications?.length > 0 ? (
         <JobListView data={applications} />
       ) : (

@@ -1,5 +1,6 @@
 import { MoveRight } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function SetupProfileCard({ currentUser }) {
   return (
@@ -13,9 +14,12 @@ function SetupProfileCard({ currentUser }) {
         </div>
       </div>
 
-      <button className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-md cursor-pointer hover:bg-gray-100">
+      <Link
+        to={`/dashboard/${currentUser.role === "candidate" ? "candidate" : "recruiter"}/settings`}
+        className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-md cursor-pointer hover:bg-gray-100"
+      >
         Setup Profile <MoveRight color="#E05151" />
-      </button>
+      </Link>
     </div>
   );
 }

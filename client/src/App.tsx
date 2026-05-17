@@ -36,6 +36,7 @@ import AppliedJobs from "./components/AppliedJobs";
 import PostJob from "./components/PostJob";
 import MyJobs from "./components/MyJobs";
 import AppliedCandidates from "./components/AppliedCandidates";
+import Companies from "./pages/Companies";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           {/* Public Routes */}
           <Route index element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/companies" element={<Companies />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/job-preview" element={<JobPreview />} />
