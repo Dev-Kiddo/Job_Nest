@@ -57,11 +57,13 @@ export default function App() {
 
           <Route path="/setup-company" element={<ChooseCompany />} />
 
-          <Route path="/create-company" element={<CreateCompany />}>
-            <Route index element={<CompanyInfo />} />
-            <Route path="company-info" element={<CompanyInfo />} />
-            <Route path="founding-info" element={<FoundingInfo />} />
-            <Route path="social-links" element={<CompanySocialMediaLinks />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/create-company" element={<CreateCompany />}>
+              <Route index element={<CompanyInfo />} />
+              <Route path="company-info" element={<CompanyInfo />} />
+              <Route path="founding-info" element={<FoundingInfo />} />
+              <Route path="social-links" element={<CompanySocialMediaLinks />} />
+            </Route>
           </Route>
 
           <Route path="/register" element={<Register />}>

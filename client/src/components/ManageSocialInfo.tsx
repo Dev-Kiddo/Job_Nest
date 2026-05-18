@@ -68,10 +68,10 @@ function ManageSocialInfo() {
                   id={links[index].name}
                   className="w-full py-3 px-4 text-sm bg-gray-200 rounded-md focus:outline-none"
                   placeholder="Profile link/url..."
-                  autoComplete="off"
                   disabled={isEdit ? false : true}
                   value={links[index].baseUrl}
                   onChange={handleOnChangeLinks}
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -88,7 +88,7 @@ function ManageSocialInfo() {
 
         <div className="flex gap-x-5">
           <button
-            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-3 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
+            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-2 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
             onClick={(e) =>
               setIsEdit((edit) => {
                 e.preventDefault();
@@ -100,7 +100,7 @@ function ManageSocialInfo() {
           </button>
 
           {isEdit && (
-            <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
+            <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
               Update Profile {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           )}

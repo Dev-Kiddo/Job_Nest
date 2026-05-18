@@ -5,7 +5,7 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
   const { currentUser, loading } = useSelector((state) => state.user);
   return (
     <div
-      className={`${bg} p-4 rounded-lg border-2 border-gray-300 shadow-sm cursor-pointer`}
+      className={`${bg} p-4 rounded-lg border border-gray-300 shadow-sm cursor-pointer`}
       // to={`${currentUser && currentUser.role === "candidate" ? "/job-preview" : "/login"}`}
       onClick={() => onSelect(job._id)}
     >
@@ -22,11 +22,11 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
 
         <div className="flex items-center justify-between gap-x-4 mt-3">
           <div className="bg-gray-200 p-2 rounded-md">
-            <img className="w-6" src="/src/assets/img/icon-google.svg" alt="company-logo" />
+            <img className="w-8 rounded-md" src={job?.company?.logo?.url || "/src/assets/img/icon-google.svg"} alt="company-logo" />
           </div>
 
           <div className="flex-1">
-            <h2 className="text-sm font-semibold text-gray-700">{job?.company.name}</h2>
+            <h2 className="text-sm font-semibold text-gray-700 capitalize">{job?.company?.name}</h2>
             <div className="flex text-[11px] text-gray-500 gap-x-0.5">
               <MapPin className="lucide-xs" color="gray" />
               {job?.location.city}, {job?.location.state}

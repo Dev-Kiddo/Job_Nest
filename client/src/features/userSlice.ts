@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { UserInitialState } from "../types/userTypes";
+import { resetAllState } from "./rootActions";
 
 export const registerUser = createAsyncThunk("user/registerUser", async (payload, { rejectWithValue }) => {
   try {
@@ -157,7 +158,7 @@ export const resetPassword = createAsyncThunk("user/resetPassword", async (paylo
 });
 
 const initialState: UserInitialState = {
-  currentUser: null,
+  currentUser: {},
   authChecking: true,
   loading: false,
   redirectUrl: null,
@@ -173,7 +174,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearUser: (state) => {
-      state.currentUser = null;
+      state.currentUser = {};
     },
     clearMessage: (state) => {
       state.message = null;
@@ -294,7 +295,7 @@ const userSlice = createSlice({
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.loading = false;
         state.authChecking = false;
-        state.currentUser = null;
+        state.currentUser = {};
 
         state.message = action.payload as string;
         state.messageType = "error";
@@ -312,7 +313,7 @@ const userSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.loading = false;
 
-        state.currentUser = null;
+        state.currentUser = {};
 
         state.message = action.payload.message;
         state.messageType = "success";
@@ -358,7 +359,7 @@ const userSlice = createSlice({
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentUser = null;
+        state.currentUser = {};
 
         state.message = action.payload.message;
         state.messageType = "success";
@@ -370,10 +371,20 @@ const userSlice = createSlice({
         state.message = action.payload as string;
         state.messageType = "error";
         state.isMessageShown = false;
+      })
+      // State Reset
+      .addCase(resetAllState, (state) => {
+        state.currentUser = {};
+        state.loading = false;
+        state.message = null;
+        state.messageType = null;
+        state.isMessageShown = false;
+
+        state.authChecking = false;
       });
   },
 });
 
-export const { clearMessage, clearUser, userMarkMessageAsShown, activateAuthChecking, deactivateAuthChecking } = userSlice.actions;
+export const { clearMessage, clearUser, userMarkMessageAsShown, activateAuthChecking, deactivateAuthChecking, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

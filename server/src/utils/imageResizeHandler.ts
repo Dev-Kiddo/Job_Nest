@@ -34,5 +34,5 @@ export const imageResizeHandler = asyncHandler(async function (req: Request, res
 
   // console.log("AFTER REQ FILES", req.files);
 
-  next();
+  return next();
 });

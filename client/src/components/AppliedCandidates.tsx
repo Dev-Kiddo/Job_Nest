@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllApplications } from "../features/applicationSlice";
 import { MoveRight } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 const tableHead = ["Candidates List", "Date Applied", "Current Status", "Actions"];
 
@@ -11,8 +12,12 @@ function AppliedCandidates({ title = "Applied Candidates" }) {
   const { applications, loading } = useSelector((state) => state.application);
   const dispatch = useDispatch();
 
+  const [searchParams] = useSearchParams();
+
+  console.log(searchParams.get("id"));
+
   useEffect(() => {
-    dispatch(getAllApplications({ label: "appliedCandidates" }));
+    dispatch(getAllApplications({ label: "appliedCandidates", id: searchParams.get("id") }));
   }, [dispatch]);
 
   return (

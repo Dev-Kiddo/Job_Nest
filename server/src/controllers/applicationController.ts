@@ -34,7 +34,7 @@ export const fetchApplicationsHandler = asyncHandler(async function (req: Reques
     return next(new AppError("No application found!", 200));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch all application success",
     totalApplicants,
@@ -100,7 +100,7 @@ export const createApplicationHandler = asyncHandler(async function (req: Reques
     resume,
   });
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Applied successfully",
     application,
@@ -116,7 +116,7 @@ export const updatedApplicationStatusHandler = asyncHandler(async function (req:
     return next(new AppError("Application not found", 400));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Status Updated successfully",
     application,

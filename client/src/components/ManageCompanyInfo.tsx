@@ -11,6 +11,8 @@ function ManageCompanyInfo() {
 
   // console.log("COMPANY", company);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [isEdit, setIsEdit] = useState(false);
 
   const [payload, setPayload] = useState({
@@ -73,6 +75,12 @@ function ManageCompanyInfo() {
       setIsEdit(false);
     }
   }, [loading, messageType]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }, []);
 
   return (
     <div className="w-full">
@@ -159,6 +167,7 @@ function ManageCompanyInfo() {
                 value={payload.name}
                 placeholder="Enter your company name here"
                 onChange={(e) => handleFormData(e)}
+                autoComplete="off"
               />
             </>
           ) : (
@@ -199,6 +208,7 @@ function ManageCompanyInfo() {
                 onChange={(e) => handleFormData(e)}
                 className="py-3 px-4 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
                 placeholder="Enter your company tagline here"
+                autoComplete="off"
               />
             ) : (
               <p className={`${payload?.tagline ? "text-gray-900" : "text-gray-500"} py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}>
@@ -217,6 +227,7 @@ function ManageCompanyInfo() {
                 onChange={(e) => handleFormData(e)}
                 className="py-3 px-4 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
                 placeholder="Enter your company website here"
+                autoComplete="off"
               />
             ) : (
               <p className={`${payload?.website ? "text-gray-900" : "text-gray-500"} py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}>
@@ -234,7 +245,7 @@ function ManageCompanyInfo() {
 
         <div className="flex gap-x-5">
           <button
-            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-3 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
+            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-2 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
             onClick={(e) =>
               setIsEdit((edit) => {
                 e.preventDefault();
@@ -246,7 +257,7 @@ function ManageCompanyInfo() {
           </button>
 
           {isEdit && (
-            <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
+            <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
               Update Profile {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           )}

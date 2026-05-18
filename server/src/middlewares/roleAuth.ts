@@ -10,6 +10,6 @@ export const roleAuth = function (...roles: string[]) {
       return next(new AppError("You do not have permission to access this feature.", 403));
     }
 
-    next();
+    return next();
   };
 };

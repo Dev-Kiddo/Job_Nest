@@ -1,7 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 function ProfileNavOption({ Icon, label, url }: { Icon: React.ElementType; label: string; url: string }) {
+  const location = useLocation();
+
+  // console.log("location", location);
+
   return (
     <NavLink
       to={url}

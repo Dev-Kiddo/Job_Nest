@@ -134,6 +134,7 @@ function CompanyInfo() {
             className="py-3 px-4 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
             placeholder="Enter your company name here"
             onChange={(e) => handleFormData(e)}
+            autoComplete="off"
           />
         </div>
 
@@ -159,6 +160,7 @@ function CompanyInfo() {
               onChange={(e) => handleFormData(e)}
               className="py-3 px-4 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
               placeholder="Enter your company name here"
+              autoComplete="off"
             />
           </div>
 
@@ -170,11 +172,12 @@ function CompanyInfo() {
               onChange={(e) => handleFormData(e)}
               className="py-3 px-4 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
               placeholder="Enter your company name here"
+              autoComplete="off"
             />
           </div>
         </div>
 
-        <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+        <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
           Save & Next {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
         </button>
       </form>

@@ -9,7 +9,13 @@ function Footer() {
             <img className="w-[40px] object-contain" alt="Company Logo" src="/src/assets/nest_logo/nest.svg" />
           </a>
           <span className="hidden text-gray-500 h-6 items-center">|</span>
-          <p className="text-gray-600 text-sm text-center">Copyright @2026 Prasanth | All rights reserved.</p>
+          <p className="text-gray-600 text-sm text-center">
+            Copyright @2026{" "}
+            <a href="https://prasanthx.com/" className="underline text-blue-600">
+              Prasanth S
+            </a>{" "}
+            All rights reserved.
+          </p>
         </div>
         <div className="flex items-center gap-6 mt-4">
           <a href="#" className="transition-transform hover:scale-110" aria-label="Facebook">

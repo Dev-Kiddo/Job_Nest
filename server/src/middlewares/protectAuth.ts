@@ -37,5 +37,5 @@ export const protectAuth = asyncHandler(async function (req, res, next) {
 
   req.user = verifyToken;
 
-  next();
+  return next();
 });

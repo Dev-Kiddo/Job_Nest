@@ -1,6 +1,6 @@
 import { UAParser } from "ua-parser-js";
 import { generateRandomToken } from "./tokenUtils.js";
-import { asyncHandler } from "./asyncHandler.js";
+import SessionModel from "../models/sessionModel.js";
 
 export const generateSessionToken = function () {
   return `session_${generateRandomToken()}`;
@@ -22,7 +22,7 @@ export const getClientIP = function (req) {
   return req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.headers["x-real-ip"] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
 };
 
-export const getLocationFromIp = asyncHandler(async function (ip) {
+export const getLocationFromIp = async function (ip) {
   const getLocationIp = await fetch(`http://ip-api.com/json/${ip}`);
   const data = await getLocationIp.json();
 
@@ -41,7 +41,7 @@ export const getLocationFromIp = asyncHandler(async function (ip) {
     country: "unknown",
     timezone: "unknown",
   };
-});
+};
 
 export const formatSessions = function (session) {
   return {
@@ -55,4 +55,42 @@ export const formatSessions = function (session) {
     lastActive: session.lastActive,
     isActive: session.isActive,
   };
+};
+
+export const generateSessionTokenForUser = async function (req, res, user) {
+  try {
+    // console.log("USER INSIDE SESSION", user);
+
+    // Generate session
+    const sessionToken = generateSessionToken();
+
+    const ipAddress = getClientIP(req);
+
+    const userAgent = req.headers["user-agent"];
+
+    // Get location From IP
+    const location = getLocationFromIp(ipAddress);
+
+    // deviceInfo
+    const deviceInfo = getDeviceInfo(userAgent);
+
+    await SessionModel.create({
+      userId: user._id,
+      sessionId: sessionToken,
+      deviceInfo,
+      ipAddress,
+      location,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    });
+
+    return sessionToken;
+  } catch (error) {
+    console.log(error);
+
+    return res.status(400).json({
+      success: false,
+      message: "Failed to create session",
+      error,
+    });
+  }
 };

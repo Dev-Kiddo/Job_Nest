@@ -46,7 +46,7 @@ function FoundingInfo() {
   const handleOnChange = function (event) {
     const { id, value } = event.target;
 
-    console.log("value", value);
+    // console.log("value", value);
     setPayload((data) => ({ ...data, [id]: value }));
   };
 
@@ -155,7 +155,7 @@ function FoundingInfo() {
               onChange={handleOnChange}
               type="text"
               className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
-              autoComplete="disabled"
+              autoComplete="off"
             />
           </div>
 
@@ -164,7 +164,13 @@ function FoundingInfo() {
               Phone
             </label>
 
-            <input onChange={handleOnChange} id="contactPhone" type="text" className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500" />
+            <input
+              onChange={handleOnChange}
+              id="contactPhone"
+              type="text"
+              className="py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+              autoComplete="off"
+            />
           </div>
         </div>
 
@@ -172,11 +178,11 @@ function FoundingInfo() {
           <Link
             to="/create-company/company-info"
             type="button"
-            className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
+            className="border-2 border-gray-300 text-gray-500 py-2 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
           >
             Previous
           </Link>
-          <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
             Save & Next {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
           </button>
         </div>

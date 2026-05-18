@@ -18,13 +18,13 @@ function JobPreview() {
         </div>
       ) : (
         <>
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto mt-8">
             <div className="flex items-center justify-between gap-x-2">
               <img className="w-16" src="/src/assets/img/icon-google.svg" alt="" />
 
               <div className="flex-1">
-                <h1 className="text-md font-medium">{selectedJob?.title}</h1>
-                <p className="text-xs font-medium text-gray-600">
+                <h1 className="text-md font-medium capitalize">{selectedJob?.title}</h1>
+                <p className="text-xs font-medium text-gray-600 capitalize">
                   at <span>{selectedJob?.company.name}</span>
                   <span className="ml-2 py-0.5 px-1 bg-green-200 text-[10px] uppercase font-bold text-green-800 rounded-sm">{selectedJob?.jobType}</span>
                 </p>
@@ -95,7 +95,7 @@ function JobPreview() {
               </div>
 
               <div className="col-span-3 row-span-2">
-                <div className="gap-2 items-center border-2 border-gray-300 rounded-md mt-4 p-4">
+                <div className="gap-2 items-center border border-gray-300 rounded-md mt-4 p-4">
                   <h3 className="text-xs ">Skills Required</h3>
 
                   <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1">
@@ -109,7 +109,7 @@ function JobPreview() {
                   </div>
                 </div>
 
-                <div className="flex gap-2 items-center justify-evenly border-2 border-gray-300 rounded-md mt-4">
+                <div className="flex gap-2 items-center justify-evenly border border-gray-300 rounded-md mt-4">
                   <div className="text-center p-4">
                     <h3 className="text-xs">Salary(INR)</h3>
                     <p className="text-xs text-orange-700 font-medium mt-2">
@@ -129,7 +129,7 @@ function JobPreview() {
                   </div>
                 </div>
 
-                <div className="gap-2 items-center border-2 border-gray-300 rounded-md mt-4 p-4">
+                <div className="gap-2 items-center border border-gray-300 rounded-md mt-4 p-4">
                   <h3 className="text-xs ">Job Benifits</h3>
 
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -141,7 +141,7 @@ function JobPreview() {
                   </div>
                 </div>
 
-                <div className="gap-2 items-center border-2 border-gray-300 rounded-md mt-4 p-4">
+                <div className="gap-2 items-center border border-gray-300 rounded-md mt-4 p-4">
                   <h3 className="text-xs ">Job Overview</h3>
 
                   <div className="mt-4 flex flex-wrap gap-2">

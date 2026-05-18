@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { logoutUser } from "../features/userSlice";
 import SidebarOptions from "./SidebarOptions";
+import { resetAllState } from "../features/rootActions";
 
 const candidateSidebar = [
   { title: "overview", icon: Dock, url: "/dashboard/candidate/overview" },
@@ -26,11 +27,17 @@ const RecruiterSidebar = [
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { currentUser, loading } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
-  const onLogoutHandler = function () {
-    if (!loading) {
-      dispatch(logoutUser());
+  const onLogoutHandler = async function () {
+    try {
+      const result = await dispatch(logoutUser());
+
+      if (logoutUser.fulfilled.match(result)) {
+        dispatch(resetAllState());
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

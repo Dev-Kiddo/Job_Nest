@@ -4,6 +4,7 @@ import Loader from "./Loader";
 import { MoveRight } from "lucide-react";
 import { skilsList, expList, yearsArray, degreeList, fieldList, universitiesList, languagesList } from "./profileDataInfo";
 import { updateCandidateProfile } from "../features/profileSlice";
+import useToastMessage from "../hooks/useToastMessage";
 
 function CandidateProfileInfo() {
   const dispatch = useDispatch();
@@ -21,10 +22,10 @@ function CandidateProfileInfo() {
       companyExperience: candidate?.experience?.companyExperience || "",
     },
     education: {
-      degree: candidate?.education.degree || "",
-      field: candidate?.education.field || "",
-      institution: candidate?.education.institution || "",
-      year: candidate?.education.year || "",
+      degree: candidate?.education?.degree || "",
+      field: candidate?.education?.field || "",
+      institution: candidate?.education?.institution || "",
+      year: candidate?.education?.year || "",
     },
   });
 
@@ -57,6 +58,8 @@ function CandidateProfileInfo() {
 
     dispatch(updateCandidateProfile(payload));
   };
+
+  useToastMessage("profile");
 
   useEffect(() => {
     if (!loading && messageType === "success") {
@@ -176,6 +179,7 @@ function CandidateProfileInfo() {
                     value={payload?.experience?.title}
                     className="w-full py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
+                    autoComplete="off"
                   />
                 ) : (
                   <p className={`${payload?.experience?.title ? "text-gray-900" : "text-gray-500"} py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}>
@@ -198,6 +202,7 @@ function CandidateProfileInfo() {
                     value={payload?.experience?.company}
                     className="w-full py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
+                    autoComplete="off"
                   />
                 ) : (
                   <p className={`${payload?.experience?.company ? "text-gray-900" : "text-gray-500"} py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500`}>
@@ -220,6 +225,7 @@ function CandidateProfileInfo() {
                     value={payload?.experience?.location}
                     className="w-full py-3 px-2 text-sm mt-2 bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
+                    autoComplete="off"
                   />
                 ) : (
                   <p
@@ -393,7 +399,7 @@ function CandidateProfileInfo() {
 
         <div className="flex gap-x-5">
           <button
-            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-3 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
+            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-2 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
             onClick={(e) =>
               setIsEdit((edit) => {
                 e.preventDefault();
@@ -405,7 +411,7 @@ function CandidateProfileInfo() {
           </button>
 
           {isEdit && (
-            <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
+            <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
               Update Profile {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           )}

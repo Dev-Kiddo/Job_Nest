@@ -43,7 +43,7 @@ function Login() {
   useToastMessage("user");
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6">
+      <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6 mt-8">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Sign in</h1>
           <p className="text-sm text-gray-600">

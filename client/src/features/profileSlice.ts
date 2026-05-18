@@ -1,14 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  candidate: null,
-  loading: false,
-
-  // Message State
-  message: null,
-  messageType: null,
-  isMessageShown: false,
-};
+import { resetAllState } from "./rootActions";
 
 export const getCandidateProfile = createAsyncThunk("profile/getCandidateProfile", async (_, { rejectWithValue }) => {
   try {
@@ -61,19 +52,29 @@ export const updateCandidateProfile = createAsyncThunk("profile/updateCandidateP
   }
 });
 
+const initialState = {
+  candidate: {},
+  loading: false,
+
+  // Message State
+  message: null,
+  messageType: null,
+  isMessageShown: false,
+};
+
 const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
     clearCandidate: (state) => {
-      state.candidate = null;
+      state.candidate = {};
     },
     clearMessage: (state) => {
       state.message = null;
       state.messageType = null;
       state.isMessageShown = false;
     },
-    userMarkMessageAsShown: (state) => {
+    profileMarkMessageAsShown: (state) => {
       state.isMessageShown = true;
     },
   },
@@ -89,7 +90,7 @@ const profileSlice = createSlice({
       .addCase(getCandidateProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.candidate = action.payload.user;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
         state.messageType = "success";
         state.isMessageShown = false;
       })
@@ -100,6 +101,7 @@ const profileSlice = createSlice({
         state.messageType = "error";
         state.isMessageShown = false;
       })
+      //? UPDATE CANDIDATE
       .addCase(updateCandidateProfile.pending, (state) => {
         state.loading = true;
 
@@ -121,9 +123,11 @@ const profileSlice = createSlice({
         state.message = action.payload as string;
         state.messageType = "error";
         state.isMessageShown = false;
-      });
+      })
+      // Reser State
+      .addCase(resetAllState, () => initialState);
   },
 });
 
-export const { clearMessage } = profileSlice.actions;
+export const { clearMessage, profileMarkMessageAsShown, clearCandidate } = profileSlice.actions;
 export default profileSlice.reducer;

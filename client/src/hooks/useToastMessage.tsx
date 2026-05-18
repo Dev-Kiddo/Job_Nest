@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { companyMarkMessageAsShown } from "../features/companySlice";
 import { jobMarkMessageAsShown } from "../features/jobSlice";
 import { applicationMarkMessageAsShown } from "../features/applicationSlice";
+import { profileMarkMessageAsShown } from "../features/profileSlice";
 
 function useToastMessage(sliceName: string) {
   // console.log("ToastSliceName", sliceName);
@@ -28,6 +29,10 @@ function useToastMessage(sliceName: string) {
 
     if (sliceName === "user") {
       messageShown = userMarkMessageAsShown;
+    }
+
+    if (sliceName === "profile") {
+      messageShown = profileMarkMessageAsShown;
     }
 
     if (sliceName === "company") {

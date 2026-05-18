@@ -52,8 +52,8 @@ function MyJobsListView({ title = "Recently Posted", data }) {
 
               <td className="text-sm relative capitalize text-gray-900 text-center">
                 <Link
-                  to="/dashboard/recruiter/applied-candidates"
-                  className="bg-gray-200 px-6 py-3 border border-gray-600 hover:bg-gray-700 hover:text-white rounded-sm transition"
+                  to={`/dashboard/recruiter/applied-candidates?id=${el._id}`}
+                  className="bg-gray-200 px-6 py-2 border border-gray-600 hover:bg-gray-700 hover:text-white rounded-sm transition"
                 >
                   Manage
                 </Link>

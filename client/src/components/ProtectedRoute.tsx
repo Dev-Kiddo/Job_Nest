@@ -1,19 +1,20 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { deactivateAuthChecking, getCurrentUser } from "../features/userSlice";
+import { getCurrentUser } from "../features/userSlice";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
 import { getCurrentCompany } from "../features/companySlice";
 import { getCandidateProfile } from "../features/profileSlice";
 
 function ProtectedRoute() {
-  const { currentUser, authChecking, redirectUrl } = useSelector((state) => state.user);
+  const { currentUser: user, authChecking, redirectUrl } = useSelector((state) => state.user);
+
+  const currentUser = Object.keys(user).length > 0 ? user : null;
 
   const { jobs } = useSelector((state) => state.job);
 
   const { company } = useSelector((state) => state.company);
-  const { candidate } = useSelector((state) => state.profile);
 
   const location = useLocation();
 
@@ -34,10 +35,10 @@ function ProtectedRoute() {
   }, [dispatch, currentUser, company]);
 
   useEffect(() => {
-    if (currentUser && currentUser.role === "candidate" && !candidate) {
+    if (currentUser && currentUser.role === "candidate" && !currentUser.candidate) {
       dispatch(getCandidateProfile());
     }
-  }, [dispatch, currentUser, candidate]);
+  }, [dispatch, currentUser]);
 
   useToastMessage("user");
 

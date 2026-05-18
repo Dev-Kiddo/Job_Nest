@@ -29,7 +29,7 @@ function CandidatesAppliedList({ application }) {
           <div>
             <h1 className="text-sm relative capitalize text-gray-900">
               {application?.profile?.fullName || application?.applicant?.name}
-              <span className="bg-gray-300 text-orange-600 font-medium mx-1 px-2 py-1 rounded-full text-[10px]"> {application?.profile?.headline || "Not Mentioned"}</span>
+              <span className="bg-gray-300 text-orange-600 font-medium mx-1 px-2 py-1 rounded-full text-[10px]"> Not Mentioned</span>
             </h1>
 
             <div className="flex gap-x-4 mt-2">
@@ -63,7 +63,11 @@ function CandidatesAppliedList({ application }) {
               ))}
             </select>
 
-            <button className="bg-blue-600 text-white px-6 py-2 rounded transition capitalize hover:bg-blue-700" onClick={(event) => onUpdateHandler(event, application._id)}>
+            <button
+              disabled={applicationStatus === application.status}
+              className={`${applicationStatus === application.status ? "cursor-not-allowed" : "cursor-pointer"} bg-blue-600 text-white px-6 py-2 rounded transition capitalize hover:bg-blue-700`}
+              onClick={(event) => onUpdateHandler(event, application._id)}
+            >
               update
             </button>
           </div>

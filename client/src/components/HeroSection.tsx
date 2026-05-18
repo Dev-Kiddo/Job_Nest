@@ -45,11 +45,13 @@ function HeroSection() {
   const onSubmitHandler = function (e) {
     e.preventDefault();
 
-    dispatch(fetchJobs({ label: "search", data: payload })).then((result) => {
-      if (fetchJobs.fulfilled.match(result)) {
-        navigate("/jobs");
-      }
-    });
+    navigate(`/jobs?search=${payload.title}&location=${payload.location || ""}`);
+
+    // dispatch(fetchJobs({ label: "search", data: payload })).then((result) => {
+    //   if (fetchJobs.fulfilled.match(result)) {
+    //     navigate("/jobs");
+    //   }
+    // });
   };
 
   return (
@@ -71,6 +73,7 @@ function HeroSection() {
               type="text"
               value={payload.title}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
           </div>
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 bg-white flex-grow">
@@ -82,6 +85,7 @@ function HeroSection() {
               type="text"
               value={payload.location}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
           </div>
           <button type="submit" className="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-md transition text-sm cursor-pointer flex-none hover:bg-blue-700">

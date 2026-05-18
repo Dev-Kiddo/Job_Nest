@@ -50,7 +50,12 @@ function NavBar() {
           <div className="hidden lg:flex items-center gap-3">
             {currentUser?.avatar ? (
               <Link to="/dashboard">
-                <img className="w-12 h-12 p-0.5 border-2 border-blue-500 rounded-full" src={currentUser.avatar.url || "/src/assets/img/default-avatar.png"} alt="avatar" />
+                <img
+                  className="w-12 h-12 p-0.5 border-2 border-blue-600 rounded-full"
+                  src={currentUser.avatar.url || "/src/assets/img/default-avatar.png"}
+                  alt="avatar"
+                  referrerPolicy="no-referrer"
+                />
               </Link>
             ) : (
               <>

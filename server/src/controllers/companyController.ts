@@ -72,7 +72,7 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Success",
     company,
@@ -86,7 +86,7 @@ export const fetchAllCompaniesHandler = asyncHandler(async function (req: Reques
     return next(new AppError("No companies registered yet!", 200));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch all companies success",
     count: company.length,
@@ -103,7 +103,7 @@ export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, 
     return next(new AppError("No company registered by this user", 200));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch company success",
     company,

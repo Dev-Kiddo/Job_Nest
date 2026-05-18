@@ -73,7 +73,11 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
   // console.log("JOBS", jobs);
 
   if (jobs.length <= 0) {
-    return next(new AppError("No Jobs found", 200));
+    return res.status(200).json({
+      success: true,
+      message: "Get jobs successfully",
+      jobs,
+    });
   }
 
   return res.status(200).json({
@@ -95,7 +99,7 @@ export const getSingleJobHandler = asyncHandler(async function (req: Request, re
     return next(new AppError("Job not found", 401));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch job successfully",
     job,
@@ -151,7 +155,7 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
 
   // console.log("newJob", newJob);
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Create a job successfull",
     job: newJob,

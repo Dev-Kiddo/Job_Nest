@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { resetAllState } from "./rootActions";
 
 export const getAllApplications = createAsyncThunk("application/getAllApplications", async (payload, { rejectWithValue }) => {
+  console.log(payload);
+
   try {
     let url = `${import.meta.env.VITE_API_URL}`;
 
@@ -9,7 +12,7 @@ export const getAllApplications = createAsyncThunk("application/getAllApplicatio
     }
 
     if (payload.label === "appliedCandidates") {
-      url = `${url}/api/application?job=6a06ff798b90456e903c4d4e`;
+      url = `${url}/api/application?job=${payload?.id}`;
     }
 
     const res = await fetch(`${url}`, {
@@ -110,6 +113,9 @@ const applicationSlice = createSlice({
     applicationMarkMessageAsShown: (state) => {
       state.isMessageShown = true;
     },
+    resetApplication: (state) => {
+      state = initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -181,7 +187,9 @@ const applicationSlice = createSlice({
         state.message = action.payload.message;
         state.messageType = "error";
         state.isMessageShown = false;
-      });
+      })
+      // Rese state
+      .addCase(resetAllState, () => initialState);
   },
 });
 

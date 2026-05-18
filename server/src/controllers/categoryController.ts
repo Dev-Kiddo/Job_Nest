@@ -20,7 +20,7 @@ export const getCategories = asyncHandler(async function (req: Request, res: Res
     return next(new AppError("No categories found", 200));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch category success",
     count: category.length,

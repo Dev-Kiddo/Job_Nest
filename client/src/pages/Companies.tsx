@@ -142,13 +142,13 @@ function Companies() {
         </div>
       ) : (
         <>
-          <h1 className="mt-8 text-xs capitalize">Showing companies (12)</h1>
+          <h1 className="mt-8 text-xs capitalize">Showing Top companies (12)</h1>
 
-          <div className="grid grid-cols-4 gap-4 mt-4">
+          <motion.div className="grid grid-cols-4 gap-4 mt-4" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             {companyShowList.map((company) => (
               <CompanyShowCard company={company} />
             ))}
-          </div>
+          </motion.div>
         </>
       )}
     </>

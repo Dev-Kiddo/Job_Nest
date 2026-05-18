@@ -102,8 +102,8 @@ function CompanySocialMediaLinks() {
                   // required
                   className="w-full py-3 px-4 text-sm bg-gray-200 rounded-md focus:outline-none"
                   placeholder="Profile link/url..."
-                  autoComplete="off"
                   onChange={handleOnChangeLinks}
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -128,11 +128,11 @@ function CompanySocialMediaLinks() {
           <Link
             to="/create-company/founding-info"
             type="button"
-            className="border-2 border-gray-300 text-gray-500 py-3 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
+            className="border-2 border-gray-300 text-gray-500 py-2 px-4 rounded hover:bg-gray-300 transition flex justify-center items-center gap-2 cursor-pointer "
           >
             Previous
           </Link>
-          <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
             Finish {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
           </button>
         </div>

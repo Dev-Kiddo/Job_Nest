@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { resetAllState } from "./rootActions";
 
 export const fetchJobs = createAsyncThunk("job/fetchJobs", async (payload, { rejectWithValue }) => {
   try {
@@ -11,7 +12,7 @@ export const fetchJobs = createAsyncThunk("job/fetchJobs", async (payload, { rej
     }
 
     if (payload.label === "search") {
-      url = `${url}/api/jobs?search=${payload?.data?.title}`;
+      url = `${url}/api/jobs?search=${payload?.data?.title}${payload?.data?.location ? `&location=${payload?.data?.location} ` : ""}`;
     }
 
     if (payload.label === "companyJobs") {
@@ -104,7 +105,7 @@ export const createJobHandler = createAsyncThunk("job/createJobHandler", async (
 
 const initialState = {
   loading: false,
-  jobs: null,
+  jobs: [],
   selectedJob: null,
   categories: null,
 
@@ -118,7 +119,7 @@ const jobSlice = createSlice({
   initialState,
   reducers: {
     clearJobs: function (state) {
-      state.jobs = null;
+      state.jobs = [];
     },
     clearMessage(state) {
       state.message = null;
@@ -223,9 +224,11 @@ const jobSlice = createSlice({
         state.message = action.payload.message || "Failed to create job!";
         state.messageType = "error";
         state.isMessageShown = false;
-      });
+      })
+      // RESET STATE
+      .addCase(resetAllState, () => initialState);
   },
 });
 
-export const { clearJobs, clearMessage, jobMarkMessageAsShown } = jobSlice.actions;
+export const { clearJobs, clearMessage, clearSelectedJob, jobMarkMessageAsShown } = jobSlice.actions;
 export default jobSlice.reducer;

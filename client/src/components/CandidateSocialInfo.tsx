@@ -3,6 +3,7 @@ import { updateCandidateProfile } from "../features/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CircleX, MoveRight } from "lucide-react";
 import Loader from "./Loader";
+import useToastMessage from "../hooks/useToastMessage";
 
 function CandidateSocialInfo() {
   const { candidate, loading, messageType } = useSelector((state) => state.profile);
@@ -44,6 +45,8 @@ function CandidateSocialInfo() {
     }
   }, [loading, messageType]);
 
+  useToastMessage("profile");
+
   // const handleDelete = function (name) {
   //   console.log("name", name);
   //   setLinks((link) => link.filter((li) => li !== name));
@@ -52,6 +55,7 @@ function CandidateSocialInfo() {
 
   return (
     <div className="w-full">
+      <h1 className="text-md mb-4 capitalize">Social Information</h1>
       <form onSubmit={handleSubmit}>
         {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="w-full flex items-center justify-between gap-x-4">
@@ -75,10 +79,10 @@ function CandidateSocialInfo() {
                   id={links[index].name}
                   className="w-full py-3 px-4 text-sm bg-gray-200 rounded-md focus:outline-none"
                   placeholder="Profile link/url..."
-                  autoComplete="off"
                   disabled={isEdit ? false : true}
                   value={links[index].baseUrl}
                   onChange={handleOnChangeLinks}
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -95,7 +99,7 @@ function CandidateSocialInfo() {
 
         <div className="flex gap-x-5">
           <button
-            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-3 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
+            className={`${isEdit ? "bg-orange-600" : "bg-blue-600"} text-white py-2 px-4 rounded ${isEdit ? "hover:bg-orange-700" : "hover:bg-blue-700"} transition flex justify-center gap-2 cursor-pointer`}
             onClick={(e) =>
               setIsEdit((edit) => {
                 e.preventDefault();
@@ -107,7 +111,7 @@ function CandidateSocialInfo() {
           </button>
 
           {isEdit && (
-            <button type="submit" className="bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
+            <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer">
               Update Profile {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           )}

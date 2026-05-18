@@ -14,9 +14,9 @@ export const getMyProfileController = asyncHandler(async function (req: Request,
     return next(new AppError("User not found!", 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
-    message: "Fetch getMyProfile successfully",
+    message: "Fetch profile successfully",
     user,
   });
 });
@@ -114,7 +114,7 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
   const updatedCandidate = await candidate.save();
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Updated successfully",
     updatedCandidate,
@@ -145,7 +145,7 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 
 //   await candidate.save();
 
-//   res.status(200).json({
+//   return res.status(200).json({
 //     success: true,
 //     message: "Updated successfully",
 //   });
@@ -175,7 +175,7 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 
 //   await candidate.save();
 
-//   res.status(200).json({
+//   return res.status(200).json({
 //     success: true,
 //     message: "Updated successfully",
 //   });

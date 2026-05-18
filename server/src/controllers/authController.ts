@@ -11,7 +11,7 @@ import Profilemodel from "../models/profileModel.js";
 
 import { sendEmail } from "../utils/sendEmail.js";
 import SessionModel from "../models/sessionModel.js";
-import { formatSessions, generateSessionToken, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
+import { formatSessions, generateSessionToken, generateSessionTokenForUser, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);
@@ -164,7 +164,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Registration success. Please verify your email before login.",
     user: {
@@ -203,29 +203,32 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
   }
 
   // Generate session
-  const sessionToken = generateSessionToken();
+  // const sessionToken = generateSessionToken();
 
-  const ipAddress = getClientIP(req);
+  // const ipAddress = getClientIP(req);
 
-  const userAgent = req.headers["user-agent"];
+  // const userAgent = req.headers["user-agent"];
 
   // Get location From IP
-  const location = getLocationFromIp(ipAddress);
+  // const location = getLocationFromIp(ipAddress);
 
   // deviceInfo
-  const deviceInfo = getDeviceInfo(userAgent);
+  // const deviceInfo = getDeviceInfo(userAgent);
 
-  await SessionModel.create({
-    userId: isUser._id,
-    sessionId: sessionToken,
-    deviceInfo,
-    ipAddress,
-    location,
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-  });
+  // await SessionModel.create({
+  //   userId: isUser._id,
+  //   sessionId: sessionToken,
+  //   deviceInfo,
+  //   ipAddress,
+  //   location,
+  //   expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  // });
+
+  // Create a function for Generate Session Token
+  const session = await generateSessionTokenForUser(req, res, isUser);
 
   if (isUser.role === "recruiter" && isUser.needaCompanySetup) {
-    generateAccessAndRefreshToken(isUser, sessionToken, res);
+    generateAccessAndRefreshToken(isUser, session, res);
 
     return res.status(200).json({
       success: true,
@@ -240,7 +243,7 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     return next(new AppError("Invalid Credentials", 400));
   }
 
-  generateAccessAndRefreshToken(isUser, sessionToken, res);
+  generateAccessAndRefreshToken(isUser, session, res);
 
   // const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
 
@@ -298,7 +301,7 @@ export const verifyEmailHandler = asyncHandler(async function (req: Request, res
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Email Verified Successfully",
   });
@@ -329,7 +332,7 @@ export const refreshAccessTokenHandler = asyncHandler(async function (req: Reque
 
   res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Access token generated successfully",
   });
@@ -350,7 +353,7 @@ export const getCurrentUser = asyncHandler(async function (req: Request, res: Re
     return next(new AppError("User not found", 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Login Successfully",
     user,
@@ -481,7 +484,7 @@ export const forgotPasswordHandler = asyncHandler(async function (req: Request, 
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Reset Password Link Sent Your Email",
     user: {
@@ -536,7 +539,7 @@ export const resetPasswordhandler = asyncHandler(async function (req: Request, r
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Password reset successfull",
   });
@@ -573,7 +576,7 @@ export const updatePasswordHandler = asyncHandler(async function (req: Request, 
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Password updated successfully",
   });
@@ -691,7 +694,7 @@ export const resendVerificationEmailHandler = asyncHandler(async function (req: 
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Verify email sent successfully",
   });
@@ -706,7 +709,7 @@ export const getSessionsHandler = asyncHandler(async function (req: Request, res
 
   console.log("USERSESSION", userSession);
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Fetch login sessions successfully",
     count: userSession.length,
@@ -723,7 +726,7 @@ export const revokeSessionHandler = asyncHandler(async function (req: Request, r
     return next(new AppError("Session ID not valid", 400));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Session removed successfully",
   });

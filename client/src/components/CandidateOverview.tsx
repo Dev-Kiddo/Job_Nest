@@ -4,6 +4,7 @@ import SetupProfileCard from "./SetupProfileCard";
 import { BadgeIndianRupee, BellRing, Bookmark, BriefcaseBusiness, MapPin, MoveRight } from "lucide-react";
 import IconBox from "./IconBox";
 import Loader from "./Loader";
+import { motion } from "framer-motion";
 
 const tableHead = ["Job", "Date Applied", "Status", "Action"];
 
@@ -59,9 +60,10 @@ const iconBoxList = [
 ];
 
 function CandidateOverview() {
-  const [isLoading, setIsLoading] = useState(true);
   const { currentUser, loading } = useSelector((state) => state.user);
   const { candidate, loading: profileLoading } = useSelector((state) => state.profile);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -72,7 +74,7 @@ function CandidateOverview() {
     <>
       {isLoading ? (
         <div className="flex items-center justify-center mt-10 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : (
         <>
@@ -85,6 +87,7 @@ function CandidateOverview() {
                 className="rounded-xl absolute -bottom-1/4 left-6 p-0.5 border-2 border-blue-600"
                 src={currentUser?.avatar?.url || "/src/assets/img/default-avatar.png"}
                 alt="avatar"
+                referrerPolicy="no-referrer"
               />
             </div>
           </div>

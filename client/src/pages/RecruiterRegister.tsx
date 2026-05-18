@@ -69,6 +69,7 @@ const RecruiterRegister = function () {
               type="text"
               value={payload.name}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
           </div>
           <div className="border border-gray-300 rounded flex items-center p-2.5">

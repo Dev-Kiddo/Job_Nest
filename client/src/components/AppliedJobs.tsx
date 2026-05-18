@@ -17,9 +17,9 @@ function AppliedJobs() {
     <>
       {loading ? (
         <div className="flex items-center justify-center mt-10 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
-      ) : applications?.length > 0 ? (
+      ) : applications?.length > 10 ? (
         <JobListView data={applications} />
       ) : (
         <EmptyState label="No Applications Yet!" description="You have not submitted any job applications." />

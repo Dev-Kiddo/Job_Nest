@@ -12,7 +12,7 @@ export const fetchUsersHandler = asyncHandler(async function (req: Request, res:
     return next(new AppError("Users not registered yet!", 204));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "users fetched successfully",
     numOfUsers: users.length,
@@ -33,7 +33,7 @@ export const fetchSingleUserHandler = asyncHandler(async function (req: Request,
     return next(new AppError("User not found!", 404));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "user fetched successfully",
     user,
@@ -53,7 +53,7 @@ export const updateUserHandler = asyncHandler(async function (req: Request, res:
     return next(new AppError("User not found!.", 400));
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "User updated successfully",
     user,
@@ -102,7 +102,7 @@ export const deleteUserHandler = asyncHandler(async function (req: Request, res:
   res.clearCookie("accessToken");
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "User deleted successfully",
   });
@@ -125,7 +125,7 @@ export const activateUserHandler = asyncHandler(async function (req: Request, re
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: `Account activated successfully`,
   });
@@ -149,7 +149,7 @@ export const changeUserRoleHandler = asyncHandler(async function (req: Request, 
 
   await user.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: `Role updated successfully`,
   });

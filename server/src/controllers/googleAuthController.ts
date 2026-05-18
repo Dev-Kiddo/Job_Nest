@@ -5,8 +5,9 @@ import type { Request, Response, NextFunction } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import AppError from "../utils/AppError.js";
 import UserModel from "../models/userModel.js";
-import { generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
+import { generateAccessAndRefreshToken, generateAccessToken, generateRefreshToken } from "../utils/tokenUtils.js";
 import Profilemodel from "../models/profileModel.js";
+import { generateSessionTokenForUser } from "../utils/sessionHelperHandler.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
@@ -20,7 +21,7 @@ export const googleAuthHandler = function (req: Request, res: Response, next: Ne
     redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
   });
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Google oAuth URL generated successfully",
     authUrl,
@@ -57,6 +58,8 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
 
   const existingUser = await UserModel.findOne({ email: payload?.email });
 
+  let session;
+
   if (existingUser) {
     if (!existingUser.googleId) {
       existingUser.googleId = payload.sub;
@@ -64,34 +67,38 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
       existingUser.isEmailVerified = true;
     }
 
-    const accessTokenPayload = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
+    session = await generateSessionTokenForUser(req, res, existingUser);
 
-    const accessToken = generateAccessToken(accessTokenPayload);
+    generateAccessAndRefreshToken(existingUser, session, res);
 
-    const refreshTokenPayload = { id: existingUser._id };
-    const refreshToken = generateAccessToken(refreshTokenPayload);
+    // const accessTokenPayload = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
 
-    res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+    // const accessToken = generateAccessToken(accessTokenPayload);
 
-    res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+    // const refreshTokenPayload = { id: existingUser._id };
+    // const refreshToken = generateAccessToken(refreshTokenPayload);
 
-    res.redirect(`http://localhost:5173/dashboard`);
+    // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
-    return res.status(200).json({
-      success: true,
-      message: "Login successfully",
-      user: {
-        id: existingUser._id,
-        name: existingUser.name,
-        email: existingUser.email,
-        role: existingUser.role,
-        isActive: existingUser.isActive,
-        googleId: existingUser.googleId,
-        avatar: {
-          url: existingUser.avatar.url,
-        },
-      },
-    });
+    // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+
+    return res.redirect(`http://localhost:5173/dashboard`);
+
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "Login successfully",
+    //   user: {
+    //     id: existingUser._id,
+    //     name: existingUser.name,
+    //     email: existingUser.email,
+    //     role: existingUser.role,
+    //     isActive: existingUser.isActive,
+    //     googleId: existingUser.googleId,
+    //     avatar: {
+    //       url: existingUser.avatar.url,
+    //     },
+    //   },
+    // });
   }
 
   const user = new UserModel({
@@ -110,34 +117,39 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
     user: user._id,
   });
 
-  const accessTokenPayload = { id: user._id, email: user.email, role: user.role };
-  const accessToken = generateAccessToken(accessTokenPayload);
+  //?Comment these line coz i have create a funciton for create tokens
+  // const accessTokenPayload = { id: user._id, email: user.email, role: user.role };
+  // const accessToken = generateAccessToken(accessTokenPayload);
 
-  const refreshTokenPayload = { id: user._id };
-  const refreshToken = generateRefreshToken(refreshTokenPayload);
+  // const refreshTokenPayload = { id: user._id };
+  // const refreshToken = generateRefreshToken(refreshTokenPayload);
 
-  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
 
-  res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+
+  session = await generateSessionTokenForUser(req, res, user);
+
+  generateAccessAndRefreshToken(user, session, res);
 
   await user.save();
   await candidate.save();
 
-  res.redirect("http://localhost:5173/dashboard");
+  return res.redirect("http://localhost:5173/dashboard");
 
-  return res.status(200).json({
-    success: true,
-    message: "User Registered successfully",
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      isActive: user.isActive,
-      googleId: user.googleId,
-      avatar: {
-        url: user.avatar.url,
-      },
-    },
-  });
+  // return res.status(200).json({
+  //   success: true,
+  //   message: "User Registered successfully",
+  //   user: {
+  //     id: user._id,
+  //     name: user.name,
+  //     email: user.email,
+  //     role: user.role,
+  //     isActive: user.isActive,
+  //     googleId: user.googleId,
+  //     avatar: {
+  //       url: user.avatar.url,
+  //     },
+  //   },
+  // });
 });

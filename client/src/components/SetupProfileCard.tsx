@@ -6,7 +6,7 @@ function SetupProfileCard({ currentUser }) {
   return (
     <div className={`bg-[#E05151] bg-opacity-90 flex flex-1 items-center justify-between rounded-lg p-5 mt-5 space-x-5`}>
       <div className="flex items-center gap-5">
-        <img className="rounded-full h-14" src={currentUser.avatar.url} />
+        <img className="rounded-full h-14" src={currentUser?.avatar?.url} referrerPolicy="no-referrer" />
 
         <div>
           <h4 className="text-md text-gray-200 mb-2">Your profile setup is not completed.</h4>
@@ -15,7 +15,7 @@ function SetupProfileCard({ currentUser }) {
       </div>
 
       <Link
-        to={`/dashboard/${currentUser.role === "candidate" ? "candidate" : "recruiter"}/settings`}
+        to={`/dashboard/${currentUser?.role === "candidate" ? "candidate" : "recruiter"}/settings`}
         className="flex items-center gap-x-2 text-sm text-[#E05151] bg-white px-6 py-2 rounded-md cursor-pointer hover:bg-gray-100"
       >
         Setup Profile <MoveRight color="#E05151" />

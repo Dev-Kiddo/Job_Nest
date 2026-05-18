@@ -20,7 +20,7 @@ function MyJobs() {
   return (
     <>
       {loading ? (
-        <div className="flex items-center justify-center mt-10 p-4">
+        <div className="flex items-center justify-center mt-8 p-4">
           <Loader colour="text-blue-600" />
         </div>
       ) : jobs?.length > 0 ? (

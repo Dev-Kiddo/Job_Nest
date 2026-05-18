@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { CompanyInitialState } from "../types/companyTypes";
+import { resetAllState } from "./rootActions";
 
 export const registerCompany = createAsyncThunk("company/registerCompany", async (payload, { rejectWithValue }) => {
   if (!payload) {
@@ -30,13 +31,13 @@ export const registerCompany = createAsyncThunk("company/registerCompany", async
 
 export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", async (payload, { rejectWithValue }) => {
   try {
-    console.log("payload", payload);
+    // console.log("payload", payload);
     const apiPayload = payload;
 
-    console.log("APIPAYLOAD", apiPayload);
+    // console.log("APIPAYLOAD", apiPayload);
 
     const isFormData = apiPayload.formData instanceof FormData;
-    console.log("isFormData", isFormData);
+    // console.log("isFormData", isFormData);
 
     if (!apiPayload.companyId) {
       return rejectWithValue("Company ID is required to process");
@@ -55,7 +56,7 @@ export const updateCompanyInfo = createAsyncThunk("company/updateCompanyInfo", a
 
     const data = await res.json();
 
-    console.log("DATA", data);
+    // console.log("DATA", data);
 
     if (!res.ok) {
       return rejectWithValue(data.message || "Failed to update company info");
@@ -183,7 +184,8 @@ const companySlice = createSlice({
         state.message = action.payload.message;
         state.isMessageShown = false;
         state.messageType = "error";
-      });
+      })
+      .addCase(resetAllState, () => initialState);
   },
 });
 
