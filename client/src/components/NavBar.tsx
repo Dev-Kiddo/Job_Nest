@@ -9,7 +9,7 @@ function NavBar() {
       <nav>
         <div className="h-16 flex items-center justify-between">
           <Link className="flex items-center" to="/">
-            <img className="w-[40px]" alt="job-nest" src="/src/assets/nest_logo/nest.svg" />
+            <img className="w-[40px]" alt="job-nest" src="https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg" />
           </Link>
 
           <ul className="hidden lg:flex items-center gap-4">

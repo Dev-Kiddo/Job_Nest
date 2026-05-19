@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 const tableHead = ["Jobs", "Applications", "Status", "Action"];
 const tableData = [
   {
-    logoUrl: "/src/assets/img/jobnest.svg",
+    logoUrl: "https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg",
     title: "Full Stack Developer",
     type: "Full-Time",
     location: "India",
@@ -18,7 +18,7 @@ const tableData = [
     status: "active",
   },
   {
-    logoUrl: "/src/assets/img/jobnest.svg",
+    logoUrl: "https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg",
     title: "NodeJs Developer",
     type: "Remote",
     location: "India",
@@ -27,7 +27,7 @@ const tableData = [
     status: "active",
   },
   {
-    logoUrl: "/src/assets/img/jobnest.svg",
+    logoUrl: "https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg",
     title: "Graphic Designer",
     type: "Temporary",
     location: "India",

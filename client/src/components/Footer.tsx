@@ -6,7 +6,7 @@ function Footer() {
       <div className="flex items-center justify-between gap-6">
         <div className="flex items-center gap-2">
           <a href="/" data-discover="true">
-            <img className="w-[40px] object-contain" alt="Company Logo" src="/src/assets/nest_logo/nest.svg" />
+            <img className="w-[40px] object-contain" alt="Company Logo" src="https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg" />
           </a>
           <span className="hidden text-gray-500 h-6 items-center">|</span>
           <p className="text-gray-600 text-sm text-center">
