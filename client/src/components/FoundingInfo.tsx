@@ -71,7 +71,7 @@ function FoundingInfo() {
         <div className="flex gap-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companyType" className="text-gray-500 capitalize">
-              Organization Type <span className="text-blue-500">*</span>
+              Organization Type <span className="text-blue-600">*</span>
             </label>
 
             <select id="companyType" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onChange={handleOnChange} required>
@@ -85,7 +85,7 @@ function FoundingInfo() {
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companySize" className="text-gray-500 capitalize">
-              Company Size <span className="text-blue-500">*</span>
+              Company Size <span className="text-blue-600">*</span>
             </label>
 
             <select id="companySize" className="bg-gray-200 text-gray-800 py-3 px-2 rounded-md my-1" onChange={handleOnChange} required>

@@ -98,6 +98,7 @@ const CandidateRegister = function () {
               type="email"
               value={payload.email}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
           </div>
           <div className="border border-gray-300 rounded flex items-center p-2.5">
@@ -109,6 +110,7 @@ const CandidateRegister = function () {
               type={showPassword ? "text" : "password"}
               value={payload.password}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
 
             {showPassword ? <EyeOff onClick={() => setShowPassword((pass: boolean) => !pass)} /> : <Eye onClick={() => setShowPassword((pass: boolean) => !pass)} />}
@@ -122,6 +124,7 @@ const CandidateRegister = function () {
               type="password"
               value={payload.confirmPassword}
               onChange={onChangeHandler}
+              autoComplete="off"
             />
           </div>
         </div>

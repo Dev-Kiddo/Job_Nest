@@ -23,7 +23,7 @@ function NavBar() {
             </li>
             <li>
               <NavLink
-                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-500 hover:bg-white [&.active]:bg-white [&.active]:text-orange-600"
+                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-600 hover:bg-white [&.active]:bg-white [&.active]:text-orange-600"
                 to="/jobs"
               >
                 Jobs
@@ -31,7 +31,7 @@ function NavBar() {
             </li>
             {/* <li>
               <NavLink
-                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-500 hover:hover:bg-white [&.active]:bg-white [&.active]: text-blue-600"
+                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-600 hover:hover:bg-white [&.active]:bg-white [&.active]: text-blue-600"
                 to="/"
               >
                 About
@@ -39,7 +39,7 @@ function NavBar() {
             </li> */}
             <li>
               <NavLink
-                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-500 hover:hover:bg-white active:bg-white focus:white [&.active]:bg-white [&.active]:text-orange-600"
+                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-blue-600 hover:hover:bg-white active:bg-white focus:white [&.active]:bg-white [&.active]:text-orange-600"
                 to="/companies"
               >
                 Companies

@@ -146,7 +146,7 @@ const jobSlice = createSlice({
         // console.log("action", action.payload);
 
         state.loading = false;
-        state.jobs = action.payload.jobs;
+        state.jobs = action.payload?.jobs || [];
 
         // state.message = action.payload.message;
         state.messageType = "success";

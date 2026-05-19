@@ -21,7 +21,7 @@ function MyJobs() {
     <>
       {loading ? (
         <div className="flex items-center justify-center mt-8 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : jobs?.length > 0 ? (
         <MyJobsListView data={jobs} />

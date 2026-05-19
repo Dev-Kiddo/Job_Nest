@@ -14,7 +14,7 @@ function JobPreview() {
     <>
       {loading ? (
         <div className="flex items-center justify-center mt-10 p-5">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : (
         <>

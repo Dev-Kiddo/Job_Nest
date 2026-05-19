@@ -55,7 +55,7 @@ function HeroSection() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-100 to-orange-100 rounded-lg py-16 px-6 md:px-20">
+    <div className="bg-gradient-to-r from-blue-100 to-orange-100 rounded-lg py-16 px-6 mt-8 md:px-20">
       <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">Unlock Your Potential, Thousands of Jobs Await</h1>
         <p className="text-gray-600 mb-8">

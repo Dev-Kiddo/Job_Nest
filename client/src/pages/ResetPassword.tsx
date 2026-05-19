@@ -65,6 +65,7 @@ function ResetPassword() {
                   type={showPassword ? "text" : "password"}
                   value={payload.password}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
 
                 {showPassword ? <EyeOff onClick={() => setShowPassword((pass) => !pass)} /> : <Eye onClick={() => setShowPassword((pass) => !pass)} />}
@@ -79,6 +80,7 @@ function ResetPassword() {
                   type="password"
                   value={payload.confirmPassword}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
 
                 {/* {showPassword ? <EyeOff onClick={() => setShowPassword((pass) => !pass)} /> : <Eye onClick={() => setShowPassword((pass) => !pass)} />} */}

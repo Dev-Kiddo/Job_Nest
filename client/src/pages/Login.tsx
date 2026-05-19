@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginUser } from "../features/userSlice";
 import useToastMessage from "../hooks/useToastMessage";
 import Loader from "../components/Loader";
+import { motion } from "framer-motion";
 
 function Login() {
   const { loading, message, messageType } = useSelector((state) => state.user);
@@ -43,7 +44,12 @@ function Login() {
   useToastMessage("user");
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6 mt-8">
+      <motion.div
+        className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6 mt-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Sign in</h1>
           <p className="text-sm text-gray-600">
@@ -66,6 +72,7 @@ function Login() {
                   type="email"
                   value={payload.email}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
               </div>
               <div className="border border-gray-300 rounded flex items-center p-2.5">
@@ -77,6 +84,7 @@ function Login() {
                   type={showPassword ? "text" : "password"}
                   value={payload.password}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
 
                 {showPassword ? <EyeOff onClick={() => setShowPassword((pass) => !pass)} /> : <Eye onClick={() => setShowPassword((pass) => !pass)} />}
@@ -99,7 +107,7 @@ function Login() {
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

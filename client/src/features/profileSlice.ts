@@ -21,11 +21,11 @@ export const getCandidateProfile = createAsyncThunk("profile/getCandidateProfile
 });
 
 export const updateCandidateProfile = createAsyncThunk("profile/updateCandidateProfile", async (payload, { rejectWithValue }) => {
-  console.log("PAYLOAD", payload);
+  // console.log("PAYLOAD", payload);
 
   const isFormData = payload instanceof FormData;
 
-  console.log("isFormData:", isFormData);
+  // console.log("isFormData:", isFormData);
 
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/candidate/profile`, {

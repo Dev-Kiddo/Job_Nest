@@ -1,9 +1,10 @@
 import { BadgeIndianRupee, MapPin, MoveRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const tableHead = ["Job", "Date Applied", "Status", "Action"];
 
 function JobListView({ title = "Recently Applied", data }) {
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="w-full py-10 pl-10 pr-2">
@@ -25,7 +26,7 @@ function JobListView({ title = "Recently Applied", data }) {
           </tr>
         </tbody>
 
-        <tbody>
+        <motion.tbody initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
           {data?.map((el, i) => (
             <tr key={i} className="w-full border-b border-gray-300 hover:scale-[1.01] duration-200 backface-hidden">
               <td className=" flex py-2 gap-x-4 items-center">
@@ -52,7 +53,7 @@ function JobListView({ title = "Recently Applied", data }) {
               </td>
             </tr>
           ))}
-        </tbody>
+        </motion.tbody>
       </table>
     </div>
   );

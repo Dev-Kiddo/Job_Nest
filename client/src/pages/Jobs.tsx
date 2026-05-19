@@ -41,7 +41,7 @@ function Jobs() {
   const handleSelect = async function (id) {
     // console.log("clicked");
 
-    if (currentUser) {
+    if (Object.keys(currentUser).length > 0) {
       const result = await dispatch(fetchSingleJob(id));
 
       if (fetchSingleJob.fulfilled.match(result)) {
@@ -79,6 +79,8 @@ function Jobs() {
     }
     dispatch(fetchJobs({ label: "getJobs", data: null }));
   }, [dispatch, searchParams.size]);
+
+  console.log(jobs);
 
   return (
     <>
@@ -127,13 +129,13 @@ function Jobs() {
 
       {loading ? (
         <div className="flex items-center justify-center mt-10 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : (
         <>
           <h1 className="mt-8 text-xs capitalize">{searchParams.size !== 0 ? "Search Results" : "Recently Posted Jobs"}</h1>
 
-          {jobs?.length <= 0 ? (
+          {jobs?.length === 0 ? (
             <EmptyState label="Job Not Found" description="We couldn't find any job postings matching your search criteria" />
           ) : (
             <motion.div className="grid grid-cols-3 gap-4 mt-4" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>

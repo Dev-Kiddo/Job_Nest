@@ -1,13 +1,19 @@
 import { Building2, CircleUser } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6 mt-8">
+      <motion.div
+        className="w-full max-w-2xl mx-auto border border-gray-300 rounded-lg p-6 mt-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Create account</h1>
           <p className="text-sm text-gray-600">
@@ -45,7 +51,7 @@ function Register() {
         </div>
 
         <Outlet context={{ showPassword, setShowPassword }} />
-      </div>
+      </motion.div>
     </>
   );
 }

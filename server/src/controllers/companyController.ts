@@ -66,7 +66,7 @@ export const createCompanyInfoHandler = asyncHandler(async function (req: Reques
 
   const company = await CompanyModel.create({ user: [req.user.id], name, description, tagline, website, logo: cloudinaryLogo, banner: cloudinaryBanner, registerStages: "stage1" });
 
-  console.log("Company:", company);
+  // console.log("Company:", company);
 
   user.needaCompanySetup = false;
 
@@ -111,7 +111,7 @@ export const fetchMyCompanyHandler = asyncHandler(async function (req: Request, 
 });
 
 export const updateCompanyInfoHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  console.log("BODY", req.body);
+  // console.log("BODY", req.body);
 
   const { name, description, tagline, website, companyType, companySize, location, contactEmail, contactPhone, socialLinks } = req.body;
 

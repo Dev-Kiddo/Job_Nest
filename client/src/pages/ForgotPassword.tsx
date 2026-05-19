@@ -66,6 +66,7 @@ function ForgotPassword() {
                   type="email"
                   value={payload.email}
                   onChange={onChangeHandler}
+                  autoComplete="off"
                 />
               </div>
             </div>

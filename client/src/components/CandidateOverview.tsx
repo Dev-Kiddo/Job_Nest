@@ -44,18 +44,21 @@ const iconBoxList = [
     count: 659,
     icon: BriefcaseBusiness,
     bgColour: "bg-blue-600",
+    animDelay: 0.1,
   },
   {
     label: "Favorite Jobs",
     count: 156,
     icon: Bookmark,
     bgColour: "bg-orange-600",
+    animDelay: 0.5,
   },
   {
     label: "Job Alerts",
     count: 244,
     icon: BellRing,
     bgColour: "bg-green-600",
+    animDelay: 0.9,
   },
 ];
 
@@ -80,25 +83,36 @@ function CandidateOverview() {
         <>
           <div className="px-8 py-8">
             <div className="relative">
-              <img style={{ height: "160px" }} className="w-full rounded-lg object-cover" src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"} alt="banner" />
+              <motion.img
+                style={{ height: "160px" }}
+                className="w-full rounded-lg object-cover"
+                src={candidate?.banner?.url || "/src/assets/img/def-profile-banner.jpg"}
+                alt="banner"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              />
 
-              <img
+              <motion.img
                 style={{ width: "75px" }}
                 className="rounded-xl absolute -bottom-1/4 left-6 p-0.5 border-2 border-blue-600"
                 src={currentUser?.avatar?.url || "/src/assets/img/default-avatar.png"}
                 alt="avatar"
                 referrerPolicy="no-referrer"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
               />
             </div>
           </div>
 
-          <div className="px-8 pt-8">
+          <motion.div className="px-8 pt-8" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
             <h1 className="text-xl font-semibold capitalize">Hello, {currentUser?.name}</h1>
             <p className="text-xs text-gray-800">Here's your daily activities and job alerts</p>
 
             <div className="flex justify-between gap-x-5 mt-5">
               {iconBoxList.map((box) => (
-                <IconBox key={box.label} icon={box.icon} count={box.count} label={box.label} bgColour={box.bgColour} />
+                <IconBox key={box.label} icon={box.icon} count={box.count} label={box.label} bgColour={box.bgColour} animDelay={box.animDelay} />
               ))}
             </div>
 
@@ -123,7 +137,7 @@ function CandidateOverview() {
                   </tr>
                 </tbody>
 
-                <tbody>
+                <motion.tbody initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                   {tableData.map((data, i) => (
                     <tr key={i} className="w-full border-b border-gray-300 hover:border hover:border-gray-300">
                       <td className=" flex py-4 gap-x-4 items-center">
@@ -150,10 +164,10 @@ function CandidateOverview() {
                       </td>
                     </tr>
                   ))}
-                </tbody>
+                </motion.tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
         </>
       )}
     </>

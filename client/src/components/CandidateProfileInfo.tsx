@@ -5,6 +5,7 @@ import { MoveRight } from "lucide-react";
 import { skilsList, expList, yearsArray, degreeList, fieldList, universitiesList, languagesList } from "./profileDataInfo";
 import { updateCandidateProfile } from "../features/profileSlice";
 import useToastMessage from "../hooks/useToastMessage";
+import { motion } from "framer-motion";
 
 function CandidateProfileInfo() {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ function CandidateProfileInfo() {
     <div>
       <h1 className="text-md mb-4 capitalize">Profile Information</h1>
 
-      <form onSubmit={handleSubmitHandler}>
+      <motion.form onSubmit={handleSubmitHandler} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <div className="grid grid-cols-4 gap-4">
           <div className="text-sm flex flex-col col-span-2">
             <label className="text-gray-500 capitalize" htmlFor="skills">
@@ -246,7 +247,7 @@ function CandidateProfileInfo() {
                 {isEdit ? (
                   <select
                     id="companyExperience"
-                    className="w-full py-3 px-2 text-md mt-2.5 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+                    className="w-full py-3 px-2 text-md bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     value={payload?.experience?.companyExperience}
                     onChange={handleFormData}
                   >
@@ -282,7 +283,7 @@ function CandidateProfileInfo() {
                 {isEdit ? (
                   <select
                     id="degree"
-                    className="w-full py-3 px-2 text-md mt-2.5 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+                    className="w-full py-3 px-2 text-md bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
                     value={payload?.education?.degree}
                   >
@@ -312,7 +313,7 @@ function CandidateProfileInfo() {
                 {isEdit ? (
                   <select
                     id="field"
-                    className="w-full py-3 px-2 text-md mt-2.5 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+                    className="w-full py-3 px-2 text-md bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
                     value={payload?.education?.field}
                   >
@@ -342,7 +343,7 @@ function CandidateProfileInfo() {
                 {isEdit ? (
                   <select
                     id="institution"
-                    className="w-full py-3 px-2 text-md mt-2.5 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+                    className="w-full py-3 px-2 text-md bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
                     value={payload?.education?.institution}
                   >
@@ -372,7 +373,7 @@ function CandidateProfileInfo() {
                 {isEdit ? (
                   <select
                     id="year"
-                    className="w-full py-3 px-2 text-md mt-2.5 bg-gray-200 rounded-md focus-visible:outline-gray-500"
+                    className="w-full py-3 px-2 text-md bg-gray-200 rounded-md focus-visible:outline-gray-500"
                     onChange={handleFormData}
                     value={payload?.education?.year}
                   >
@@ -416,7 +417,7 @@ function CandidateProfileInfo() {
             </button>
           )}
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 }

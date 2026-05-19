@@ -10,13 +10,13 @@ function RecruiterLogin() {
       </div>
 
       <form className="space-y-4">
-        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent">
           <Mail className="mr-2" />
-          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" />
+          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" autoComplete="off" />
         </div>
-        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent">
           <Lock className="mr-2" />
-          <input id="password" placeholder="Password" className="w-full outline-none text-sm" type="password" />
+          <input id="password" placeholder="Password" className="w-full outline-none text-sm" type="password" autoComplete="off" />
         </div>
 
         <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center cursor-pointer ">

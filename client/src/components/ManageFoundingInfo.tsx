@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { updateCompanyInfo } from "../features/companySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { City, Country, State } from "country-state-city";
-import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import { MoveRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const organizationType = [
   { type: "Select", value: "" },
@@ -68,12 +68,12 @@ function ManageFoundingInfo() {
   }, [loading, messageType]);
 
   return (
-    <div className="w-full">
+    <motion.div className="w-full" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <form onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companyType" className="text-gray-500 capitalize">
-              Organization Type <span className="text-blue-500">*</span>
+              Organization Type <span className="text-blue-600">*</span>
             </label>
 
             {isEdit ? (
@@ -93,7 +93,7 @@ function ManageFoundingInfo() {
 
           <div className="w-1/2 text-sm flex flex-col row-span-1">
             <label htmlFor="companySize" className="text-gray-500 capitalize">
-              Company Size <span className="text-blue-500">*</span>
+              Company Size <span className="text-blue-600">*</span>
             </label>
 
             {isEdit ? (
@@ -255,7 +255,7 @@ function ManageFoundingInfo() {
           )}
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
 

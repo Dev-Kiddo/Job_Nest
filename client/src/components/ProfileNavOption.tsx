@@ -9,11 +9,11 @@ function ProfileNavOption({ Icon, label, url }: { Icon: React.ElementType; label
   return (
     <NavLink
       to={url}
-      className="flex items-center gap-x-2 cursor-pointer  px-6 py-2 hover:border-b-2 border-blue-500 group [&.active]:border-b-2 duration-75
+      className="flex items-center gap-x-2 cursor-pointer  px-6 py-2 hover:border-b-2 border-blue-600 group [&.active]:border-b-2 duration-75
     "
     >
       <Icon className="lucide-sm" color="#2563EB" />
-      <span className="text-sm font-medium capitalize text-gray-500 group-hover:text-blue-500 group-[&.active]:text-blue-500">{label}</span>
+      <span className="text-sm font-medium capitalize text-gray-500 group-hover:text-blue-600 group-[&.active]:text-blue-600">{label}</span>
     </NavLink>
   );
 }

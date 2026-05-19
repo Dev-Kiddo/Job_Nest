@@ -107,7 +107,7 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 
   if (socialLinks && socialLinks.length > 0) updatedata.socialLinks = socialLinks;
 
-  console.log("updatedata", updatedata);
+  // console.log("updatedata", updatedata);
 
   Object.assign(candidate, updatedata);
 

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getAllApplications } from "../features/applicationSlice";
 import { MoveRight } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import useToastMessage from "../hooks/useToastMessage";
 
 const tableHead = ["Candidates List", "Date Applied", "Current Status", "Actions"];
 
@@ -14,17 +15,19 @@ function AppliedCandidates({ title = "Applied Candidates" }) {
 
   const [searchParams] = useSearchParams();
 
-  console.log(searchParams.get("id"));
+  const selectedAppliationId = searchParams.get("id");
 
   useEffect(() => {
-    dispatch(getAllApplications({ label: "appliedCandidates", id: searchParams.get("id") }));
-  }, [dispatch]);
+    dispatch(getAllApplications({ label: "appliedCandidates", id: selectedAppliationId }));
+  }, [dispatch, selectedAppliationId]);
+
+  useToastMessage("application");
 
   return (
     <>
       {loading ? (
         <div className="flex items-center justify-center mt-10 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : (
         <div className="w-full py-10 pl-10 pr-2">

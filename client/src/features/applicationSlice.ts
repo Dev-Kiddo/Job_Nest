@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { resetAllState } from "./rootActions";
 
 export const getAllApplications = createAsyncThunk("application/getAllApplications", async (payload, { rejectWithValue }) => {
-  console.log(payload);
+  // console.log(payload);
 
   try {
     let url = `${import.meta.env.VITE_API_URL}`;
@@ -13,6 +13,10 @@ export const getAllApplications = createAsyncThunk("application/getAllApplicatio
 
     if (payload.label === "appliedCandidates") {
       url = `${url}/api/application?job=${payload?.id}`;
+    }
+
+    if (payload.label === "candidate") {
+      url = `${url}/api/application?applicant=${payload?.id}`;
     }
 
     const res = await fetch(`${url}`, {
@@ -61,7 +65,7 @@ export const createApplication = createAsyncThunk("application/createApplication
 
 export const updateApplicationStatus = createAsyncThunk("application/updateApplicationStatus", async (payload, { rejectWithValue }) => {
   try {
-    console.log("PAYLOAD", payload);
+    // console.log("PAYLOAD", payload);
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/application/${payload.id}`, {
       method: "PATCH",
@@ -87,7 +91,7 @@ export const updateApplicationStatus = createAsyncThunk("application/updateAppli
 
 const initialState = {
   loading: false,
-  applications: null,
+  applications: [],
   selectedApplication: null,
 
   message: null,
@@ -100,7 +104,7 @@ const applicationSlice = createSlice({
   initialState,
   reducers: {
     clearApplication: function (state) {
-      state.applications = null;
+      state.applications = [];
     },
     clearMessage(state) {
       state.message = null;
@@ -178,6 +182,7 @@ const applicationSlice = createSlice({
         state.loading = false;
         state.applications[findUpdateIndex] = updateApplication;
 
+        state.message = action.payload.message;
         state.messageType = "success";
         state.isMessageShown = false;
       })

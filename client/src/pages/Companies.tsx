@@ -127,7 +127,7 @@ function Companies() {
                 <h3 className="text-md font-semibold text-gray-900 mb-2 capitalize">{company.companyType}</h3>
 
                 <div className="flex gap-x-2 cursor-pointer hover:underline">
-                  <h5 className="text-xs font-medium text-blue-500 capitalize">{company.companyList} Companies</h5>
+                  <h5 className="text-xs font-medium text-blue-600 capitalize">{company.companyList} Companies</h5>
                   <CircleChevronRight className="lucide-sm" color="#2563eb" />
                 </div>
               </div>
@@ -138,7 +138,7 @@ function Companies() {
 
       {isLoading ? (
         <div className="flex items-center justify-center mt-10 p-4">
-          <Loader colour="text-blue-600" />
+          <Loader colour="text-blue-600" size="16" />
         </div>
       ) : (
         <>

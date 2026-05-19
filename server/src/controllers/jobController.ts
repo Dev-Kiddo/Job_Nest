@@ -92,7 +92,7 @@ export const getJobsHandler = asyncHandler(async function (req: Request, res: Re
 export const getSingleJobHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const { id } = req.params;
 
-  console.log("ID", id);
+  // console.log("ID", id);
   const job = await JobModel.findById(id).populate("company", "name");
 
   if (!job) {

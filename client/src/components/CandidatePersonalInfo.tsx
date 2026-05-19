@@ -5,6 +5,8 @@ import Loader from "./Loader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { updateCandidateProfile } from "../features/profileSlice";
+import useToastMessage from "../hooks/useToastMessage";
+import { motion } from "framer-motion";
 
 function CandidatePersonalInfo() {
   const dispatch = useDispatch();
@@ -65,6 +67,8 @@ function CandidatePersonalInfo() {
     }
   }, [loading, messageType]);
 
+  useToastMessage("profile");
+
   return (
     <>
       {loading ? (
@@ -75,7 +79,7 @@ function CandidatePersonalInfo() {
         <div>
           <h1 className="text-md mb-4 capitalize">Basic information</h1>
 
-          <form onSubmit={handleSubmitHandler}>
+          <motion.form onSubmit={handleSubmitHandler} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
             <div className="grid grid-cols-3 grid-rows-1 gap-4">
               {isEdit ? (
                 <div className="text-sm text-gray-500 row-span-2">
@@ -345,7 +349,7 @@ function CandidatePersonalInfo() {
                 </button>
               )}
             </div>
-          </form>
+          </motion.form>
         </div>
       )}
     </>

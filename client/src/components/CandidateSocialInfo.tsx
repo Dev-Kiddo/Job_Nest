@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CircleX, MoveRight } from "lucide-react";
 import Loader from "./Loader";
 import useToastMessage from "../hooks/useToastMessage";
+import { motion } from "framer-motion";
 
 function CandidateSocialInfo() {
   const { candidate, loading, messageType } = useSelector((state) => state.profile);
@@ -56,7 +57,7 @@ function CandidateSocialInfo() {
   return (
     <div className="w-full">
       <h1 className="text-md mb-4 capitalize">Social Information</h1>
-      <form onSubmit={handleSubmit}>
+      <motion.form onSubmit={handleSubmit} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="w-full flex items-center justify-between gap-x-4">
             <div className="text-sm my-4 flex flex-1 items-center justify-between gap-2 bg-gray-200">
@@ -116,7 +117,7 @@ function CandidateSocialInfo() {
             </button>
           )}
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 }

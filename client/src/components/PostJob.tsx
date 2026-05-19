@@ -8,6 +8,7 @@ import Loader from "./Loader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useToastMessage from "../hooks/useToastMessage";
+import { motion } from "framer-motion";
 
 const educationList = ["any", "high-school", "diploma", "bachelor", "master", "phd"];
 
@@ -73,7 +74,7 @@ function PostJob() {
   };
 
   const deleteSkillsHandler = function (skill) {
-    console.log("skill", skill);
+    // console.log("skill", skill);
 
     setPayload((payload) => ({ ...payload, skillsRequired: payload?.skillsRequired?.filter((ski) => ski !== skill) }));
   };
@@ -112,7 +113,7 @@ function PostJob() {
         <div className="w-full py-10 pl-10 pr-2">
           <h1 className="text-xl">Post a Job</h1>
 
-          <form onSubmit={onSubmitHandler}>
+          <motion.form onSubmit={onSubmitHandler} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="mt-6">
               <div className="text-sm flex flex-col">
                 <label htmlFor="title" className="text-gray-600 font-medium capitalize">
@@ -390,7 +391,7 @@ function PostJob() {
                 {loading ? "Creating" : "Create Job"} {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
               </button>
             </div>
-          </form>
+          </motion.form>
         </div>
       )}
     </>

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const tableHead = ["Job", "Date Posted", "Status", "Action"];
 
+import { motion } from "framer-motion";
+
 function MyJobsListView({ title = "Recently Posted", data }) {
   // console.log(data);
 
@@ -27,7 +29,7 @@ function MyJobsListView({ title = "Recently Posted", data }) {
           </tr>
         </tbody>
 
-        <tbody>
+        <motion.tbody initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           {data?.map((el, i) => (
             <tr key={i} className="w-full border-b border-gray-300 hover:scale-[1.01] duration-200 backface-hidden">
               <td className=" flex py-2 gap-x-4 items-center">
@@ -60,7 +62,7 @@ function MyJobsListView({ title = "Recently Posted", data }) {
               </td>
             </tr>
           ))}
-        </tbody>
+        </motion.tbody>
       </table>
     </div>
   );

@@ -701,13 +701,13 @@ export const resendVerificationEmailHandler = asyncHandler(async function (req: 
 });
 
 export const getSessionsHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-  console.log(req.user.id);
+  // console.log(req.user.id);
 
   const sessions = await SessionModel.find({ userId: req.user.id, isActive: true });
 
   const userSession = sessions.map((session) => formatSessions(session));
 
-  console.log("USERSESSION", userSession);
+  // console.log("USERSESSION", userSession);
 
   return res.status(200).json({
     success: true,

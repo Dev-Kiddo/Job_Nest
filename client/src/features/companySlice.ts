@@ -23,7 +23,7 @@ export const registerCompany = createAsyncThunk("company/registerCompany", async
     return data;
   } catch (error) {
     const err = error as Error;
-    console.log(rejectWithValue(err));
+    // console.log(rejectWithValue(err));
 
     return rejectWithValue(err.message || "Something went wrong");
   }

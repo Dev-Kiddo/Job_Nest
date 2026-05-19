@@ -43,7 +43,7 @@ function ProtectedRoute() {
   useToastMessage("user");
 
   if (authChecking) {
-    return <Loader colour="text-blue-500" margin="mx-auto" size="12" />;
+    return <Loader colour="text-blue-600" margin="mx-auto" size="12" />;
   }
 
   if (!currentUser && redirectUrl) {

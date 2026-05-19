@@ -60,18 +60,26 @@ const CandidateLogin = function () {
       </div>
 
       <form className="space-y-4 mb-2" onSubmit={onSubmitHandler}>
-        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent">
           <Mail className="mr-2" />
-          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" value={payload.email} onChange={onChangeHandler} />
+          <input id="email" placeholder="Email id" className="w-full outline-none text-sm" type="email" value={payload.email} onChange={onChangeHandler} autoComplete="off" />
         </div>
-        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+        <div className="border border-gray-300 rounded flex items-center p-2.5 focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent">
           <Lock className="mr-2" />
-          <input id="password" placeholder="Password" className="w-full outline-none text-sm" type="password" value={payload.password} onChange={onChangeHandler} />
+          <input
+            id="password"
+            placeholder="Password"
+            className="w-full outline-none text-sm"
+            type="password"
+            value={payload.password}
+            onChange={onChangeHandler}
+            autoComplete="off"
+          />
         </div>
 
         {/* <div className="flex items-center justify-between">
           <label className="flex items-center space-x-2 cursor-pointer">
-            <input className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" type="checkbox" />
+            <input className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-600" type="checkbox" />
 
             <span className="text-sm text-gray-600">Remember me</span>
           </label>

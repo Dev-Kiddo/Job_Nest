@@ -3,6 +3,7 @@ import { updateCompanyInfo } from "../features/companySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ImageUp, MoveRight } from "lucide-react";
 import Loader from "./Loader";
+import { motion } from "framer-motion";
 
 function ManageCompanyInfo() {
   const { company, loading, messageType, isMessageShown } = useSelector((state) => state.company);
@@ -83,7 +84,7 @@ function ManageCompanyInfo() {
   }, []);
 
   return (
-    <div className="w-full">
+    <motion.div className="w-full" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-3 grid-rows-1 gap-4">
           {isEdit ? (
@@ -263,7 +264,7 @@ function ManageCompanyInfo() {
           )}
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
 import { CircleX, MoveRight } from "lucide-react";
 import { updateCompanyInfo } from "../features/companySlice";
+import { motion } from "framer-motion";
 
 function ManageSocialInfo() {
   const { company, loading, messageType, isMessageShown } = useSelector((state) => state.company);
@@ -44,7 +45,7 @@ function ManageSocialInfo() {
     }
   }, [loading, messageType]);
   return (
-    <div className="w-full">
+    <motion.div className="w-full" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <form onSubmit={handleSubmit}>
         {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="w-full flex items-center justify-between gap-x-4">
@@ -106,7 +107,7 @@ function ManageSocialInfo() {
           )}
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
 

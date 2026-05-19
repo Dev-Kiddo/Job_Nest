@@ -6,7 +6,7 @@ function TokenGuard() {
   const token = query.get("token");
   const allowAccess = query.get("allowAccess");
 
-  console.log("TOKEN", token);
+  // console.log("TOKEN", token);
 
   if (!token) {
     return <Navigate to="/" />;

@@ -2,6 +2,7 @@ import { FileUp, MapPin, MoveRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateApplicationStatus } from "../features/applicationSlice";
+import { motion } from "framer-motion";
 
 const applicationStatusList = ["pending", "reviewed", "shortlisted", "rejected"];
 
@@ -21,7 +22,7 @@ function CandidatesAppliedList({ application }) {
   };
 
   return (
-    <tbody>
+    <motion.tbody initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <tr className="w-full border-b border-gray-300">
         <td className=" flex py-2 gap-x-4 items-center">
           <img src="/src/assets/img/icon-resume.png" className="w-20 py-1" />
@@ -50,7 +51,7 @@ function CandidatesAppliedList({ application }) {
 
         <td className="text-sm relative capitalize text-gray-900">
           <div className="flex items-center justify-center gap-x-2">
-            <a className="bg-gray-200 border border-blue-500 px-6 py-2 hover:bg-blue-600 hover:text-white rounded-sm transition" href={application?.resume?.url}>
+            <a className="bg-gray-200 border border-blue-600 px-6 py-2 hover:bg-blue-600 hover:text-white rounded-sm transition" target="_blank" href={application?.resume?.url}>
               View Resume
             </a>
 
@@ -73,7 +74,7 @@ function CandidatesAppliedList({ application }) {
           </div>
         </td>
       </tr>
-    </tbody>
+    </motion.tbody>
   );
 }
 
