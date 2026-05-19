@@ -34,7 +34,7 @@ function HowItWorks() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto mt-6">
-        <div className="flex gap-16 items-stretch border p-6 rounded-xl">
+        <div className="flex flex-col gap-16 items-stretch border p-6 rounded-xl lg:flex-row">
           <div className="p-6 rounded-lg bg-gray-200">
             <video autoPlay muted loop className="rounded-xl" style={{ width: "100%", height: "200px", objectFit: "cover", objectPosition: "top center" }}>
               <source src="https://res.cloudinary.com/dnbswhvko/video/upload/v1777795590/large-thumbnail20250212-319023-1lsvk4m_kttwk4.mp4" type="video/mp4" />

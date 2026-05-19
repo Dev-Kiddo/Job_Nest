@@ -13,9 +13,9 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
         <h1 className="text-sm font-semibold">{job?.title}</h1>
 
         <div className="flex gap-x-2 items-center mt-1">
-          <span className="py-0.5 px-1 bg-green-200 text-[10px] uppercase font-semibold text-green-800 rounded-sm">{job?.jobType}</span>
+          <span className="py-0.5 px-1 bg-green-200 text-[7px] uppercase font-semibold text-green-800 rounded-sm lg:text-[10px]">{job?.jobType}</span>
 
-          <div className="text-gray-500 text-xs">
+          <div className="text-gray-500 text-[10px] lg:text-xs">
             Salary: <span>${job?.salary.min}</span> - <span>${job?.salary.max}</span>
           </div>
         </div>

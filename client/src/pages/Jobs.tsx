@@ -80,8 +80,6 @@ function Jobs() {
     dispatch(fetchJobs({ label: "getJobs", data: null }));
   }, [dispatch, searchParams.size]);
 
-  console.log(jobs);
-
   return (
     <>
       <motion.div className="border border-gray-300 rounded-lg mt-8" initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
@@ -111,12 +109,15 @@ function Jobs() {
           </div>
 
           <div className="flex gap-x-2">
-            <button className="bg-gray-300 text-gray-900 font-semibold py-2.5 px-6 rounded-sm transition text-sm cursor-pointer flex gap-x-2 hover:bg-gray-400" disabled={true}>
+            <button
+              className="bg-gray-300 text-gray-900 font-semibold py-2.5 px-3 rounded-sm transition text-sm cursor-pointer gap-x-2 hidden hover:bg-gray-400 lg:px-6 lg:flex"
+              disabled={true}
+            >
               <SlidersHorizontal color="#000" />
               Filters
             </button>
 
-            <button type="submit" className="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-sm transition text-sm cursor-pointer flex-none hover:bg-blue-700">
+            <button type="submit" className="bg-blue-600 text-white font-semibold py-2.5 px-3 rounded-sm transition text-sm cursor-pointer flex-none hover:bg-blue-700 lg:px-6">
               Find Job
             </button>
           </div>
@@ -138,7 +139,7 @@ function Jobs() {
           {jobs?.length === 0 ? (
             <EmptyState label="Job Not Found" description="We couldn't find any job postings matching your search criteria" />
           ) : (
-            <motion.div className="grid grid-cols-3 gap-4 mt-4" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <motion.div className="grid grid-cols-2 gap-4 mt-4 lg:grid-cols-3" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               {jobs?.map((job) => (
                 <JobShowCard job={job} key={job?._id} onSelect={handleSelect} />
               ))}

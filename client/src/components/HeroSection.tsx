@@ -97,13 +97,13 @@ function HeroSection() {
       </motion.div>
 
       <motion.div
-        className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
+        className="max-w-6xl mx-auto grid grid-cols-2 place-items-center xl:grid-cols-4 gap-5 mt-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         {heroIconBoxes.map((box) => (
-          <div className="w-60 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group" key={box.label}>
+          <div className="w-40 bg-white flex items-center rounded-lg p-4 hover:shadow-xl hover:-translate-y-1 transition group lg:w-60" key={box.label}>
             <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-4 transition group-hover:bg-blue-700 ">
               <box.icon className="lucide-big transition group-hover:bg-blue-700" />
             </div>

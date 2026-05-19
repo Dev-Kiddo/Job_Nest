@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 import { Autoplay, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -17,7 +18,7 @@ const companySliderList = [
   { id: 4, companyType: "B2C", companyList: 206 },
   { id: 5, companyType: "Manufacturing", companyList: 103 },
   { id: 6, companyType: "Product", companyList: 118 },
-  { id: 7, companyType: "Banking & Finance", companyList: 455 },
+  { id: 7, companyType: "Banking", companyList: 455 },
   { id: 8, companyType: "Hospitality", companyList: 111 },
 ];
 const companyShowList = [
@@ -120,7 +121,32 @@ function Companies() {
       <h1 className="mt-8 text-center font-semibold capitalize text-gray-900">Top companies hiring now</h1>
 
       <motion.div className="mx-auto px-8 py-6 bg-gray-200 mt-8 rounded-xl" initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-        <Swiper slidesPerView={6} spaceBetween={25} modules={[Autoplay]} autoplay={{ delay: 1000, disableOnInteraction: false }} className="mySwiper">
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={25}
+          modules={[Autoplay]}
+          autoplay={{ delay: 1000, disableOnInteraction: false }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+
+            768: {
+              slidesPerView: 3,
+            },
+
+            1024: {
+              slidesPerView: 4,
+            },
+            1400: {
+              slidesPerView: 6,
+            },
+          }}
+          className="mySwiper"
+          onBreakpoint={(swiper) => {
+            console.log(swiper.params.slidesPerView);
+          }}
+        >
           {companySliderList.map((company) => (
             <SwiperSlide>
               <div className="p-6 rounded-xl h-full flex flex-col bg-gray-100">
@@ -144,9 +170,14 @@ function Companies() {
         <>
           <h1 className="mt-8 text-xs capitalize">Showing Top companies (12)</h1>
 
-          <motion.div className="grid grid-cols-4 gap-4 mt-4" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <motion.div
+            className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             {companyShowList.map((company) => (
-              <CompanyShowCard company={company} />
+              <CompanyShowCard company={company} key={company.name} />
             ))}
           </motion.div>
         </>

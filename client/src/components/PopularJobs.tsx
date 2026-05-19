@@ -31,7 +31,7 @@ function PopularJobs() {
       >
         {populatJobCategories.map((job) => (
           <div className="group h-20 flex gap-x-4 items-center justify-center cursor-pointer" key={job.name}>
-            <div className="w-20 h-full bg-gray-200 flex items-center justify-center p-3 rounded-md transition-transform group-hover:scale-110">
+            <div className="w-16 w-min-16 h-full bg-gray-200 flex items-center justify-center p-3 rounded-md transition-transform group-hover:scale-110 lg:w-20">
               <job.icon className="lucide-big" color="#2563eb" />
             </div>
 

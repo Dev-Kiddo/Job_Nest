@@ -17,8 +17,10 @@ function CompanyShowCard({ company }) {
         </div>
 
         <div className="flex items-center justify-between gap-x-4 mt-3">
-          {company?.tags?.map((tag) => (
-            <div className="text-[10px] bg-gray-200 p-1 rounded-md border border-gray-300 capitalize hover:bg-gray-300">{tag}</div>
+          {company?.tags?.map((tag, i) => (
+            <div className="text-[10px] bg-gray-200 p-1 rounded-md border border-gray-300 capitalize hover:bg-gray-300" key={i}>
+              {tag}
+            </div>
           ))}
         </div>
       </div>
