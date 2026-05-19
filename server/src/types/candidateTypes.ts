@@ -34,9 +34,7 @@ export interface ICandidate {
   };
   resumeUrl: string;
   isActive: boolean;
-
-  socialLinks: { name: String, baseUrl: String }[],
-;
+  socialLinks: { name: String; baseUrl: String }[];
   createdAt: Date;
   updatedAt: Date;
 }
