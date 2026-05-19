@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import type { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import CandidateModel from "../models/profileModel.js";

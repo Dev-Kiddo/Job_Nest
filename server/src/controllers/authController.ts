@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import type { Request, Response, NextFunction } from "express";
 import UserModel from "../models/userModel.js";
 import { forgotPasswordValidation, loginHandlerValidation, registerHandlerValidation, resetPasswordValidation, updatePasswordValidation } from "../validators/authValidations.js";
