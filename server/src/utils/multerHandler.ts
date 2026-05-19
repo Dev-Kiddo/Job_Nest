@@ -5,7 +5,7 @@ import type { Request } from "express";
 export const multerImageHandler = function () {
   const storage = multer.memoryStorage();
 
-  const fileFilter = (req: Request, file, cb) => {
+  const fileFilter = (req: Request, file: any, cb: any) => {
     // console.log("FILE", file);
 
     // if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {

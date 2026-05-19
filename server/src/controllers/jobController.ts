@@ -135,7 +135,7 @@ export const createJobsHandler = asyncHandler(async function (req: Request, res:
     return next(new AppError("Recruiter not found!", 200));
   }
 
-  let job = {};
+  let job: any = {};
 
   if (title !== undefined) job.title = title;
   if (description !== undefined) job.description = description;

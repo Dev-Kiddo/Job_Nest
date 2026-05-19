@@ -1,3 +1,4 @@
+import type { NextFunction, Request, Response } from "express";
 import SessionModel from "../models/sessionModel.js";
 import AppError from "../utils/AppError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -5,7 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { verifyAccessToken } from "../utils/tokenUtils.js";
 import jwt from "jsonwebtoken";
 
-export const protectAuth = asyncHandler(async function (req, res, next) {
+export const protectAuth = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.accessToken;
 
   // console.log("AUTH TOKEN", token);

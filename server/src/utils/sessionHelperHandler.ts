@@ -6,7 +6,7 @@ export const generateSessionToken = function () {
   return `session_${generateRandomToken()}`;
 };
 
-export const getDeviceInfo = function (userAgent) {
+export const getDeviceInfo = function (userAgent: any) {
   const parser = new UAParser(userAgent);
   const parserResult = parser.getResult();
 
@@ -18,11 +18,11 @@ export const getDeviceInfo = function (userAgent) {
   };
 };
 
-export const getClientIP = function (req) {
+export const getClientIP = function (req: any) {
   return req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.headers["x-real-ip"] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
 };
 
-export const getLocationFromIp = async function (ip) {
+export const getLocationFromIp = async function (ip: any) {
   const getLocationIp = await fetch(`http://ip-api.com/json/${ip}`);
   const data = await getLocationIp.json();
 
@@ -43,7 +43,7 @@ export const getLocationFromIp = async function (ip) {
   };
 };
 
-export const formatSessions = function (session) {
+export const formatSessions = function (session: any) {
   return {
     id: session._id,
     sessionId: session.sessionId,
@@ -69,7 +69,7 @@ export const generateSessionTokenForUser = async function (req, res, user) {
     const userAgent = req.headers["user-agent"];
 
     // Get location From IP
-    const location = getLocationFromIp(ipAddress);
+    const location = await getLocationFromIp(ipAddress);
 
     // deviceInfo
     const deviceInfo = getDeviceInfo(userAgent);

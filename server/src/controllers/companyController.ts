@@ -138,7 +138,7 @@ export const updateCompanyInfoHandler = asyncHandler(async function (req: Reques
 
   let cloudinaryLogo;
   let cloudinaryBanner;
-  let updateData = {};
+  let updateData: any = {};
 
   if (req?.files?.logo !== undefined) {
     const cloudinaryResult = await uploadToCloudinary(req.files.logo[0].buffer, "logo");

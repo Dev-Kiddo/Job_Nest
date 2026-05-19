@@ -11,6 +11,9 @@ declare global {
   namespace Express {
     export interface Request {
       user: IUserAuthPayload;
+      files?: {
+        [fieldname: string]: Multer.File[];
+      };
     }
   }
 }

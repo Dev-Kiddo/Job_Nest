@@ -44,7 +44,7 @@ export const hashToken = function (token: string) {
   return hash;
 };
 
-export const generateAccessAndRefreshToken = function (isUser, sessionToken, response) {
+export const generateAccessAndRefreshToken = function (isUser: any, sessionToken: any, response: any) {
   const accessTokenPayload = { id: isUser._id, email: isUser.email, role: isUser.role, sessionId: sessionToken };
 
   const accessToken = generateAccessToken(accessTokenPayload);

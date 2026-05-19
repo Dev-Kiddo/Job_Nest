@@ -11,7 +11,7 @@ import Profilemodel from "../models/profileModel.js";
 
 import { sendEmail } from "../utils/sendEmail.js";
 import SessionModel from "../models/sessionModel.js";
-import { formatSessions, generateSessionToken, generateSessionTokenForUser, getClientIP, getDeviceInfo, getLocationFromIp } from "../utils/sessionHelperHandler.js";
+import { formatSessions, generateSessionTokenForUser } from "../utils/sessionHelperHandler.js";
 
 export const registerHandler = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const result = registerHandlerValidation.safeParse(req.body);

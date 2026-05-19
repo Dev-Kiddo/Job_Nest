@@ -1,5 +1,8 @@
 class JobQueryParser {
-  constructor(query, reqQueryString) {
+  query: any;
+  reqQueryString: any;
+
+  constructor(query: any, reqQueryString: any) {
     this.query = query;
     this.reqQueryString = reqQueryString;
   }
