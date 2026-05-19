@@ -107,8 +107,6 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 
   if (socialLinks && socialLinks.length > 0) updatedata.socialLinks = socialLinks;
 
-  // console.log("updatedata", updatedata);
-
   Object.assign(candidate, updatedata);
 
   const updatedCandidate = await candidate.save();
@@ -131,8 +129,6 @@ export const updateCandidateInfo = asyncHandler(async function (req: Request, re
 //   if (!candidate) {
 //     return next(new AppError("Candidate profile not found!", 404));
 //   }
-
-//   // console.log("candidate:", candidate);
 
 //   if (skills !== undefined) candidate.skills = skills;
 //   if (experience !== undefined) candidate.experience = experience;
