@@ -21,9 +21,9 @@ app.set("query parser", "extended");
 
 app.use(express.urlencoded({ extended: true }));
 
-console.log("CLIENT URL:", process.env.CLIENT_URL);
+console.log("CLIENT's URL:", process.env.CLIENT_URL, process.env.CLIENT_LOCAL_URL);
 
-const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL];
+const allowedOrigins = [process.env.CLIENT_URL, process.env.CLIENT_LOCAL_URL];
 
 app.use(cookieParser());
 app.use(

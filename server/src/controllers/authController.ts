@@ -39,7 +39,7 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
   const token = generateRandomToken();
   const hashTokenDB = hashToken(token);
 
-  const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+  const verifyUrl = `${process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : process.env.CLIENT_LOCAL_URL}/verify-email?token=${token}`;
 
   const emailContent = `<!DOCTYPE html>
 <html>
@@ -235,7 +235,7 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
     return res.status(200).json({
       success: true,
       message: "Before login, you need to set up your company profile",
-      redirectUrl: `${process.env.CLIENT_URL}/setup-company`,
+      redirectUrl: `${process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : process.env.CLIENT_LOCAL_URL}/setup-company`,
     });
   }
 
@@ -607,7 +607,7 @@ export const resendVerificationEmailHandler = asyncHandler(async function (req: 
   const verifyToken = generateRandomToken();
   const verifyTokenDB = hashToken(verifyToken);
 
-  const verifyUrl = `${process.env.CLIENT_URL}/verify-email?token=${verifyToken}`;
+  const verifyUrl = `${process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : process.env.CLIENT_LOCAL_URL}/verify-email?token=${verifyToken}`;
 
   const emailContent = `<!DOCTYPE html>
 <html>
