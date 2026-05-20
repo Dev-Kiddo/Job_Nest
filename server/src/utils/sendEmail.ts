@@ -42,7 +42,7 @@ export const sendEmail = async function (toUser: string, emailSubject: string, e
 
     const emailInfo = await transport.sendMail(
       {
-        from: process.env.EMAIL_FROM_USER,
+        from: process.env.GMAIL_USER,
         to: toUser,
         subject: emailSubject,
         html: emailContent,
