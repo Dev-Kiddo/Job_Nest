@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import PreLoader from "./PreLoader";
 
 function Layout() {
-  const [preLoading, setPreLoading] = useState(false);
+  const [preLoading, setPreLoading] = useState(true);
+
   useEffect(() => {
     setTimeout(() => {
       setPreLoading(false);
