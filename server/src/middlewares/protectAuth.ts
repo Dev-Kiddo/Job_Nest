@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 export const protectAuth = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.accessToken;
 
-  console.log("AUTH TOKEN", token);
+  // console.log("AUTH TOKEN", token);
 
   if (!token) {
     return next(new AppError("No authorization token was found", 401));
