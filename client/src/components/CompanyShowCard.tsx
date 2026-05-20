@@ -3,7 +3,7 @@ import { Bookmark, MapPin } from "lucide-react";
 function CompanyShowCard({ company }) {
   return (
     <div className={`p-4 rounded-lg border border-gray-300 shadow-sm cursor-pointer flex gap-4`}>
-      <img className="w-12" src="/src/assets/img/icon-google.svg" alt="company?-logo" />
+      <img className="w-12" src="https://res.cloudinary.com/dnbswhvko/image/upload/v1779247826/icon-google_bvkudi.svg" alt="company-logo" />
 
       <div>
         <h1 className="text-sm font-semibold capitalize">{company?.name}</h1>
