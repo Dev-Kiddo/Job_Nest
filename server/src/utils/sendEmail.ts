@@ -7,12 +7,25 @@ export const sendEmail = async function (toUser: string, emailSubject: string, e
       return;
     }
 
+    // const transport = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.GMAIL_USER,
+    //     pass: process.env.GMAIL_PASSWORD,
+    //   },
+    // });
+
     const transport = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASSWORD,
       },
+      family: 4,
+      connectionTimeout: 120000,
+      greetingTimeout: 60000,
     });
 
     // console.log(transport);
