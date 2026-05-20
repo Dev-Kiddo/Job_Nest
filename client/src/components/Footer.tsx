@@ -9,7 +9,7 @@ function Footer() {
             <img className="w-[40px] object-contain" alt="Company Logo" src="https://res.cloudinary.com/dnbswhvko/image/upload/v1779207605/nest_lwdfi3.svg" />
           </a>
           <span className="hidden text-gray-500 h-6 items-center">|</span>
-          <p className="text-gray-600 text-sm text-center">
+          <p className="text-gray-600 text-[10px] sm:text-xs">
             Copyright @2026{" "}
             <a href="https://prasanthx.com/" className="underline text-blue-600">
               Prasanth S
@@ -17,7 +17,7 @@ function Footer() {
             All rights reserved.
           </p>
         </div>
-        <div className="flex items-center gap-6 mt-4">
+        <div className="flex items-center gap-6">
           <a href="#" className="transition-transform hover:scale-110" aria-label="Facebook">
             <Facebook />
           </a>

@@ -30,19 +30,21 @@ function HowItWorks() {
     <section className="mt-24">
       <motion.div className="text-center" initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
         <h2 className="text-3xl font-bold text-gray-700 mb-2">Everything You Need to Get Hired</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">JobNest brings together powerful tools to help you discover jobs, apply instantly, and track your progress.</p>
+        <p className="text-gray-600 max-w-2xl mx-auto text-sm lg:text-base">
+          JobNest brings together powerful tools to help you discover jobs, apply instantly, and track your progress.
+        </p>
       </motion.div>
 
       <div className="max-w-7xl mx-auto mt-6">
-        <div className="flex flex-col gap-16 items-stretch border p-6 rounded-xl lg:flex-row">
-          <div className="p-6 rounded-lg bg-gray-200">
+        <div className="flex flex-col gap-16 items-stretch border p-4 rounded-xl lg:flex-row lg:p-6">
+          <div className="p-4 rounded-lg bg-gray-200 lg:p-6">
             <video autoPlay muted loop className="rounded-xl" style={{ width: "100%", height: "200px", objectFit: "cover", objectPosition: "top center" }}>
               <source src="https://res.cloudinary.com/dnbswhvko/video/upload/v1777795590/large-thumbnail20250212-319023-1lsvk4m_kttwk4.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
             <h2 className="text-gray-700 text-3xl font-bold mt-4">A Smarter Way to Get Hired</h2>
-            <p className="text-base text-gray-600 mt-2">
+            <p className="text-sm text-gray-600 mt-2 lg:text-base">
               Unlock a world of possibilities with our features. Explore how our unique offerings can transform your journey and empower you to achieve more.
             </p>
 
@@ -50,14 +52,14 @@ function HowItWorks() {
           </div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-2 gap-4 lg:gap-8 ">
             {features.map((feature, index) => (
-              <div key={index} className="p-4">
+              <div key={index} className="p-4 lg:p-4 border rounded-lg">
                 <div className="flex items-center justify-center w-10 h-10 rounded-lg p-2.5 bg-blue-600 mb-4">{<feature.icon color="#fff" />}</div>
 
                 <h3 className="text-gray-900 text-lg font-semibold mb-3">{feature.title}</h3>
 
-                <p className="text-gray-600 text-base">{feature.description}</p>
+                <p className="text-gray-600 text-sm lg:text-base">{feature.description}</p>
               </div>
             ))}
           </div>

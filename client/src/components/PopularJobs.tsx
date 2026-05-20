@@ -19,7 +19,7 @@ function PopularJobs() {
     <section className="mt-24">
       <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
         <h1 className="text-3xl font-bold text-gray-700 mb-2">Popular Job Categories</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">Discover top job categories tailored to your skills and career goals.</p>
+        <p className="text-gray-600 max-w-2xl mx-auto text-sm lg:text-base">Discover top job categories tailored to your skills and career goals.</p>
       </motion.div>
 
       <motion.div
@@ -30,13 +30,13 @@ function PopularJobs() {
         viewport={{ once: true }}
       >
         {populatJobCategories.map((job) => (
-          <div className="group h-20 flex gap-x-4 items-center justify-center cursor-pointer" key={job.name}>
+          <div className="group h-20 flex gap-x-2 items-center justify-center cursor-pointer lg:gap-x-4" key={job.name}>
             <div className="w-16 w-min-16 h-full bg-gray-200 flex items-center justify-center p-3 rounded-md transition-transform group-hover:scale-110 lg:w-20">
               <job.icon className="lucide-big" color="#2563eb" />
             </div>
 
             <div className="transition-all duration-200 flex flex-col">
-              <h2 className="font-medium text-gray-600 text-base">{job.name}</h2>
+              <h2 className="font-bold text-gray-600 text-xs lg:text-base lg:font-medium">{job.name}</h2>
               <p className="text-gray-500 text-xs mt-3 font-medium">{job.positionOpen} Open Position</p>
             </div>
           </div>

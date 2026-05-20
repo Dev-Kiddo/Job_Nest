@@ -83,12 +83,12 @@ function Jobs() {
   return (
     <>
       <motion.div className="border border-gray-300 rounded-lg mt-8" initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-        <form className="rounded-lg shadow p-2 flex gap-4 w-full" onSubmit={handleFindJob}>
-          <div className="flex items-center px-3 py-2 flex-grow border-r-2 border-gray-300">
+        <form className="rounded-lg shadow p-2 flex gap-2 w-full lg:gap-4" onSubmit={handleFindJob}>
+          <div className="w-full flex items-center flex-grow sm:border-r-2 border-gray-300 lg:px-3 lg:py-2">
             <Search className="mr-2" color="#2563eb" />
             <input
               placeholder="Search by job title..."
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-500"
+              className="w-full outline-none text-xs bg-transparent placeholder-gray-500 lg:text-sm"
               type="text"
               id="search"
               onChange={onChangeHandler}
@@ -96,11 +96,11 @@ function Jobs() {
             />
           </div>
 
-          <div className="flex items-center px-3 py-2 flex-grow border-r-2 border-gray-300">
+          <div className="w-full flex items-center flex-grow sm:border-r-2 border-gray-300 lg:px-3 lg:py-2">
             <MapPin className="mr-2" color="#2563eb" />
             <input
               placeholder="City, state or zip code"
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-500"
+              className="w-full outline-none text-xs bg-transparent placeholder-gray-500 lg:sm"
               type="text"
               id="location"
               onChange={onChangeHandler}
@@ -108,24 +108,27 @@ function Jobs() {
             />
           </div>
 
-          <div className="flex gap-x-2">
+          <div className="w-full flex lg:gap-x-2 lg:justify-between">
             <button
-              className="bg-gray-300 text-gray-900 font-semibold py-2.5 px-3 rounded-sm transition text-sm cursor-pointer gap-x-2 hidden hover:bg-gray-400 lg:px-6 lg:flex"
+              className="w-full bg-gray-300 text-gray-900 font-semibold py-2.5 px-3 rounded-sm transition text-sm cursor-pointer gap-x-2 hidden hover:bg-gray-400 lg:px-6 lg:flex lg:w-1/2"
               disabled={true}
             >
               <SlidersHorizontal color="#000" />
               Filters
             </button>
 
-            <button type="submit" className="bg-blue-600 text-white font-semibold py-2.5 px-3 rounded-sm transition text-sm cursor-pointer flex-none hover:bg-blue-700 lg:px-6">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-semibold py-2.5 px-3 rounded-md transition text-xs cursor-pointer flex-none hover:bg-blue-700 lg:px-6 lg:text-sm lg:w-1/2"
+            >
               Find Job
             </button>
           </div>
         </form>
       </motion.div>
 
-      <div className="text-gray-500 text-xs mt-8 flex gap-x-2">
-        Popular searches: <p className="text-gray-700 font-medium">Front-end, Back-end, Developer, Designer, Team Lead, Digital Maraketing, Video Editor</p>
+      <div className="text-gray-500 text-[10px] mt-8 flex gap-x-2 lg:text-xs">
+        Popular searches: <p className="text-gray-700 text-[10px] font-medium lg:text-xs">Front-end, Back-end, Developer, Designer, Team Lead, Digital Maraketing, Video Editor</p>
       </div>
 
       {loading ? (

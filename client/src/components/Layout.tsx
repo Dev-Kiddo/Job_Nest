@@ -16,7 +16,7 @@ function Layout() {
     <PreLoader />
   ) : (
     <>
-      <main className="w-[80%] m-auto overflow-hidden">
+      <main className="w-[90%] m-auto overflow-hidden lg:w-[80%]">
         <NavBar />
         <section className=" m-auto overflow-hidden">
           <Outlet />

@@ -10,17 +10,17 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
       onClick={() => onSelect(job._id)}
     >
       <div>
-        <h1 className="text-sm font-semibold">{job?.title}</h1>
+        <h1 className="text-xs font-semibold text-center sm:text-left lg:text-sm">{job?.title}</h1>
 
-        <div className="flex gap-x-2 items-center mt-1">
-          <span className="py-0.5 px-1 bg-green-200 text-[7px] uppercase font-semibold text-green-800 rounded-sm lg:text-[10px]">{job?.jobType}</span>
+        <div className="flex flex-col gap-1 mt-1 sm:flex-row sm:items-center sm:gap-2">
+          <span className="py-0.5 px-1 bg-green-200 text-center text-[7px] uppercase font-semibold text-green-800 rounded-sm lg:text-[10px] sm:text-start">{job?.jobType}</span>
 
-          <div className="text-gray-500 text-[10px] lg:text-xs">
+          <div className="text-gray-500 text-[10px] text-center sm:text-left lg:text-xs">
             Salary: <span>${job?.salary.min}</span> - <span>${job?.salary.max}</span>
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-x-4 mt-3">
+        <div className="flex items-center justify-center gap-x-2 mt-3 sm:justify-between lg:gap-x-4">
           <div className="bg-gray-200 p-2 rounded-md">
             <img
               className="w-8 rounded-md"
@@ -29,15 +29,15 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
             />
           </div>
 
-          <div className="flex-1">
-            <h2 className="text-sm font-semibold text-gray-700 capitalize">{job?.company?.name}</h2>
-            <div className="flex text-[11px] text-gray-500 gap-x-0.5">
+          <div className="sm:flex-1">
+            <h2 className="text-[10px] font-semibold text-gray-700 capitalize sm:xs md:text-sm">{job?.company?.name}</h2>
+            <div className="text-[10px] text-gray-500 gap-x-0.5 hidden sm:flex">
               <MapPin className="lucide-xs" color="gray" />
               {job?.location.city}, {job?.location.state}
             </div>
           </div>
 
-          <div>
+          <div className="hidden sm:block">
             <Bookmark />
           </div>
         </div>

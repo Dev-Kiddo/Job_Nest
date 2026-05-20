@@ -62,29 +62,42 @@ export default function TestimonialSlider() {
     <section className="mt-24">
       <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 60 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
         <h2 className="text-3xl font-bold text-gray-700 mb-2"> Trusted by Talent Everywhere</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">From first jobs to C-suite roles—hear why they chose us.</p>
+        <p className="text-gray-600 max-w-2xl mx-auto text-sm lg:text-base">From first jobs to C-suite roles—hear why they chose us.</p>
       </motion.div>
 
       <Swiper
-        slidesPerView={3}
+        slidesPerView={1}
         spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination, Autoplay]}
+        modules={[Autoplay]}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+
+          960: {
+            slidesPerView: 3,
+          },
+
+          // 1024: {
+          //   slidesPerView: 4,
+          // },
+          // 1400: {
+          //   slidesPerView: 6,
+          // },
+        }}
         className="mySwiper"
       >
         {TestimonialList.map((testimonial) => (
           <SwiperSlide>
             <div className="bg-gray-50 p-6 rounded-xl h-full flex flex-col border border-gray-200">
               <h3 className="text-xl font-semibold text-gray-700 mb-4">{testimonial.title}</h3>
-              <blockquote className="text-gray-600 mb-6 flex-grow text-base">{testimonial.quote}</blockquote>
+              <blockquote className="text-gray-600 mb-6 flex-grow text-sm lg:text-base">{testimonial.quote}</blockquote>
               <div className="flex items-center mt-auto">
                 <img alt="Sara Ahmed, UI/UX Designer" className="w-10 h-10 rounded-full object-cover mr-4" loading="lazy" src={testimonial.avatar} />
                 <div>
                   <h4 className="font-medium text-gray-900">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.desigination}</p>
+                  <p className="text-xs text-gray-500 lg:text-sm">{testimonial.desigination}</p>
                 </div>
               </div>
             </div>
