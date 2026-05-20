@@ -22,7 +22,11 @@ function JobShowCard({ bg = "bg-transparent", job, onSelect }) {
 
         <div className="flex items-center justify-between gap-x-4 mt-3">
           <div className="bg-gray-200 p-2 rounded-md">
-            <img className="w-8 rounded-md" src={job?.company?.logo?.url || "/src/assets/img/icon-google.svg"} alt="company-logo" />
+            <img
+              className="w-8 rounded-md"
+              src={job?.company?.logo?.url || "https://res.cloudinary.com/dnbswhvko/image/upload/v1779247826/icon-google_bvkudi.svg"}
+              alt="company-logo"
+            />
           </div>
 
           <div className="flex-1">

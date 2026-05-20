@@ -93,7 +93,7 @@ export const getSingleJobHandler = asyncHandler(async function (req: Request, re
   const { id } = req.params;
 
   // console.log("ID", id);
-  const job = await JobModel.findById(id).populate("company", "name");
+  const job = await JobModel.findById(id).populate("company", "name logo");
 
   if (!job) {
     return next(new AppError("Job not found", 401));

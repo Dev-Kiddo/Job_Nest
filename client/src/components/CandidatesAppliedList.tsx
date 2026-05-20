@@ -25,7 +25,7 @@ function CandidatesAppliedList({ application }) {
     <motion.tbody initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <tr className="w-full border-b border-gray-300">
         <td className=" flex py-2 gap-x-4 items-center">
-          <img src="/src/assets/img/icon-resume.png" className="w-20 py-1" />
+          <img src="https://res.cloudinary.com/dnbswhvko/image/upload/v1779276986/icon-resume_bmehhw.png" className="w-20 py-1" />
 
           <div>
             <h1 className="text-sm relative capitalize text-gray-900">

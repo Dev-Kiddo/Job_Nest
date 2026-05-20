@@ -20,7 +20,7 @@ function JobPreview() {
         <>
           <div className="max-w-7xl mx-auto mt-8">
             <div className="flex items-center justify-between gap-x-2">
-              <img className="w-16" src="/src/assets/img/icon-google.svg" alt="" />
+              <img className="w-16" src={selectedJob?.company?.logo?.url || "https://res.cloudinary.com/dnbswhvko/image/upload/v1779247826/icon-google_bvkudi.svg"} alt="" />
 
               <div className="flex-1">
                 <h1 className="text-md font-medium capitalize">{selectedJob?.title}</h1>
