@@ -157,9 +157,9 @@ export const registerHandler = asyncHandler(async function (req: Request, res: R
 
   const refreshToken = generateRefreshToken(refreshTokenPayload);
 
-  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
-  res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
   user.emailVerificationToken = hashTokenDB;
   user.emailVerificationExpires = new Date(Date.now() + 15 * 60 * 1000);
@@ -254,9 +254,9 @@ export const loginHandler = asyncHandler(async function (req: Request, res: Resp
   // const refreshTokenPayload = { id: isUser._id };
   // const refreshToken = generateRefreshToken(refreshTokenPayload);
 
-  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
-  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
   return res.status(200).json({
     success: true,
@@ -332,7 +332,7 @@ export const refreshAccessTokenHandler = asyncHandler(async function (req: Reque
 
   const accessToken = generateAccessToken(accessTokenPayload);
 
-  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
   return res.status(200).json({
     success: true,

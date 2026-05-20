@@ -52,7 +52,7 @@ export const generateAccessAndRefreshToken = function (isUser: any, sessionToken
   const refreshTokenPayload = { id: isUser._id };
   const refreshToken = generateRefreshToken(refreshTokenPayload);
 
-  response.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  response.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
-  response.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  response.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 };

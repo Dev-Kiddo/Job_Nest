@@ -78,9 +78,9 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
     // const refreshTokenPayload = { id: existingUser._id };
     // const refreshToken = generateAccessToken(refreshTokenPayload);
 
-    // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+    // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
-    // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+    // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
     return res.redirect(`http://localhost:5173/dashboard`);
 
@@ -124,9 +124,9 @@ export const googleCallbackHandler = asyncHandler(async function (req: Request, 
   // const refreshTokenPayload = { id: user._id };
   // const refreshToken = generateRefreshToken(refreshTokenPayload);
 
-  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("accessToken", accessToken, { maxAge: 15 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
-  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "lax" });
+  // res.cookie("refreshToken", refreshToken, { maxAge: 2 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none" });
 
   session = await generateSessionTokenForUser(req, res, user);
 
