@@ -47,20 +47,20 @@ A comprehensive full-stack job portal web application connecting job seekers wit
 
 ### Landing Page
 
-([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250869/localhost-5173-2026-05-19-16_30_19_u14uix.png])
+![Landing Page](https://res.cloudinary.com/dnbswhvko/image/upload/v1779250869/localhost-5173-2026-05-19-16_30_19_u14uix.png)
 
 ### Candidate Dashboard
 
-([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Candidate-dashboard_fc4qcq.png])
+![Candidate Dashboard](https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Candidate-dashboard_fc4qcq.png)
 
 ### Recruiter Dashboard
 
-![Recruiter Dashboard]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Company-Dashboard_fnbk7f.png])
+![Recruiter Dashboard](https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Company-Dashboard_fnbk7f.png)
 
 ### Jobs
 
-![Jobs]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Jobs_page_jdywxf.png])
+![Jobs](https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Jobs_page_jdywxf.png)
 
 ### Company
 
-![Company]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Company_Page_zrsbco.png])
+![Company](https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Company_Page_zrsbco.png)
