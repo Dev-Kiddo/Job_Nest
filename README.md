@@ -6,19 +6,23 @@ A comprehensive full-stack job portal web application connecting job seekers wit
 
 ### For Candidates
 
-- User registration and authentication (including Google Auth integration)
-- Profile creation and management
-- Browse and apply for jobs
-- Track application status in a personal dashboard
-- View applied jobs history
+- User registration and secure authentication
+- Complete profile management with resume upload
+- Browse available job opportunities
+- One-click job applications
+- Personal dashboard to track all applications
+- Real-time application status updates
 
 ### For Recruiters
 
 - Recruiter registration and authentication
-- Smart company onboarding (Create a new company or join an existing one)
+- Create new company or join existing organization
+- Smart company selection workflow
 - Post and manage job openings
-- View job applications and applicant resumes
-- Dynamic applicant status tracking (Pending → Reviewed → Shortlisted → Rejected)
+- View all applications for posted jobs
+- Access candidate resumes and profiles
+- Update application status (Pending → Reviewed → Shortlisted → Rejected)
+- Comprehensive applicant tracking system
 
 ## 🛠️ Tech Stack
 
@@ -43,11 +47,11 @@ A comprehensive full-stack job portal web application connecting job seekers wit
 
 ### Landing Page
 
-![Landing Page]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250869/localhost-5173-2026-05-19-16_30_19_u14uix.png])
+([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250869/localhost-5173-2026-05-19-16_30_19_u14uix.png])
 
 ### Candidate Dashboard
 
-![Candidate Dashboard]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Candidate-dashboard_fc4qcq.png])
+([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Candidate-dashboard_fc4qcq.png])
 
 ### Recruiter Dashboard
 
@@ -60,11 +64,3 @@ A comprehensive full-stack job portal web application connecting job seekers wit
 ### Company
 
 ![Company]([https://res.cloudinary.com/dnbswhvko/image/upload/v1779250745/Company_Page_zrsbco.png])
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js
-- MongoDB Database
-- Cloudinary Account
