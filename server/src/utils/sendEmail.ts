@@ -24,7 +24,7 @@ export const sendEmail = async function (toUser: string, emailSubject: string, e
       html: emailContent,
     });
 
-    // console.log("EMAIL_INFO", emailInfo);
+    console.log("EMAIL_INFO", emailInfo);
 
     return emailInfo.messageId;
   } catch (error) {
