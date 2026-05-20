@@ -13,16 +13,32 @@ export const sendEmail = async function (toUser: string, emailSubject: string, e
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASSWORD,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
+      debug: true,
+      logger: true,
     });
 
-    // console.log(transport);
+    console.log(transport);
 
-    const emailInfo = await transport.sendMail({
-      from: process.env.EMAIL_FROM_USER,
-      to: toUser,
-      subject: emailSubject,
-      html: emailContent,
-    });
+    const emailInfo = await transport.sendMail(
+      {
+        from: process.env.EMAIL_FROM_USER,
+        to: toUser,
+        subject: emailSubject,
+        html: emailContent,
+      },
+      (error, info) => {
+        if (error) {
+          console.log("Gmail Error:", error);
+          console.log("Error Code:", error.code);
+          console.log("Error Command:", error.command);
+        } else {
+          console.log("Email sent:", info.response);
+        }
+      },
+    );
 
     console.log("EMAIL_INFO", emailInfo);
 
