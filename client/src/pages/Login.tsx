@@ -52,8 +52,8 @@ function Login() {
       >
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold text-gray-700 mb-1">Sign in</h1>
-          <p className="text-sm text-gray-600">
-            Dont have an account?
+          <p className="text-xs text-gray-600 lg:text-sm">
+            Dont have an account?{" "}
             <Link className="text-blue-600 underline font-medium" to="/register/candidate-register">
               Create Account
             </Link>
@@ -68,7 +68,7 @@ function Login() {
                 <input
                   id="email"
                   placeholder="Email address"
-                  className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+                  className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
                   type="email"
                   value={payload.email}
                   onChange={onChangeHandler}
@@ -80,7 +80,7 @@ function Login() {
                 <input
                   id="password"
                   placeholder="Password"
-                  className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+                  className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
                   type={showPassword ? "text" : "password"}
                   value={payload.password}
                   onChange={onChangeHandler}
@@ -92,17 +92,20 @@ function Login() {
             </div>
 
             <div className="flex justify-between items-center">
-              <label className="flex items-center gap-1 cursor-pointer text-sm text-gray-600">
+              <label className="flex items-center gap-1 cursor-pointer text-xs text-gray-600 lg:text-sm">
                 <input id="terms-checkbox" className="h-4 w-4 text-blue-600 rounded border-gray-300" type="checkbox" />
                 Remember me
               </label>
 
-              <Link className="text-sm font-medium text-blue-600 underline" to="/forgot-password">
+              <Link className="text-xs font-medium text-blue-600 underline lg:text-sm" to="/forgot-password">
                 Forgot Password
               </Link>
             </div>
 
-            <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer text-xs lg:text-sm"
+            >
               Sign in {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
             </button>
           </form>
