@@ -65,7 +65,7 @@ const RecruiterRegister = function () {
             <input
               id="name"
               placeholder="Name"
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+              className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
               type="text"
               value={payload.name}
               onChange={onChangeHandler}
@@ -77,7 +77,7 @@ const RecruiterRegister = function () {
             <input
               id="email"
               placeholder="Email address"
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+              className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
               type="email"
               value={payload.email}
               onChange={onChangeHandler}
@@ -88,7 +88,7 @@ const RecruiterRegister = function () {
             <input
               id="password"
               placeholder="Password"
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+              className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
               type={showPassword ? "text" : "password"}
               value={payload.password}
               onChange={onChangeHandler}
@@ -101,7 +101,7 @@ const RecruiterRegister = function () {
             <input
               id="confirmPassword"
               placeholder="Confirm Password"
-              className="w-full outline-none text-sm bg-transparent placeholder-gray-400"
+              className="w-full outline-none bg-transparent placeholder-gray-400 text-xs lg:text-sm"
               type="password"
               value={payload.confirmPassword}
               onChange={onChangeHandler}
@@ -111,13 +111,16 @@ const RecruiterRegister = function () {
           </div>
         </div>
 
-        <label className="flex items-center gap-1 cursor-pointer text-sm text-gray-600">
+        <label className="flex items-center gap-1 cursor-pointer text-gray-600 text-xs lg:text-sm">
           <input id="terms-checkbox" className="h-4 w-4 text-blue-600 rounded border-gray-300" type="checkbox" />I agree to the{" "}
           <a className="text-blue-600 hover:underline" href="/terms" data-discover="true">
             Terms and Conditions
           </a>
         </label>
-        <button type="submit" className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer ">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-3 px-4 rounded hover:bg-blue-700 transition flex justify-center items-center gap-2 cursor-pointer text-xs lg:text-sm"
+        >
           Register as Recruiter {loading ? <Loader size="4" margin="2" /> : <MoveRight color="#fff" />}
         </button>
 

@@ -47,7 +47,24 @@ function CandidatesAppliedList({ application }) {
         </td>
 
         <td className="text-sm relative capitalize text-gray-900">{new Date(application?.createdAt).toLocaleDateString()}</td>
-        <td className="text-sm relative capitalize text-gray-900">{application?.status}</td>
+
+        <td className="text-sm relative capitalize text-gray-900">
+          {application?.status === "pending" && (
+            <span className="inline-flex items-center rounded-md bg-blue-400/20 px-2 py-1 text-xs font-medium text-blue-600">{application?.status}</span>
+          )}
+
+          {application.status === "reviewed" && (
+            <span className="inline-flex items-center rounded-md bg-yellow-400/20 px-2 py-1 text-xs font-medium text-yellow-600">{application?.status}</span>
+          )}
+
+          {application.status === "shortlisted" && (
+            <span className="inline-flex items-center rounded-md bg-green-400/20 px-2 py-1 text-xs font-medium text-green-600">{application?.status}</span>
+          )}
+
+          {application.status === "rejected" && (
+            <span className="inline-flex items-center rounded-md bg-red-400/20 px-2 py-1 text-xs font-medium text-red-600">{application?.status}</span>
+          )}
+        </td>
 
         <td className="text-sm relative capitalize text-gray-900">
           <div className="flex items-center justify-center gap-x-2">

@@ -47,7 +47,20 @@ function JobListView({ title = "Recently Applied", data }) {
                 </div>
               </td>
               <td className="text-sm relative capitalize text-gray-900">{new Date(el?.job?.createdAt).toLocaleDateString()}</td>
-              <td className="text-sm relative capitalize text-gray-900">{el?.status}</td>
+              <td className={`text-sm relative capitalize`}>
+                {el.status === "pending" && <span className="inline-flex items-center rounded-md bg-blue-400/20 px-2 py-1 text-xs font-medium text-blue-600">{el?.status}</span>}
+
+                {el.status === "reviewed" && (
+                  <span className="inline-flex items-center rounded-md bg-yellow-400/20 px-2 py-1 text-xs font-medium text-yellow-600">{el?.status}</span>
+                )}
+
+                {el.status === "shortlisted" && (
+                  <span className="inline-flex items-center rounded-md bg-green-400/20 px-2 py-1 text-xs font-medium text-green-600">{el?.status}</span>
+                )}
+
+                {el.status === "rejected" && <span className="inline-flex items-center rounded-md bg-red-400/20 px-2 py-1 text-xs font-medium text-red-600">{el?.status}</span>}
+              </td>
+
               <td className="text-sm relative capitalize text-gray-900 text-center">
                 <button className="bg-gray-200 px-6 py-2 border border-gray-600 hover:bg-gray-700 hover:text-white rounded-sm transition">View Details</button>
               </td>

@@ -9,7 +9,7 @@ interface IconButtonProps {
 }
 
 function IconBox({ icon: Icon, count, label, bgColour = "white", animDelay }: IconButtonProps) {
-  console.log(animDelay);
+  // console.log(animDelay);
 
   return (
     <motion.div
