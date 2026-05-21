@@ -75,9 +75,7 @@ function NavBar() {
                 <NavLink className="bg-blue-600 text-white px-3 py-1.5 rounded-md text-xs  hover:bg-blue-700 transition-colors font-medium lg:text-sm" to="/register">
                   Register
                 </NavLink>
-                {/* <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-orange-700 transition-colors" to="/recruiter-login">
-              Post a jobs
-            </NavLink> */}
+
                 <NavLink className="bg-orange-600 text-white px-3 py-1.5 rounded-md text-xs font-medium hover:bg-orange-700 transition-colors lg:text-sm" to="/login">
                   Sign in
                 </NavLink>
